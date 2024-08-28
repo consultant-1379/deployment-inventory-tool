@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="ProjectFreeAddressFeature">
+  <title>Project Free Address API Feature</title>
+  <conbody>
+    <ul>
+      <li><xref type="concept" href="apiProjectFreeAddress.xml#overview">Overview</xref></li>
+      <li><xref type="concept" href="apiProjectFreeAddress.xml#purpose">Purpose Of This Feature</xref></li>
+      <li><xref type="concept" href="apiProjectFreeAddress.xml#freeAddress">Free Address API</xref></li>
+      <li><xref type="concept" href="apiProjectFreeAddress.xml#howTo">How To Use</xref></li>
+    </ul>
+    <section>
+      <title id="overview">Overview</title>
+      <lines>
+        This page describes the purpose of the Project Free Address API feature in the Deployment Inventory Tool and how it works at a high level.
+      </lines>
+    </section>
+    <section>
+      <title id="purpose">Purpose Of This Feature</title>
+      <lines>
+        This API was created to help with managing IP addresses for ECFE Deployments.
+        Used to find free IP addresses in a network's subnet in a Pod, so it that can be used by a Deployment.
+        This will search through each Project that is using the same Pod network, to find the next free IP address available in that network's subnet.
+        <b>NOTE:</b> A free IP is defined as any IP that does not resolve to a wildcard URL.
+      </lines>
+    </section>
+    <section>
+      <title id="freeAddress">Free Address API</title>
+      <lines>
+      This will create a Project or update a Project and returns it's data in JSON, the free IP addresses that was found in the given Pod network's subnet.
+      Instead of a normal IP range, it will be an individual IP address in each IP range. Setting that IP address as the start and end IP.
+      If creating a Project, it will fill the rest of the Project details with dummy data, as only part is needed is the network - IP ranges section.
+      <b>NOTE:</b> Status Code information can be found in API Help Documentation for this API.
+      </lines>
+      <lines>
+        <b>POST API:</b> /api/projects/free_address
+        <b>The API parameters:</b>
+      </lines>
+      <simpletable>
+        <sthead>
+          <stentry>
+            Parameter Name
+          </stentry>
+          <stentry>
+            Value
+          </stentry>
+        </sthead>
+        <strow>
+          <stentry>
+            pod_name
+          </stentry>
+          <stentry>
+            Required: The name of the Pod where the network's subnet data is stored.
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            network_name
+          </stentry>
+          <stentry>
+            Required: The name of the Pod's network that has the subnets - required IPv4 and optional IPv6.
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            name
+          </stentry>
+          <stentry>
+            Required: The name of the Project where the assigned IP addresses are stored for Deployment.
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            ip_type
+          </stentry>
+          <stentry>
+            Required: The IP Type - ipv4 or ipv6.
+            <b>NOTE:</b> If first time creating a Project, the first request must be IP type ipv4 as the Project requires at least one IPv4 IP Range (IP address).
+            Then you can request for free IPv6 addresses.
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            number_of_addresses
+          </stentry>
+          <stentry>
+            Optional: The number of addresses required to be assigned, by default one IP address will be assigned when not provided.
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            excluded_addresses
+          </stentry>
+          <stentry>
+            Optional: List of IP addresses separated by a comma. If ip_type is 'ipv4' enter IPv4 addresses only. If ip_type is 'ipv6' enter IPv6 addresses only.
+          </stentry>
+        </strow>
+      </simpletable>
+    </section>
+    <section>
+      <title id="howTo">How to Use</title>
+      <lines>
+        See API Documentation under Projects: /projects/free_address
+
+        The API response is a normal Project API JSON return for the POST/PUT API. Project API information can found in DIT API Help Documentation.
+        When deleting address you can use PUT API for a Project, just remove the IP range that contains the IP address.
+        The UI can be also used in removing the IP Range that contains the IP address, allowing it be free so can be used by another Deployment.
+      </lines>
+    </section>
+  </conbody>
+</concept>

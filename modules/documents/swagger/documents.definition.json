@@ -1,0 +1,108 @@
+{
+  "definitions": {
+    "Document": {
+      "type": "object",
+      "required": [
+        "name",
+        "schema_id",
+        "useexternalnfs",
+        "autopopulate",
+        "managedconfig",
+        "managedconfigs",
+        "labels",
+        "usergroups",
+        "content"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "mydocument",
+          "minLength": 5,
+          "maxLength": 80
+        },
+        "schema_id": {
+          "type": "string",
+          "note": "Schema must already exist",
+          "example": "592d1fa182ee3e002055763b"
+        },
+        "created_at": {
+          "type": "date-time",
+          "note": "Value will be automatically generated on initial creation. User defined values will be ignored",
+          "example": "2018-01-16T10:57:32.594Z"
+        },
+        "updated_at": {
+          "type": "date-time",
+          "note": "Value will be automatically generated on initial creation and update. User defined values will be ignored",
+          "example": "2018-01-16T10:57:32.594Z"
+        },
+        "managedconfig": {
+          "type": "boolean",
+          "example": false
+        },
+        "useexternalnfs": {
+          "type": "boolean",
+          "example": false
+        },
+        "autopopulate": {
+          "type": "boolean",
+          "example": true
+        },
+        "dns": {
+          "type": "boolean",
+          "example": true
+        },
+        "vioTransportOnly": {
+          "type": "boolean",
+          "example": false
+        },
+        "vioOptimizedTransportOnly": {
+          "type": "boolean",
+          "example": false
+        },
+        "vioMultiTech": {
+          "type": "boolean",
+          "example": false
+        },
+        "ipv6": {
+          "type": "boolean",
+          "example": false
+        },
+        "overcommit": {
+          "type": "boolean",
+          "example": true
+        },
+        "managedconfigs": {
+          "type": "array",
+          "note": "Each attached managed config must already exist",
+          "example": [
+            "592d1fa182ee3e002055763b"
+          ]
+        },
+        "labels": {
+          "type": "array",
+          "example": [
+            "Label1",
+            "Label2"
+          ]
+        },
+        "usergroups": {
+          "type": "array",
+          "note": "Can contain one or more groupId, in which you want the document to be associated with",
+          "example": [
+            "groupId1",
+            "groupId2"
+          ]
+        },
+        "content": {
+          "type": "object",
+          "example": {}
+        },
+        "isFFE": {
+          "type": "boolean",
+          "note": "This can only be set through API. If its true, when autopopulating, SSO_COOKIE_DOMAIN will be in form of '<deploymentId>.athtem.eei.ericsson.se'\n and COM_INF_LDAP_ROOT_SUFFIX in form of 'dc=<deploymentId>, dc=com'  ",
+          "example": false
+        }
+      }
+    }
+  }
+}

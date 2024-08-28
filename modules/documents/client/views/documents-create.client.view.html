@@ -1,0 +1,228 @@
+<section>
+  <div class="page-header">
+    <h1>{{ vm.pageTitle }} {{ vm.document.managedconfig ? 'managed config' : 'document' }} '{{ vm.document.name }}'</h1>
+  </div>
+  <div class="container">
+    <form name="form" ng-submit="vm.submitForm()" novalidate>
+      <fieldset>
+        <div class="row row-relative">
+          <div class="col-md-4">
+            <legend>Document Details</legend>
+            <div class="form-group has-feedback" ng-class="{ 'has-error': form.name.$invalid, 'has-success': form.name.$valid }">
+              <label for="name">Name</label>
+              <input class="form-control" type="text" id="name" name="name" placeholder="Name" ng-model="vm.document.name" ng-minlength="5" ng-maxlength="80" ng-pattern="/^[a-zA-Z0-9\-_.]*$/" required autofocus>
+              <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form.name.$invalid, 'glyphicon-ok': form.name.$valid }"></span>
+              <span class="help-block" ng-if="vm.document.name.startsWith('A_Health_')">
+                <p><b>Warning:</b> Documents with names beginning in 'A_Health_' are reserved for Health-Check Testing: They have no logs stored and are automatically removed during DIT upgrades.</p>
+              </span>
+              <span class="help-block" ng-messages="form.name.$error">
+                <p ng-message="required">This field is required</p>
+                <p ng-message="minlength">This must be at least of length 5</p>
+                <p ng-message="maxlength">This must be at most of length 80</p>
+                <p ng-message="pattern">This must only contain letters, numbers, dots, dashes and underscores</p>
+              </span>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" ng-model="vm.showAllSchemaVersions" ng-change="vm.setVisibleSchemas()">
+                Show Snapshots
+              </label>
+            </div>
+            <div class="form-group has-feedback" ng-class="{ 'has-error': form.schema.$invalid, 'has-success': form.schema.$valid }">
+              <label for="schema">Schema</label>
+              <select class="form-control" id="schema" name="schema" placeholder="Schema" ng-model="vm.document.schema_id" ng-options="schema._id as schema.name + '-' + schema.version for schema in vm.schemas" required>
+                <option value="" disabled selected>--Select Schema--</option>
+              </select>
+              <span class="help-block" ng-messages="form.schema.$error">
+                <p ng-message="required">This field is required</p>
+              </span>
+            </div>
+            <button type="button" class="btn" ng-click="vm.showOptions = ! vm.showOptions" ng-show="vm.isSedDocument() || vm.isVnfLcmSedDocument() || vm.iscEnmSedDocument()">Document Options</button>
+            <div id="options" class="well well-sm row" ng-show="vm.showOptions && (vm.isSedDocument() || vm.isVnfLcmSedDocument() || vm.iscEnmSedDocument())">
+              <legend>General Options <i class="ebIcon ebIcon_info" title="General options for a SED"></i></legend>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" ng-model="vm.document.autopopulate" ng-change="vm.isVnfLcmSedDocument() ? vm.vnfLcmChangedDocument() : vm.changedDocument()">
+                  Auto Populate Fields
+                  <i class="ebIcon ebIcon_info" title="When fields are auto populated, they are removed from the UI."></i>
+                </label>
+              </div>
+              <div class="checkbox" ng-hide="vm.isVnfLcmSedDocument() || vm.iscEnmSedDocument()">
+                <label>
+                  <input type="checkbox" ng-model="vm.document.dns" ng-change="vm.changedDocument()">
+                  DNS
+                  <i class="ebIcon ebIcon_info" title="Enable to Auto Populate using DNS (httpd_fqdn, esmon_hostname)"></i>
+                </label>
+              </div>
+              <div class="checkbox" ng-hide="vm.isVnfLcmSedDocument() || vm.iscEnmSedDocument()">
+                <label>
+                  <input type="checkbox" ng-model="vm.document.useexternalnfs" ng-change="vm.changedDocument()">
+                  External NFS
+                  <i class="ebIcon ebIcon_info" title="Click to enable External NFS. View help docs for more info."></i>
+                </label>
+              </div>
+              <div class="checkbox" ng-show="vm.isVnfLcmSedDocument()" >
+                <label>
+                  <input type="checkbox" ng-model="vm.document.ha" ng-change="vm.vnfLcmChangedDocument()">
+                   HA
+                  <i class="ebIcon ebIcon_info" title="HA fields will be set when enabled."></i>
+                </label>
+              </div>
+              <div class="checkbox" ng-hide="vm.isVnfLcmSedDocument() || vm.iscEnmSedDocument()">
+                <label>
+                  <input type="checkbox" ng-model="vm.document.overcommit" ng-change="vm.changedDocument()" ng-disabled="!vm.isManagedConfigWithFlavorValuesAttached()">
+                  Overcommit Flavors
+                  <i class="ebIcon ebIcon_info" title="{{ !vm.isManagedConfigWithFlavorValuesAttached() ? 'Please attach a Managed Config containing VM flavor values to enable Overcommit' : 'Click to enable overcommit of VM flavors.' }}"></i>
+                </label>
+              </div>
+              <div class="checkbox" ng-hide="vm.isVnfLcmSedDocument() || vm.preIPv6OptionSed || vm.iscEnmSedDocument()">
+                <label>
+                  <input type="checkbox" ng-checked="vm.document.ipv6" ng-model="vm.document.ipv6" ng-change="vm.ipv6ChangedDocument()" ng-disabled="!vm.isIpv6NetworkValid()">
+                  IPv6
+                  <i class="ebIcon ebIcon_info" title="Attach a deployment and fill in the IPv6 values in respective Pod and Project to enable."></i>
+                </label>
+              </div>
+            </div>
+            <div id="options" class="well well-sm row" ng-show="vm.showOptions && vm.isSedDocument()">
+              <legend>VIO Options <i class="ebIcon ebIcon_info" title="To display VIO keys"></i></legend>
+              <div class="checkbox" ng-hide="!vm.hasSchemaObsoleteVioDefinitions()">
+                <label>
+                  <input type="checkbox" ng-model="vm.document.vio" ng-change="vm.changedDocument()">
+                  VIO
+                  <i class="ebIcon ebIcon_info" title="Enable to edit Small Integrated ENM values."></i>
+                </label>
+              </div>
+              <div class="checkbox" ng-hide="vm.hasSchemaObsoleteVioDefinitions()">
+                <label>
+                  <input type="checkbox" name="vioMultiTech" ng-model="vm.document.vioMultiTech" ng-change="vm.changeVioType('vioMultiTech');">
+                  Small Integrated vENM <span class="document-options-icon">Multi-technology
+                  <i class="ebIcon ebIcon_info" title="Enable to edit Small Integrated ENM Multi-technology values."></i></span>
+                </label>
+              </div>
+              <div class="checkbox" ng-hide="vm.hasSchemaObsoleteVioDefinitions()">
+                <label>
+                  <input type="checkbox" name="vioTransportOnly" ng-model="vm.document.vioTransportOnly" ng-change="vm.changeVioType('vioTransportOnly');">
+                  Small Integrated vENM <span class="document-options-icon">Transport Only
+                  <i class="ebIcon ebIcon_info" title="Enable to edit Small Integrated ENM Transport Only values."></i></span>
+                </label>
+              </div>
+              <div class="checkbox" ng-hide="vm.hasSchemaObsoleteVioDefinitions()">
+                <label>
+                  <input type="checkbox" name="vioOptimizedTransportOnly" ng-model="vm.document.vioOptimizedTransportOnly" ng-change="vm.changeVioType('vioOptimizedTransportOnly');">
+                  Optimized Small Integrated vENM <span class="document-options-icon">Transport Only
+                  <i class="ebIcon ebIcon_info" title="Enable to edit Optimized Small Integrated ENM Transport Only values."></i></span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div ng-if="!vm.document.managedconfig">
+            <div class="col-md-3 col-border">
+              <div class="col-border-padding">
+                  <legend>Manage Groups <i class="ebIcon ebIcon_info" title="Attach a number of groups that are allowed to view and edit this Document."></i></legend>
+                  <div ng-if="vm.allUserGroups.length > 0 || vm.document.usergroups.length > 0">
+                    <div ng-repeat="group in vm.document.usergroups track by $index">
+                      <div class="form-group has-feedback" ng-class="{ 'has-error': form['userGroups[{{$index}}]'].$invalid, 'has-success': form['userGroups[{{$index}}]'].$valid }">
+                        <div class="input-group">
+                          <select class="form-control" ng-disabled="vm.disableGroupsButton(group, 'select')" ng-init="vm.document.usergroups[$index]" id="userGroups[{{$index}}]" name="userGroups[{{$index}}]" ng-model="vm.document.usergroups[$index]" ng-options="group.id as group.name for group in vm.groupOptions(vm.disableGroupsButton(group, 'select'))" required></select>
+                          <span class="input-group-btn">
+                            <a ng-disabled="!vm.document.usergroups[$index]" ui-sref="groups.view({groupId: vm.document.usergroups[$index]}) " type="button" class="btn btn-default btn-sm" target="_blank" title="View Group In Another Tab"><i class="ebIcon ebIcon_eye"></i></a>
+                            <a ng-disabled="vm.disableGroupsButton(group, 'remove')" ng-click="vm.removeUserGroup(group)" type="button" class="btn btn-default btn-sm" title="Detach Group"><i class="ebIcon ebIcon_cancelled"></i></a>
+                          </span>
+                        </div>
+                        <span class="help-block" ng-messages="form['userGroups[' + $index + ']'].$error">
+                          <p ng-message="required">This field is required</p>
+                        </span>
+                      </div>
+                    </div>
+                    <button ng-hide="vm.disableGroupsButton(group, 'add')" ng-click="vm.addUserGroup()" type="button" class="btn btn-default btn-sm pull-right" title="Attach Group"><i class="ebIcon ebIcon_add"></i></button>
+                  </div>
+                  <div ng-if="vm.allUserGroups.length == 0 && vm.document.usergroups.length == 0">
+                    <p>Not in any group, please contact Admin to be added to a group or to create a new group if required.</p>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div class="col-md-5 col-border">
+            <div class="col-border-padding">
+              <div ng-if="vm.document.managedconfig">
+                <legend>Labels <i class="ebIcon ebIcon_info" title="Use labels to classify managed configs."></i></legend>
+                <button type="button" class="btn btn-default btn-sm" ng-click="vm.changeEditingLabelsVisibility()" title="Labels">
+                  <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
+                </button>
+                <a ng-repeat="label in vm.document.labels" class="label label-primary" style="margin-left: 5px" >{{ label }}</a>
+                <multiselect ng-show="vm.editingLabelsVisible" search-limit="vm.allLabels.length" ng-model="vm.document.labels" options="vm.allLabels"></multiselect>
+              </div>
+              <div ng-if="vm.isSedDocument() || vm.iscEnmSedDocument()">
+                <legend>Managed Configs <i class="ebIcon ebIcon_info" title="Attach a number of supported managed configs. The contents of the managed config will always be used when saving your document."></i></legend>
+                <label>Attached Managed Configs</label>
+                <span ng-if="vm.document.managedconfigs && vm.document.managedconfigs.length !== 0">
+                  <p><b>Category</b><b style="padding-left: 25px !important;" >Managed Config</b></p>
+                </span>
+                <div ng-repeat="managedconfig in vm.document.managedconfigs track by $index">
+                  <div class="form-group has-feedback" ng-class="{ 'has-error': form['managedconfigs{{$index}}-mc'].$invalid, 'has-success': form['managedconfigs{{$index}}-mc'].$valid }">
+                    <div class="input-group">
+                      <span class="input-group-btn input-category-filter">
+                        <select class="form-control mc-category" id="category[{{$index}}]" name="category[{{$index}}]" ng-model="vm.category[$index]" ng-init="vm.category[$index]=vm.categories[vm.getCategory($index)]">
+                          <option ng-repeat="category in vm.categories" value="{{category}}">{{category}}</option>
+                        </select>
+                      </span>
+                      <select class="form-control" id="managedconfigs{{$index}}-mc" name="managedconfigs{{$index}}-mc" ng-model="vm.document.managedconfigs[$index]" ng-options="managedconfig._id as managedconfig.name + ( managedconfig.labels.length > 0 ? ' (' + managedconfig.category + ', ' + managedconfig.labels.join(', ') + ') ' : '' ) for managedconfig in vm.getSupportedManagedConfigs($index)" required>
+                          <option value="" disabled selected>--Select Managed Config--</option>
+                      </select>
+                      <span class="input-group-btn">
+                        <a ng-disabled="!vm.document.managedconfigs[$index]" ui-sref="documents.view({documentId: vm.document.managedconfigs[$index]})"  type="button" class="btn btn-default btn-sm" target="_blank" title="View Managed Config In Another Tab"><i class="ebIcon ebIcon_eye"></i>
+                        </a>
+                        <a id="delete_managedconfigs[{{$index}}]" ng-click="vm.removeManagedConfig($index)" type="button" class="btn btn-default btn-sm" title="Detach Managed Config"><i class="ebIcon ebIcon_cancelled"></i></a>
+                      </span>
+                    </div>
+                    <span class="help-block" ng-messages="form['managedconfigs' + $index +'-mc'].$error">
+                      <p style="padding-left: 80px !important;" ng-message="required">This field is required</p>
+                    </span>
+                  </div>
+                </div>
+                <button id="add-managedconfig" ng-click="vm.addManagedConfig()" type="button" class="btn btn-default btn-sm pull-right" title="Attach Managed Config"><i class="ebIcon ebIcon_add"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <div ng-if="vm.modifiedSchema">
+        <div class="checkbox">
+          <label>
+            <input id="pasteMode" type="checkbox" ng-model="vm.pasteMode" ng-click="vm.changedPasteTextArea('json', 'check')">
+            Paste Mode
+          </label>
+          <i class="ebIcon ebIcon_info" title="Click to enable paste of an existing document."></i>
+        </div>
+        <hr>
+        <div ng-if="vm.pasteMode">
+          <div class="form-group">
+            <label class="control-label" for="document_yaml">Paste Document YAML Here</label>
+            <textarea yaml-text id="document_yaml" ng-model="vm.document.content" rows="15" style="width:100%;" ng-change="vm.changedPasteTextArea('yaml')"></textarea>
+          </div>
+          <div class="form-group has-feedback" ng-class="{ 'has-error': form.document_json.$invalid, 'has-success': form.document_json.$valid }">
+            <label class="control-label" for="document_json">Paste Document JSON Here</label>
+            <textarea json-text class="form-control" id="document_json" name="document_json" ng-model="vm.document.content" rows="15" style="width:100%;" ng-change="vm.changedPasteTextArea('json')"></textarea>
+            <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form.document_json.$invalid, 'glyphicon-ok': form.document_json.$valid }"></span>
+            <span class="help-block" ng-messages="form.document_json.$error">
+              <p ng-message="json">This should be valid JSON</p>
+            </span>
+          </div>
+        </div>
+        <div ng-show="!vm.pasteMode">
+          <fieldset>
+            <div sf-schema="vm.modifiedSchema" sf-form="vm.schemaForm" sf-model="vm.document.content" sf-options="vm.schemaFormOptions"></div>
+          </fieldset>
+        </div>
+      </div>
+      <div id="main-save-button" class="btn-group pull-left"
+        title="{{form.$invalid || vm.formSubmitting ? 'Ensure all values are valid and required fields are filled in.' : ''}}">
+        <button class="btn btn-primary" type="submit" ng-disabled="form.$invalid || vm.formSubmitting">Save</button>
+      </div>
+      <button class="btn-primary float-save-button {{ form.$invalid || vm.formSubmitting ? 'disable-save-button' : '' }}"
+        title="{{form.$invalid || vm.formSubmitting ? 'Ensure all values are valid and required fields are filled in.' : 'Save'}}"
+        ng-disabled="form.$invalid || vm.formSubmitting"><i class="glyphicon glyphicon-floppy-save" aria-hidden="true"></i>
+      </button>
+    </form>
+  </div>
+</section>

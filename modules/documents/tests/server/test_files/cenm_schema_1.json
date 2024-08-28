@@ -1,0 +1,59 @@
+{
+  "name": "cenm_site_values_dual",
+  "version": "1.1.1",
+  "category": "cenm",
+  "content": {
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "additionalProperties": true,
+    "definitions": {
+      "true_false_default_false": {
+        "description": "This should be either true, or false",
+        "enum": [
+          "true",
+          "false"
+        ],
+        "default": "false",
+        "type": "string"
+      }
+    },
+    "properties": {
+      "parameters": {
+        "additionalProperties": true,
+        "default": {},
+        "description": "Please fill in all required fields",
+        "properties": {
+          "log_streaming": {
+            "$ref": "#/definitions/true_false_default_false"
+          },
+          "key_default_overwritten": {
+            "$ref": "#/definitions/true_false_default_false",
+            "enum": [
+              "true",
+              "false"
+            ],
+            "default": "true"
+          },
+          "key_default_no_ref": {
+            "description": "Key without $ref, but has default",
+            "type": "string",
+            "default": "defaultKeyNoRef"
+          },
+          "key_no_ref_nodefault": {
+            "description": "Key without $ref, and has no default",
+            "type": "string"
+          },
+          "key_no_ref_notype_nodefault": {
+            "description": "Key without $ref, and has no type"
+          }
+        },
+        "required": [],
+        "title": "Deployment Engineering Data for CENM on Cloud",
+        "type": "object"
+      }
+    },
+    "required": [
+      "parameters"
+    ],
+    "type": "object"
+  }
+}

@@ -1,0 +1,71 @@
+<section>
+  <div class="page-header">
+    <div ng-if="vm.viewEditButton">
+       <div class="btn-toolbar pull-right">
+         <div class="btn-group">
+           <a class="btn btn-sm btn-primary" ui-sref="groups.edit({groupId: vm.group._id})">Edit</a>
+         </div>
+         <div class="btn-group">
+           <a class="btn btn-sm btn-warning" id="view-log" ui-sref="logs.view({ objType: 'groups', objId: vm.group._id })">View Log</a>
+         </div>
+       </div>
+    </div>
+    <h1>Viewing group '{{ vm.group.name }}'</h1>
+  </div>
+  <form>
+    <fieldset disabled>
+      <div class="row row-relative">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Name</label>
+            <p class="form-control-static">{{ vm.group.name }}</p>
+          </div>
+          <div class="form-group">
+            <label>Admins</label>
+              <p class="form-control-static">{{ vm.group.adminPrimary.displayName }}</p>
+              <p class="form-control-static">{{ vm.group.adminSecondary.displayName }}</p>
+          </div>
+          <div class="form-group">
+            <label>Users</label>
+            <div ng-switch="vm.group.users.length">
+              <p ng-switch-when="0">None</p>
+              <p ng-switch-default ng-repeat="displayName in vm.group.users">{{ displayName }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-border">
+          <div class="col-border-padding">
+            <div class="form-group">
+              <label>Associated Documents</label>
+              <div ng-switch="vm.group.documents.length">
+                <p ng-switch-when="0">None</p>
+                <p ng-switch-default ng-repeat="docInfo in vm.group.documents"><a ui-sref="documents.view({documentId: docInfo.id})">{{ docInfo.name }}</a></p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Associated Pods</label>
+              <div ng-switch="vm.group.pods.length">
+                <p ng-switch-when="0">None</p>
+                <p ng-switch-default ng-repeat="podInfo in vm.group.pods"><a ui-sref="pods.view({podId: podInfo.id})">{{ podInfo.name }}</a></p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Associated Projects</label>
+              <div ng-switch="vm.group.projects.length">
+                <p ng-switch-when="0">None</p>
+                <p ng-switch-default ng-repeat="projectInfo in vm.group.projects"><a ui-sref="projects.view({projectId: projectInfo.id})">{{ projectInfo.name }}</a></p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Associated Deployments</label>
+              <div ng-switch="vm.group.deployments.length">
+                <p ng-switch-when="0">None</p>
+                <p ng-switch-default ng-repeat="deploymentInfo in vm.group.deployments"><a ui-sref="deployments.view({deploymentId: deploymentInfo.id})">{{ deploymentInfo.name }}</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</section>

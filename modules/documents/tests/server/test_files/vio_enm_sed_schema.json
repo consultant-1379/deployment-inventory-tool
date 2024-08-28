@@ -1,0 +1,336 @@
+{
+  "name": "enm_sed",
+  "version": "1.2.3",
+  "content": {
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "additionalProperties": false,
+    "definitions": {
+      "ipv4_vio": {
+        "description": "This must be a valid ipv4 address or left blank",
+        "pattern": "^.*$",
+        "type": "string"
+      },
+      "ipv6_vio": {
+        "description": "This must be a valid ipv6 address or left blank",
+        "pattern": "^.*$",
+        "type": "string"
+      },
+      "vio_hostname": {
+        "description": "This must be a valid hostname",
+        "pattern": "^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\\.[a-z0-9](?:[-0-9a-z]{0,61}[0-9a-z])?)*$",
+        "type": "string"
+      },
+      "vio_positive_integer": {
+        "description": "This must be a positive integer",
+        "pattern": "^\\d+$",
+        "type": "string"
+      },
+      "vio_any_string": {
+        "description": "This must be any string",
+        "pattern": "^.+$",
+        "type": "string"
+      }
+    },
+    "properties": {
+      "parameters": {
+        "additionalProperties": false,
+        "default": {},
+        "description": "Please fill in all required fields",
+        "properties": {
+          "esxi_host1_ip_ilo": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "esxi_host1_ip_vio_mgt": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "esxi_host1_vio_mgt_hostname": {
+            "$ref": "#/definitions/vio_hostname"
+          },
+          "esxi_host1_mgt_password": {
+            "$ref": "#/definitions/vio_any_string"
+          },
+          "esxi_host1_ilo_password": {
+            "$ref": "#/definitions/vio_any_string"
+          },
+          "esxi_host1_ip_vsan": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "esxi_host1_ip_vmotion": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "esxi_host2_ip_ilo": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "esxi_host2_ip_vio_mgt": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "esxi_host1_ilo_user": {
+            "$ref": "#/definitions/vio_any_string"
+          },
+          "esxi_host2_vio_mgt_hostname": {
+            "$ref": "#/definitions/vio_hostname"
+          },
+          "esxi_host2_ip_vsan": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "esxi_host2_ip_vmotion": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "esxi_host2_ilo_user": {
+            "$ref": "#/definitions/vio_any_string"
+          },
+          "esxi_host2_ilo_password": {
+            "$ref": "#/definitions/vio_any_string"
+          },
+          "esxi_host3_ip_ilo": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "esxi_host3_ip_vio_mgt": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "esxi_host3_vio_mgt_hostname": {
+            "$ref": "#/definitions/vio_hostname"
+          },
+          "esxi_host3_ip_vsan": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "esxi_host3_ip_vmotion": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "esxi_host2_mgt_password": {
+            "$ref": "#/definitions/vio_any_string"
+          },
+          "esxi_host3_ilo_user": {
+            "$ref": "#/definitions/vio_any_string"
+          },
+          "esxi_host3_ilo_password": {
+            "$ref": "#/definitions/vio_any_string"
+          },
+          "esxi_host3_mgt_password": {
+            "$ref": "#/definitions/vio_any_string"
+          },
+          "vio_mgt_netmask": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "vio_mgt_gateway": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "VLAN_ID_vio_mgt": {
+            "$ref": "#/definitions/vio_positive_integer"
+          },
+          "vio_mgt_prefix": {
+            "$ref": "#/definitions/vio_positive_integer"
+          },
+          "vio_api_netmask": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "vio_api_gateway": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "VLAN_ID_vio_api": {
+            "$ref": "#/definitions/vio_positive_integer"
+          },
+          "esxi_vsan_netmask": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "VLAN_ID_vio_vsan": {
+            "$ref": "#/definitions/vio_positive_integer"
+          },
+          "esxi_vmotion_netmask": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "VLAN_ID_vio_vmotion": {
+            "$ref": "#/definitions/vio_positive_integer"
+          },
+          "vms_ip_vio_mgt": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "vms_ip_vio_api": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "vms_enm_ip_internal": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "vms_root_password": {
+            "$ref": "#/definitions/vio_any_string"
+          },
+          "vcenter_sso_password": {
+            "$ref": "#/definitions/vio_any_string"
+          },
+          "vcenter_os_password": {
+            "$ref": "#/definitions/vio_any_string"
+          },
+          "vcenter_ip_vio_mgt": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "vcenter_system_name": {
+            "$ref": "#/definitions/vio_any_string"
+          },
+          "vcenter_object_prefix": {
+            "$ref": "#/definitions/vio_any_string"
+          },
+          "vcenter_drs_username": {
+            "$ref": "#/definitions/vio_any_string"
+          },
+          "vcenter_drs_password": {
+            "$ref": "#/definitions/vio_any_string"
+          },
+          "vcenter_backup_username": {
+            "$ref": "#/definitions/vio_any_string"
+          },
+          "vcenter_backup_password": {
+            "$ref": "#/definitions/vio_any_string"
+          },
+          "vcenter_monitor_username": {
+            "$ref": "#/definitions/vio_any_string"
+          },
+          "vcenter_monitor_password": {
+            "$ref": "#/definitions/vio_any_string"
+          },
+          "ombs_spa_hostname": {
+            "$ref": "#/definitions/vio_hostname"
+          },
+          "ombs_spb_hostname": {
+            "$ref": "#/definitions/vio_hostname"
+          },
+          "oms_ip_vio_mgt": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "oms_viouser_password": {
+            "$ref": "#/definitions/vio_any_string"
+          },
+          "vio_deploy_ip_api": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "vio_deploy_api_hostname": {
+            "$ref": "#/definitions/vio_hostname"
+          },
+          "vio_deploy_ip_mgt_start": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "vio_deploy_ip_mgt_end": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "external_dynamic_ip_range_start": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "external_dynamic_ip_range_end": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "external_dynamic_ipv6_range_start": {
+            "$ref": "#/definitions/ipv6_vio"
+          },
+          "external_dynamic_ipv6_range_end": {
+            "$ref": "#/definitions/ipv6_vio"
+          },
+          "VLAN_ID_vio_external": {
+            "$ref": "#/definitions/vio_positive_integer"
+          },
+          "VLAN_ID_vio_internal": {
+            "$ref": "#/definitions/vio_positive_integer"
+          },
+          "oms_domain": {
+            "$ref": "#/definitions/vio_hostname"
+          },
+          "ombs_ip_vio_api": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "ombs_ip_san_spa": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "ombs_ip_san_spb": {
+            "$ref": "#/definitions/ipv4_vio"
+          },
+          "vnx_array_name": {
+            "$ref": "#/definitions/vio_any_string"
+          },
+          "ombs_san_username": {
+            "$ref": "#/definitions/vio_any_string"
+          },
+          "ombs_san_password": {
+            "$ref": "#/definitions/vio_any_string"
+          }
+        },
+        "required": [
+          "esxi_host1_ip_ilo",
+          "esxi_host1_ip_vio_mgt",
+          "esxi_host1_vio_mgt_hostname",
+          "esxi_host1_mgt_password",
+          "esxi_host1_ilo_password",
+          "esxi_host1_ip_vsan",
+          "esxi_host1_ip_vmotion",
+          "esxi_host2_ip_ilo",
+          "esxi_host2_ip_vio_mgt",
+          "esxi_host2_vio_mgt_hostname",
+          "esxi_host2_ip_vsan",
+          "esxi_host2_ip_vmotion",
+          "esxi_host3_ip_ilo",
+          "esxi_host3_ip_vio_mgt",
+          "esxi_host3_vio_mgt_hostname",
+          "esxi_host3_ip_vsan",
+          "esxi_host3_ip_vmotion",
+          "vio_mgt_netmask",
+          "vio_mgt_gateway",
+          "VLAN_ID_vio_mgt",
+          "vio_mgt_prefix",
+          "vio_api_netmask",
+          "vio_api_gateway",
+          "VLAN_ID_vio_api",
+          "esxi_vsan_netmask",
+          "VLAN_ID_vio_vsan",
+          "esxi_vmotion_netmask",
+          "VLAN_ID_vio_vmotion",
+          "vms_ip_vio_mgt",
+          "vms_ip_vio_api",
+          "vms_enm_ip_internal",
+          "vcenter_ip_vio_mgt",
+          "oms_ip_vio_mgt",
+          "oms_viouser_password",
+          "vio_deploy_ip_api",
+          "vio_deploy_api_hostname",
+          "vio_deploy_ip_mgt_start",
+          "vio_deploy_ip_mgt_end",
+          "external_dynamic_ip_range_start",
+          "external_dynamic_ip_range_end",
+          "external_dynamic_ipv6_range_start",
+          "external_dynamic_ipv6_range_end",
+          "VLAN_ID_vio_external",
+          "VLAN_ID_vio_internal",
+          "ombs_ip_vio_api",
+          "ombs_ip_san_spa",
+          "ombs_ip_san_spb",
+          "esxi_host1_ilo_user",
+          "esxi_host2_ilo_user",
+          "esxi_host2_ilo_password",
+          "esxi_host2_mgt_password",
+          "esxi_host3_ilo_user",
+          "esxi_host3_ilo_password",
+          "esxi_host3_mgt_password",
+          "vms_root_password",
+          "vcenter_sso_password",
+          "vcenter_os_password",
+          "vcenter_system_name",
+          "vcenter_object_prefix",
+          "vcenter_drs_username",
+          "vcenter_drs_password",
+          "vcenter_backup_username",
+          "vcenter_backup_password",
+          "vcenter_monitor_username",
+          "vcenter_monitor_password",
+          "vnx_array_name",
+          "oms_domain",
+          "ombs_spa_hostname",
+          "ombs_spb_hostname",
+          "ombs_san_username",
+          "ombs_san_password"
+        ],
+        "title": "Site Engineering Data for ENM on Cloud",
+        "type": "object"
+      }
+    },
+    "required": [
+      "parameters"
+    ],
+    "type": "object"
+  }
+}

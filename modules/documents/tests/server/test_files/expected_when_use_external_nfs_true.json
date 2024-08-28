@@ -1,0 +1,15 @@
+{
+  "parameters": {
+    "nfsamos_volume_size": "1",
+    "nfspm_instances": "0",
+    "nfspm_volume_size": "0",
+    "nfspmlinks_instances": "0",
+    "nfssmrs_instances": "0",
+    "nfspm_volume_backup": "no",
+    "nfspmlinks_volume_backup": "no",
+    "nfspmlinks_external_ipv6_list": "::",
+    "nfspm_external_ipv6_list": "::",
+    "nfspmlinks_external_ip_list": "1.1.1.1",
+    "nfspm_external_ip_list": "1.1.1.1"
+  }
+}

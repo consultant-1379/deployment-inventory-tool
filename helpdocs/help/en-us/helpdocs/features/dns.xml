@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="DnsFeature">
+  <title>DNS Feature</title>
+  <conbody>
+    <ul>
+      <li><xref type="concept" href="dns.xml#overview">Overview</xref></li>
+      <li><xref type="concept" href="dns.xml#purpose">Purpose Of This Feature</xref></li>
+      <li><xref type="concept" href="dns.xml#Dns">DNS key values</xref></li>
+      <li><xref type="concept" href="dns.xml#running">When It Runs</xref></li>
+    </ul>
+    <section>
+      <title id="overview">Overview</title>
+      <lines>
+        This page describes the ENM SED DNS feature in the Deployment Inventory Tool.
+        It describes the purpose of this feature and how it works at a high level.
+      </lines>
+    </section>
+    <section>
+      <title id="purpose">Purpose Of This Feature</title>
+      <lines>
+        The ENM SED edit/create document view contains a checkbox where the DNS feature is shown. The ENM SED contains two key values associated with the DNS feature which can be auto-populated. Once Document Options is clicked, the 'DNS' feature checkbox can be seen in
+        General Options. This checkbox enables the user to enable/disable local DNS validation.
+
+        This feature uses <i>dns.reverse</i> to perform a DNS reverse lookup that resolves an IPv4 or IPv6 address to an array of hostnames. httpd_fqdn and esmon_hostname will be auto-populated via this DNS reverse lookup.
+      </lines>
+    </section>
+    <section>
+      <title id="Dns">DNS Associated Key Values</title>
+      <lines>
+        DIT identifies DNS associated key values via reference to the following schema definitions.
+
+        Any key values found in the ENM SED schema that match these definitions for DNS, defined below, will be made editable to a user of DIT when the 'DNS' checkbox is unchecked.
+        If the 'DNS' checkbox is checked, any key values for DNS found in the ENM SED schema that match these definitions will not be visible to the user of DIT and will not be editable. These key values will be auto-populated with the appropriate values.
+
+        <b>Warning:</b> The deletion or renaming of key names in the ENM SED schema detailed below will result in undesired behaviour and failure of the DNS feature.
+        Any changes to the ENM SED schema key names detailed below will require a subsequent update to functionality of DIT to ensure the DNS feature continues to perform as expected.
+      </lines>
+      <simpletable>
+        <sthead>
+          <stentry>
+            Key Name
+          </stentry>
+          <stentry>
+            Inactive Default Value
+          </stentry>
+        </sthead>
+        <strow>
+          <stentry>
+            httpd_fqdn
+          </stentry>
+          <stentry>
+            temporary
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            esmon_hostname
+          </stentry>
+          <stentry>
+            temporary
+          </stentry>
+        </strow>
+      </simpletable>
+    </section>
+    <section>
+      <title id="running">When It Runs</title>
+      <lines>
+        When the 'DNS' feature checkbox is unchecked, the required DNS key values are made visible and need to be manually populated.
+        When the 'DNS' feature checkbox is checked, the required DNS key values are not be visible and are auto-populated with appropriate values.
+      </lines>
+    </section>
+  </conbody>
+</concept>

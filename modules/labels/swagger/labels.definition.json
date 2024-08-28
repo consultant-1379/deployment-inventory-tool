@@ -1,0 +1,26 @@
+{
+  "definitions": {
+    "Label": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "mylabel",
+          "note": "name must be unique, Minimum of 2 characters, Maximum of 50 characters.",
+          "minLength": 2,
+          "maxLength": 50
+        },
+        "category": {
+          "type": "string",
+          "example": "size",
+          "note": "category must be one of the following: size, site or other. Is not required but if no category is provided 'other' will be used.",
+          "enum": ["size", "site", "other"],
+          "default": "other"
+        }
+      }
+    }
+  }
+}

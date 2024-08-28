@@ -1,0 +1,28 @@
+{
+    "name": "validcENMSiteValueDoc",
+    "schema_id": "",
+    "content": {
+        "parameters": {
+            "COM_INF_LDAP_ADMIN_CN": "uid=ssouser,ou=people",
+            "amos_vip_address": "1.1.1.1",
+            "cm_vip_address": "1.1.1.1",
+            "eric-enm-monitoring-master_account": "upload@ddpenm6.athtem.eei.ericsson.se",
+            "eric-enm-monitoring-master_password": "_!upLoad",
+            "fm_vip_address": "1.1.1.1",
+            "general_scripting_vip_address": "1.1.1.1",
+            "hostPort": "9690",
+            "ingress_l4_cniMode": "ipip",
+            "ingress_l4_external": "ens160",
+            "ingress_l4_internal": "ens160",
+            "ingress_l4_podNetworkCIDR": "192.168.0.0/16",
+            "itservices_0_vip_address": "1.1.1.1",
+            "itservices_1_vip_address": "1.1.1.1",
+            "loadBalancerIP": "1.1.1.1",
+            "pm_vip_address": "1.1.1.1",
+            "servicePort": "9690",
+            "svc_FM_vip_fwd_ipaddress": "1.1.1.1",
+            "timezone": "Europe/Dublin",
+            "visinamingsb_service": "1.1.1.1"
+        }
+    }
+}

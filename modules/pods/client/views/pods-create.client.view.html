@@ -1,0 +1,159 @@
+<section>
+  <div class="page-header">
+    <h1>{{ vm.pageTitle }} '{{ vm.pod.name }}'</h1>
+  </div>
+  <form name="form" ng-submit="vm.submitForm()">
+    <fieldset>
+      <div class="row row-relative">
+        <div class="col-md-8">
+          <div class="form-group has-feedback" ng-class="{ 'has-error': form.name.$invalid, 'has-success': form.name.$valid }">
+            <label for="name">Name</label>
+            <input class="form-control" type="text" id="name" name="name" placeholder="Name" ng-model="vm.pod.name" ng-minlength="5" ng-maxlength="20" ng-pattern="/^[a-zA-Z0-9\-_.]*$/" required autofocus>
+            <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form.name.$invalid, 'glyphicon-ok': form.name.$valid }"></span>
+            <span class="help-block" ng-if="vm.pod.name.startsWith('A_Health_')">
+              <p><b>Warning:</b> Pods with names beginning in 'A_Health_' are reserved for Health-Check Testing: They have no logs stored and are automatically removed during DIT upgrades.</p>
+            </span>
+            <span class="help-block" ng-messages="form.name.$error">
+              <p ng-message="required">This field is required</p>
+              <p ng-message="minlength">This must be at least of length 5</p>
+              <p ng-message="maxlength">This must be at most of length 20</p>
+              <p ng-message="pattern">This must only contain letters, numbers, dots, dashes and underscores</p>
+            </span>
+          </div>
+
+          <div class="form-group has-feedback" ng-class="{ 'has-error': form.authUrl.$invalid, 'has-success': form.authUrl.$valid }">
+            <label for="authUrl">Authentication URL</label>
+            <input class="form-control" type="text" id="authUrl" name="authUrl" placeholder="Authentication URL" ng-model="vm.pod.authUrl" ng-pattern="vm.urlregex" required>
+            <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form.authUrl.$invalid, 'glyphicon-ok': form.authUrl.$valid }"></span>
+            <span class="help-block" ng-messages="form.authUrl.$error">
+              <p ng-message="required">This field is required</p>
+              <p ng-message="pattern">This must be a url.</p>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-4 col-border">
+          <div class="col-border-padding">
+            <legend>Manage Groups <i class="ebIcon ebIcon_info" title="Attach a number of groups that are allowed to view and edit this Pod."></i></legend>
+            <div ng-if="vm.allUserGroups.length > 0 || vm.pod.usergroups.length > 0">
+              <div ng-repeat="group in vm.pod.usergroups track by $index">
+                <div class="form-group has-feedback" ng-class="{ 'has-error': form['userGroups[{{$index}}]'].$invalid, 'has-success': form['userGroups[{{$index}}]'].$valid }">
+                  <div class="input-group">
+                    <select class="form-control" ng-disabled="vm.disableGroupsButton(group, 'select')" ng-init="vm.pod.usergroups[$index]" id="userGroups[{{$index}}]" name="userGroups[{{$index}}]" ng-model="vm.pod.usergroups[$index]" ng-options="group.id as group.name for group in vm.groupOptions(vm.disableGroupsButton(group, 'select'))" required></select>
+                    <span class="input-group-btn">
+                      <a ng-disabled="!vm.pod.usergroups[$index]" ui-sref="groups.view({groupId: vm.pod.usergroups[$index]}) " type="button" class="btn btn-default btn-sm" target="_blank" title="View Group In Another Tab"><i class="ebIcon ebIcon_eye"></i></a>
+                      <a ng-disabled="vm.disableGroupsButton(group, 'remove')" ng-click="vm.removeUserGroup(group)" type="button" class="btn btn-default btn-sm" title="Detach Group"><i class="ebIcon ebIcon_cancelled"></i></a>
+                    </span>
+                  </div>
+                  <span class="help-block" ng-messages="form['userGroups[' + $index + ']'].$error">
+                    <p ng-message="required">This field is required</p>
+                  </span>
+                </div>
+              </div>
+              <button ng-hide="vm.disableGroupsButton(group, 'add')" ng-click="vm.addUserGroup()" type="button" class="btn btn-default btn-sm pull-right" title="Attach Group"><i class="ebIcon ebIcon_add"></i></button>
+            </div>
+            <div ng-if="vm.allUserGroups.length == 0 && vm.pod.usergroups.length == 0">
+              <p>Not in any group, please contact Admin to be added to a group or to create a new group if required.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Networks</legend>
+      <div ng-repeat="network in vm.pod.networks" class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h6 class="panel-title pull-left" style="padding-top: 7.5px;">Network {{ $index + 1 }} - {{ network.name }}</h6>
+          <div class="btn-group pull-right" title="{{vm.pod.networks.length == 1 ? 'At least one Network is always required.' : vm.undeletableNetworks.includes(network.name) ? 'Can\'t remove Network, it has a dependent Project.' : ''}}">
+            <button id="networks[{{$index}}].remove" ng-click="vm.removeNetwork(network)" ng-disabled="vm.pod.networks.length == 1 || vm.undeletableNetworks.includes(network.name)" type="button" class="btn btn-sm"><i class="glyphicon glyphicon-remove"></i> Remove Network</button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="form-group has-feedback" ng-class="{ 'has-error': form['networks[{{$index}}].name'].$invalid, 'has-success': form['networks[{{$index}}].name'].$valid }">
+            <label for="networks[{{$index}}].name">Name</label>
+            <input class="form-control" type="text" id="networks[{{$index}}].name" name="networks[{{$index}}].name" placeholder="Name" ng-model="network.name" ng-pattern="/^[a-zA-Z0-9\-_.]*$/" required>
+            <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form['networks[{{$index}}].name'].$invalid, 'glyphicon-ok': form['networks[{{$index}}].name'].$valid }"></span>
+            <span class="help-block" ng-messages="form['networks[' + $index + '].name'].$error">
+              <p ng-message="required">This field is required</p>
+              <p ng-message="pattern">This must only contain letters, numbers, dots, dashes and underscores</p>
+            </span>
+          </div>
+
+          <legend>Virtual Router Redundancy Protocol Range</legend>
+          <div class="form-group has-feedback" ng-class="{ 'has-error': form['networks[{{$index}}].vrrp_range.start'].$invalid, 'has-success': form['networks[{{$index}}].vrrp_range.start'].$valid }">
+            <label for="networks[{{$index}}].vrrp_range.start">Start</label>
+            <input class="form-control" type="number" min="1" max="255" id="networks[{{$index}}].vrrp_range.start" name="networks[{{$index}}].vrrp_range.start" placeholder="Range Start" ng-model="network.vrrp_range.start" required>
+            <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form['networks[{{$index}}].vrrp_range.start'].$invalid, 'glyphicon-ok': form['networks[{{$index}}].vrrp_range.start'].$valid }"></span>
+            <span class="help-block" ng-messages="form['networks[' + $index + '].vrrp_range.start'].$error">
+              <p ng-message="required">This field is required</p>
+              <p ng-message="min">This must be an integer between 1 - 255</p>
+              <p ng-message="max">This must be an integer between 1 - 255</p>
+            </span>
+          </div>
+          <div class="form-group has-feedback" ng-class="{ 'has-error': form['networks[{{$index}}].vrrp_range.end'].$invalid, 'has-success': form['networks[{{$index}}].vrrp_range.end'].$valid }">
+            <label for="networks[{{$index}}].vrrp_range.end">End</label>
+            <input class="form-control" type="number" min="1" max="255" id="networks[{{$index}}].vrrp_range.end" name="networks[{{$index}}].vrrp_range.end" placeholder="Range End" ng-model="network.vrrp_range.end" required>
+            <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form['networks[{{$index}}].vrrp_range.end'].$invalid, 'glyphicon-ok': form['networks[{{$index}}].vrrp_range.end'].$valid }"></span>
+            <span class="help-block" ng-messages="form['networks[' + $index + '].vrrp_range.end'].$error">
+              <p ng-message="required">This field is required</p>
+              <p ng-message="min">This must be an integer between 1 - 255</p>
+              <p ng-message="max">This must be an integer between 1 - 255</p>
+            </span>
+          </div>
+
+          <fieldset>
+            <legend>IPv4 Subnet</legend>
+            <div class="form-group has-feedback" ng-class="{ 'has-error': form['networks[{{$index}}].ipv4_subnet.cidr'].$invalid, 'has-success': form['networks[{{$index}}].ipv4_subnet.cidr'].$valid }">
+              <label for="networks[{{$index}}].ipv4_subnet.cidr">IPv4 Subnet CIDR</label>
+              <input class="form-control" type="text" id="networks[{{$index}}].ipv4_subnet.cidr" name="networks[{{$index}}].ipv4_subnet.cidr" placeholder="IPv4 Subnet CIDR" ng-model="network.ipv4_subnet.cidr" ng-pattern="vm.ipv4cidrregex" required>
+              <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form['networks[{{$index}}].ipv4_subnet.cidr'].$invalid, 'glyphicon-ok': form['networks[{{$index}}].ipv4_subnet.cidr'].$valid }"></span>
+              <span class="help-block" ng-messages="form['networks[' + $index + '].ipv4_subnet.cidr'].$error">
+                <p ng-message="required">This field is required</p>
+                <p ng-message="pattern">This must be a valid IPv4 CIDR</p>
+              </span>
+            </div>
+            <div class="form-group has-feedback" ng-class="{ 'has-error': form['networks[{{$index}}].ipv4_subnet.gateway_ip'].$invalid, 'has-success': form['networks[{{$index}}].ipv4_subnet.gateway_ip'].$valid }">
+              <label for="networks[{{$index}}].ipv4_subnet.gateway_ip">IPV4 Subnet Gateway IP</label>
+              <input class="form-control" type="text" id="networks[{{$index}}].ipv4_subnet.gateway_ip" name="networks[{{$index}}].ipv4_subnet.gateway_ip" placeholder="IPv4 Subnet Gateway IP" ng-model="network.ipv4_subnet.gateway_ip" ng-pattern="vm.ipv4regex" required>
+              <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form['networks[{{$index}}].ipv4_subnet.gateway_ip'].$invalid, 'glyphicon-ok': form['networks[{{$index}}].ipv4_subnet.gateway_ip'].$valid }"></span>
+              <span class="help-block" ng-messages="form['networks[' + $index + '].ipv4_subnet.gateway_ip'].$error">
+                <p ng-message="required">This field is required</p>
+                <p ng-message="pattern">This must be a valid IPv4 address</p>
+              </span>
+            </div>
+            <div ng-if="!vm.pod.networks[$index].ipv6_subnet">
+              <button ng-click="vm.addIpv6Subnet($index)" type="button" class="btn btn-default pull-right"><i class="glyphicon glyphicon-plus"></i> Add IPv6 Subnet</button>
+            </div>
+            <div ng-if="vm.pod.networks[$index].ipv6_subnet">
+              <div class="btn-group pull-right">
+                <button ng-click="vm.removeIpv6Subnet($index)" type="button" class="btn btn-sm"><i class="glyphicon glyphicon-remove"></i> Remove IPv6 Subnet</button>
+              </div>
+              <legend>IPv6 Subnet</legend>
+              <div class="form-group has-feedback" ng-class="{ 'has-error': form['networks[{{$index}}].ipv6_subnet.cidr'].$invalid, 'has-success': form['networks[{{$index}}].ipv6_subnet.cidr'].$valid }">
+                <label for="networks[{{$index}}].ipv6_subnet.cidr">IPv6 Subnet CIDR</label>
+                <input class="form-control" type="text" id="networks[{{$index}}].ipv6_subnet.cidr" name="networks[{{$index}}].ipv6_subnet.cidr" placeholder="IPv6 Subnet CIDR" ng-model="network.ipv6_subnet.cidr" ng-pattern="vm.ipv6cidrregex" required>
+                <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form['networks[{{$index}}].ipv6_subnet.cidr'].$invalid, 'glyphicon-ok': form['networks[{{$index}}].ipv6_subnet.cidr'].$valid }"></span>
+                <span class="help-block" ng-messages="form['networks[' + $index + '].ipv6_subnet.cidr'].$error">
+                  <p ng-message="required">This field is required</p>
+                  <p ng-message="pattern">This must be a valid IPv6 CIDR</p>
+                </span>
+              </div>
+              <div class="form-group has-feedback" ng-class="{ 'has-error': form['networks[{{$index}}].ipv6_subnet.gateway_ip'].$invalid, 'has-success': form['networks[{{$index}}].ipv6_subnet.gateway_ip'].$valid }">
+                <label for="networks[{{$index}}].ipv6_subnet.gateway_ip">IPv6 Subnet Gateway IP</label>
+                <input class="form-control" type="text" id="networks[{{$index}}].ipv6_subnet.gateway_ip" name="networks[{{$index}}].ipv6_subnet.gateway_ip" placeholder="IPv6 Subnet Gateway IP" ng-model="network.ipv6_subnet.gateway_ip" ng-pattern="vm.ipv6regex" required>
+                <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form['networks[{{$index}}].ipv6_subnet.gateway_ip'].$invalid, 'glyphicon-ok': form['networks[{{$index}}].ipv6_subnet.gateway_ip'].$valid }"></span>
+                <span class="help-block" ng-messages="form['networks[' + $index + '].ipv6_subnet.gateway_ip'].$error">
+                  <p ng-message="required">This field is required</p>
+                  <p ng-message="pattern">This must be a valid IPv6 address</p>
+                </span>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+      <button ng-click="vm.addNetwork()" type="button" class="btn btn-default pull-right"><i class="glyphicon glyphicon-plus"></i> Add Network</button>
+    </fieldset>
+    <div class="btn-group pull-left" title="{{form.$invalid || vm.formSubmitting ? 'Ensure all values are valid and required fields are filled in.' : ''}}">
+      <button class="btn btn-primary" type="submit" ng-disabled="form.$invalid || vm.formSubmitting">Save</button>
+    </div>
+  </form>
+</section>

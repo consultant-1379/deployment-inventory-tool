@@ -1,0 +1,27 @@
+{
+    "name": "validcENMSedDocumentIPv6",
+    "schema_id": "",
+    "content": {
+        "parameters": {
+            "COM_INF_LDAP_ADMIN_CN": "uid=ssouser,ou=people",
+            "amos_service_ipv6_ips": "::",
+            "eric_enm_ddc_account": "upload@ddpenm6.athtem.eei.ericsson.se",
+            "eric_enm_ddc_password": "_!upLoad",
+            "hostPort": "9690",
+            "ingress_l4_cniMode": "ipip",
+            "ingress_l4_external": "ens160",
+            "ingress_l4_internal": "ens160",
+            "ingress_l4_podNetworkCIDR": "192.168.0.0/16",
+            "ip_version": "v6",
+            "itservices_service_0_ipv6_ips": "::",
+            "itservices_service_1_ipv6_ips": "::",
+            "scripting_service_ipv6_ips": "::",
+            "servicePort": "9690",
+            "svc_cm_vip_ipv6address": "::",
+            "svc_fm_vip_ipv6address": "::",
+            "svc_pm_vip_ipv6address": "::",
+            "timezone": "Europe/Dublin",
+            "visinamingsb_service_ipv6_ips": "::"
+        }
+    }
+}

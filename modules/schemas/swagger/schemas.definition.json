@@ -1,0 +1,48 @@
+{
+  "definitions":{
+    "Schema":{
+      "type":"object",
+      "required":[
+        "name",
+        "version",
+        "content"
+      ],
+      "properties":{
+        "name":{
+          "type":"string",
+          "note":"Combination of name and version must be unique, Minimum of 3 characters, Maximum of 50 characters",
+          "example":"enm_sed",
+          "minLength":3,
+          "maxLength":50
+        },
+        "version":{
+          "type":"string",
+          "note":"Can be any semantic version string, including prerelease tags parts like -SNAPSHOT",
+          "example":"1.1.1"
+        },
+        "category": {
+          "type": "string",
+          "example": "enm",
+          "note": "Must be one of the following: enm, cenm, vnflcm or other. Is required but the category will be automatically set by checking the schema name on the server side:\n* If starts with 'enm_sed', the category will be 'enm'.\n* If starts with 'vnflcm_sed_schema', the category will be 'vnflcm'.\n* If starts with 'cenm_', the category will be 'cenm'.\n* Everything else, the category will be 'other'.",
+          "enum": ["enm","cenm", "vnflcm", "other"],
+          "default": "other"
+        },
+        "created_at":{
+          "type":"date-time",
+          "note":"Value will be automatically generated on initial creation. User defined values will be ignored",
+          "example":"2018-01-16T10:57:32.594Z"
+        },
+        "updated_at":{
+          "type":"date-time",
+          "note":"Value will be automatically generated on initial creation and update. User defined values will be ignored",
+          "example":"2018-01-16T10:57:32.594Z"
+        },
+        "content":{
+          "type":"object",
+          "note":"The actual json schema itself goes here",
+          "example":{ }
+        }
+      }
+    }
+  }
+}

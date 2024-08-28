@@ -1,0 +1,163 @@
+{
+  "definitions": {
+    "Project": {
+      "type": "object",
+      "required": [
+        "pod_id",
+        "name",
+        "openstackProjectId",
+        "username",
+        "password",
+        "networks",
+        "usergroups",
+        "exclusion_ipv4_addresses",
+        "exclusion_ipv6_addresses"
+      ],
+      "properties": {
+        "pod_id": {
+          "type": "string",
+          "note": "Pod must already exist",
+          "example": "592d1fa182ee3e002055763b",
+          "minLength": 24,
+          "maxLength": 24
+        },
+        "name": {
+          "type": "string",
+          "note": "name must be unique within pod and unique when paired with Openstack Project Id",
+          "example": "Cloud4B_Stratus"
+        },
+        "id": {
+          "type": "string",
+          "example": "248e8efffbb04913b6e5b45597851c44"
+        },
+        "username": {
+          "type": "string",
+          "example": "ezhicco"
+        },
+        "password": {
+          "type": "string",
+          "example": "**********"
+        },
+        "usergroups": {
+          "type": "array",
+          "note": "Can contain one or more groupId, in which you want the project to be associated with",
+          "example": [
+            "groupId1",
+            "groupId2"
+          ]
+        },
+        "network": {
+          "properties": {
+            "name": {
+              "type": "string",
+              "example": "provider_network"
+            },
+            "ipv4_ranges": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "start": {
+                    "type": "string",
+                    "note": "network.ipv4_ranges.start must be a valid IPv4 address.",
+                    "example": "131.160.202.10"
+                  },
+                  "end": {
+                    "type": "string",
+                    "note": "network.ipv6_ranges.end must be a valid IPv4 address.",
+                    "example": "131.160.202.39"
+                  }
+                }
+              }
+            },
+            "ipv6_ranges": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "start": {
+                    "type": "string",
+                    "note": "network.ipv6_ranges.start must be a valid IPv6 address.",
+                    "example": "2001:1b70:6207:0027:0000:0874:1001:0000"
+                  },
+                  "end": {
+                    "type": "string",
+                    "note": "network.ipv6_ranges.end must be a valid IPv6 address.",
+                    "example": "2001:1b70:6207:0027:0000:0874:1001:ffff"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "exclusion_ipv4_addresses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ipv4": {
+                "type": "string",
+                "note": "exclusion_ipv4_address must be a valid IPv4 address.",
+                "example": "131.160.202.10"
+              }
+            }
+          }
+        },
+        "exclusion_ipv6_addresses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ipv6": {
+                "type": "string",
+                "note": "exclusion_ipv6_address must be a valid IPv6 address.",
+                "example": "2001:1b70:6207:0027:0000:0874:1001:0000"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ProjectFreeAddress": {
+      "type": "object",
+      "required": [
+        "pod_name",
+        "network_name",
+        "name",
+        "ip_type"
+      ],
+      "properties": {
+        "pod_name": {
+          "type": "string",
+          "note": "pod_name must be existing pod",
+          "example": "Cloud4b"
+        },
+        "network_name": {
+          "type": "string",
+          "note": "network_name must be existing network within the given Pod",
+          "example": "provider_network"
+        },
+        "name": {
+          "type": "string",
+          "note": "name must be unique, if exists it will update or it will create a Project",
+          "example": "Cloud4B_Stratus"
+        },
+        "ip_type": {
+          "type": "string",
+          "note": "ip_type is for type of ip address, can be ipv4 or ipv6",
+          "example": "ipv4"
+        },
+        "number_of_addresses": {
+          "type": "integer",
+          "note": "number_of_addresses is number of free addresses required, default is 1",
+          "example": 4
+        },
+        "excluded_addresses": {
+          "type": "string",
+          "note": "list of addresses to be excluded when looking for free addresses",
+          "example": "1.1.1.1, 2.2.2.2"
+        }
+      }
+    }
+  }
+}

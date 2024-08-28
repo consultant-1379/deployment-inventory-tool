@@ -1,0 +1,23 @@
+{
+    "parameters": {
+        "COM_INF_LDAP_ADMIN_CN": "uid=ssouser,ou=people",
+        "amos_service_ipv6_ips": "2001:1b70:6207:0027:0000:0874:1001:0003",
+        "eric_enm_ddc_account": "upload@ddpenm6.athtem.eei.ericsson.se",
+        "eric_enm_ddc_password": "_!upLoad",
+        "hostPort": "9690",
+        "ingress_l4_cniMode": "ipip",
+        "ingress_l4_external": "ens160",
+        "ingress_l4_internal": "ens160",
+        "ingress_l4_podNetworkCIDR": "192.168.0.0/16",
+        "ip_version": "v6",
+        "itservices_service_0_ipv6_ips": "2001:1b70:6207:0027:0000:0874:1001:0006",
+        "itservices_service_1_ipv6_ips": "2001:1b70:6207:0027:0000:0874:1001:0007",
+        "scripting_service_ipv6_ips": "2001:1b70:6207:0027:0000:0874:1001:0004",
+        "servicePort": "9690",
+        "svc_cm_vip_ipv6address": "2001:1b70:6207:0027:0000:0874:1001:0001",
+        "svc_fm_vip_ipv6address": "2001:1b70:6207:0027:0000:0874:1001:0000",
+        "svc_pm_vip_ipv6address": "2001:1b70:6207:0027:0000:0874:1001:0002",
+        "timezone": "Europe/Dublin",
+        "visinamingsb_service_ipv6_ips": "2001:1b70:6207:0027:0000:0874:1001:0005"
+    }
+}

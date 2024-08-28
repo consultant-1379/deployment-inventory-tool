@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="parameterDefaults">
+  <title>Parameter Defaults</title>
+  <conbody>
+    <ul>
+      <li><xref type="concept" href="dns.xml#overview">Overview</xref></li>
+      <li><xref type="concept" href="dns.xml#purpose">Purpose Of This Feature</xref></li>
+    </ul>
+    <section>
+      <title id="overview">Overview</title>
+      <lines>
+        This page describes the parameter_defaults feature in the Deployment Inventory Tool.
+        It describes the purpose of this feature and how it works at a high level.
+      </lines>
+    </section>
+    <section>
+      <title id="purpose">Purpose Of This Feature</title>
+      <lines>
+        Download to JSON and YAML features is available on all document view pages.
+        The following Documents: vENM SEDs, VNF LCM SEDs and Managed Configs will have an extra option to download either with parameters or with parameter_defaults.
+        Choosing 'parameter_defaults' option on 'Download to JSON' menu, will put 'parameter_defaults' as the parent name of the JSON object.
+        By default for the download to YAML feature for mentioned Documents above will have 'parameter_defaults', the 'Download to YAML' button will be next the 'Download to JSON' button.
+      </lines>
+    </section>
+  </conbody>
+</concept>

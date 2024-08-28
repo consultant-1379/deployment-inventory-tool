@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="PodNetworkSubnetFeature">
+  <title>Pod Network Subnet API Feature</title>
+  <conbody>
+    <ul>
+      <li><xref type="concept" href="apiPodNetworkSubnet.xml#overview">Overview</xref></li>
+      <li><xref type="concept" href="apiPodNetworkSubnet.xml#purpose">Purpose Of This Feature</xref></li>
+      <li><xref type="concept" href="apiPodNetworkSubnet.xml#networkSubnet">Network Subnet API</xref></li>
+      <li><xref type="concept" href="apiPodNetworkSubnet.xml#howTo">How To Use</xref></li>
+    </ul>
+    <section>
+      <title id="overview">Overview</title>
+      <lines>
+        This page describes the purpose of the Pod Network Subnet API feature in the Deployment Inventory Tool and how it works at a high level.
+      </lines>
+    </section>
+    <section>
+      <title id="purpose">Purpose Of This Feature</title>
+      <lines>
+        This API was created to help with managing IP addresses for Deployments.
+        To allow users to know:
+      </lines>
+      <ul>
+        <li>Size of the subnet.</li>
+        <li>How many IP addresses are free in a subnet.</li>
+        <li>How many IP addresses are assigned in a subnet.</li>
+      </ul>
+      <lines>
+        This will search through each Project that is using the same Pod network, to find all the IP address assigned in that network's subnet.
+        This allows it to provide the above information for the single network subnet for both IPv4 and IPv6.
+      </lines>
+    </section>
+    <section>
+      <title id="networkSubnet">Network Subnet API</title>
+      <lines>
+      This will return in JSON the following data about a network's subnet.
+      <b>GET API:</b> /api/projects/{podId}/subnet/{networkName}
+      <b>The API parameters:</b>
+      </lines>
+      <simpletable>
+        <sthead>
+          <stentry>
+            Parameter Name
+          </stentry>
+          <stentry>
+            Value
+          </stentry>
+        </sthead>
+        <strow>
+          <stentry>
+            podId
+          </stentry>
+          <stentry>
+            Required: The id of the Pod where the network's subnet data is stored.
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            networkName
+          </stentry>
+          <stentry>
+            Required: The name of the Pod's network that has the subnets - required IPv4 and optional IPv6.
+          </stentry>
+        </strow>
+      </simpletable>
+      <lines>
+        <b>The API Response:</b>
+      </lines>
+      <simpletable>
+        <sthead>
+          <stentry>
+            Parameter Name
+          </stentry>
+          <stentry>
+            Value
+          </stentry>
+        </sthead>
+        <strow>
+          <stentry>
+            _id
+          </stentry>
+          <stentry>
+            The id of the Pod where the network's subnet data is stored.
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            name
+          </stentry>
+          <stentry>
+            The name of the Pod
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            network.name
+          </stentry>
+          <stentry>
+            The name of the network.
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            network.ipv4_subnet
+          </stentry>
+          <stentry>
+            The IPv4 subnet data.
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            network.ipv4_subnet.cidr
+          </stentry>
+          <stentry>
+            The IPv4 CIDR i.e subnet.
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            network.ipv4_subnet.gateway_ip
+          </stentry>
+          <stentry>
+            The IPv4 gateway IP address.
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            network.ipv4_subnet.size
+          </stentry>
+          <stentry>
+            The size of IPv4 subnet i.e number of IP addresses in subnet.
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            network.ipv4_subnet.assigned
+          </stentry>
+          <stentry>
+            The number of assigned IP addresses, that current used by Projects' ranges.
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            network.ipv4_subnet.free
+          </stentry>
+          <stentry>
+            The number of free IP addresses, that are not used by Projects' ranges.
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            network.ipv6_subnet
+          </stentry>
+          <stentry>
+            The IPv6 subnet data.
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            network.ipv6_subnet.cidr
+          </stentry>
+          <stentry>
+            The IPv6 CIDR i.e subnet.
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            network.ipv6_subnet.gateway_ip
+          </stentry>
+          <stentry>
+            The IPv4 gateway IP address.
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            network.ipv6_subnet.size
+          </stentry>
+          <stentry>
+            The size of ipv6 subnet i.e number of IP addresses in subnet.
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            network.ipv6_subnet.assigned
+          </stentry>
+          <stentry>
+            The number of assigned IP addresses, that current used by Projects ranges.
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            network.ipv6_subnet.free
+          </stentry>
+          <stentry>
+            The number of free IP addresses, that are not used by Projects' ranges.
+          </stentry>
+        </strow>
+      </simpletable>
+    </section>
+    <section>
+      <title id="howTo">How to Use</title>
+      <lines>
+        See API Documentation under Pods: /api/projects/{podId}/subnet/{networkName}
+      </lines>
+    </section>
+  </conbody>
+</concept>

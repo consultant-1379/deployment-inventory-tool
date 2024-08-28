@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "additionalProperties": false,
+  "definitions": {
+    "instances": {
+      "description": "This must be a valid number of instances from 0 upwards",
+      "pattern": "^\\d+$",
+      "type": "string"
+    }
+  },
+  "properties": {
+    "parameters": {
+      "additionalProperties": false,
+      "default": {},
+      "description": "Please fill in all required fields",
+      "properties": {
+        "accesscontrol_instances": {
+          "$ref": "#/definitions/instances",
+          "default": "2"
+        }
+      },
+      "required": [
+        "accesscontrol_instances"
+      ],
+      "title": "Site Engineering Data for ENM on Cloud",
+      "type": "object"
+    }
+  },
+  "required": [
+    "parameters"
+  ],
+  "type": "object"
+}

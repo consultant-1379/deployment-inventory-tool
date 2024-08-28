@@ -1,0 +1,7 @@
+{
+    "parameters": {
+        "hostPort": "4321",
+        "servicePort": "1234",
+        "timezone": "Europe/Berlin"
+    }
+}

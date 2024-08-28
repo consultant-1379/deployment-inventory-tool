@@ -1,0 +1,16 @@
+{
+  "pod_id": "",
+  "name": "validProject2",
+  "id": "validId",
+  "username": "validUsername",
+  "password": "validPassword",
+  "network": {
+    "name": "provider_network",
+    "ipv4_ranges": [
+      {
+        "start": "131.160.202.201",
+        "end": "131.160.202.225"
+      }
+    ]
+  }
+}

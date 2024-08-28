@@ -1,0 +1,28 @@
+{
+  "name": "enm_sed",
+  "version": "1.2.3",
+  "content": {
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "type": "object",
+    "definitions": {
+      "any_string": {
+        "description": "This must be any string",
+        "pattern": "^..*$",
+        "type": "string"
+      }
+    },
+    "properties": {
+      "testkey": {
+        "$ref": "#/definitions/any_string"
+      },
+      "otherkey": {
+        "$ref": "#/definitions/any_string"
+      },
+      "anotherkey": {
+        "$ref": "#/definitions/any_string"
+      }
+    },
+    "additionalProperties": false,
+    "required": ["testkey"]
+  }
+}

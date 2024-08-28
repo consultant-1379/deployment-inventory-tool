@@ -1,0 +1,335 @@
+{
+  "paths": {
+    "/documents": {
+      "get": {
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Returns a list of Documents that match the provided query parameters.",
+        "description": "Returns a list of all Documents and their key-values when no filter parameters are provided. \nFor filtering syntax see <a href='/helpdocs/#help/app/helpdocs/topic/features/apiSearchandFilter' target='_blank'><b>here</b></a>.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name":"q",
+            "in":"query",
+            "description":"Specifies what Documents should be retrieved based on provided key-values. \nMultiple key-values can be specified with the ampersand-delimited format. Eg. To list all Documents with the name 'Anewdocument': 'q=name=Anewdocument', and to list all Documents with the name 'Anewdocument' and schema_id '592d1fa182ee3e002055763b' and autopopulate 'true': 'q=name=Anewdocument&schema_id=592d1fa182ee3e002055763b&autopopulate=true'",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "name=Anewdocument&schema_id=592d1fa182ee3e002055763b&autopopulate=true"
+          },
+          {
+            "name":"fields",
+            "in":"query",
+            "description":"Specifies what key-values associated with the retrieved Documents that you want to retrieve. \nMultiple key-values can be retrieved through filtering keys with the comma-delimited format. Eg. For the name value alone: 'fields=name', and for the name and schema_id values: 'fields=name,schema_id'",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "name,schema_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "document": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Document"
+              }
+            }
+          },
+          "422": {
+            "description": "Improperly structured query. Make sure to use ?q=&lt;key&gt;=&lt;value&gt; syntax"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post":{
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Creates a new Document.",
+        "description": "Creates and returns a new Document.",
+        "produces": [
+          "application/json"
+        ],
+        "consume": [
+          "application/json"
+        ],
+        "parameters":[
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Document object that represents your Document",
+            "required": true,
+            "schema":{
+              "$ref": "#/definitions/Document"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created Document successfully."
+          },
+          "400": {
+            "description": "Possible Messages:\n* Error, provided name is not unique.\n* Field {field} is not in Schema and strict mode is set to throw.\n* Path {Path} is required.\n* There was a syntax error found in your request, please make sure that it is valid and try again\n* Path `name` {Path} is shorter than the minimum allowed length (5).\n* Path `name` {Path} is longer than the maximum allowed length (50)."
+          },
+          "422": {
+            "description": "Possible Messages:\n* The given Schema id could not be found\n* There were x errors found when validating the given Document against the Schema\n* Label {value} does not exist!\n* There are duplicate Labels assigned to this Document.\n* You cannot have both managed config and autopopulate enabled together\n* A managed config cannot have managed configs attached to it\n* The attached managed config {value} is not using the same Schema id as the Document itself\n* You cannot attach the Document {value} as a managed config as it is not a managed config"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/documents/{documentId}":{
+      "get":{
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Returns a Document.",
+        "description": "Returns a Document. \nFor filtering syntax see <a href='/helpdocs/#help/app/helpdocs/topic/features/apiSearchandFilter' target='_blank'><b>here</b></a>.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+           {
+              "name": "documentId",
+              "in": "path",
+              "required": true,
+              "description": "The id of the Document to retrieve",
+              "type": "string"
+           }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved Document",
+            "document": {
+              "$ref": "#/definitions/Document"
+            }
+          },
+          "404": {
+            "description": "A Document with the given Id could not be found in the database"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put":{
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Updates a Document.",
+        "description": "Updates a Document.",
+        "produces": [
+          "application/json"
+        ],
+        "consume": [
+          "application/json"
+        ],
+        "parameters": [
+           {
+              "name": "documentId",
+              "in": "path",
+              "required": true,
+              "description": "The id of the Document to update",
+              "type": "string"
+           },
+           {
+             "in": "body",
+             "name": "body",
+             "description": "Document object that represents your OpenStack Document<br>Partial update possible, not all fields in body required. <br><b>Note:</b> Partial update only applies to root fields values such as <b>\"name\"</b> etc. However, when updating the <b>\"content\"</b> field you must provide all the original content field's value with your alterations.",
+             "required": true,
+             "schema":{
+               "$ref": "#/definitions/Document"
+              }
+            }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated Document",
+            "schema": {
+              "$ref": "#/definitions/Document"
+            }
+          },
+         "400": {
+            "description": "Possible messages:\n* 'There was a syntax error found in your request, please make sure that it is valid and try again\n* Path `name` {Path} is shorter than the minimum allowed length (5).\n* Path `name` {Path}is longer than the maximum allowed length (50). "
+          },
+          "404":{
+            "description":"A Document with that id does not exist"
+          },
+          "422": {
+            "description": "Possible messages:\n* There were x errors found when validating the given Document against the schema\n* The given Schema id could not be found\n* You cannot change a Documents schema's category from {value} to {value}\n* Not enough Vrrp ids available to populate Document. 2 available, 3 required.\n* Could not find a managed config matching the requested schema and the Labels from managed config {Value}\n* No duplicate managed configs allowed. '{NameValue}' already exists with schema_id: '{SchemaIdValue}' and label(s): '{LabelsValue}'. \n* There are not enough free (IPv4/IPv6) addresses in the project ranges to auto populate. x (IPv4/IPv6) addresses are required in total but the project ranges only have x (IPv4/IPv6) addresses in total. Please add more and try again.\n* The ip address given {Value} is not a valid address.\n* Unable to retrieve a hostname for ip {Value}, from dns\n* errors found when validating the given Document against the schema\n* You cannot have both managed config and autopopulate enabled together\n* A managed config cannot have managed configs attached to it\n* Label {Value} does not exist!\n* There are duplicate Labels assigned to this Document.\n* You cannot change a Documents managed config mode\n* The attached managed config {Value} is not using the same Schema id as the Document itself\n* You cannot attach the Document {Value} as a managed config as it is not a managed config\n* You cannot attach the same managed config twice"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete":{
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Deletes a Document.",
+        "description": "Deletes a Document.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+           {
+              "name": "documentId",
+              "in": "path",
+              "required": true,
+              "description": "The id of the Document to delete",
+              "type": "string"
+           }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully deleted Document",
+            "document": {
+              "$ref": "#/definitions/Document"
+            }
+          },
+          "404":{
+            "description":"A Document with that id does not exist"
+          },
+          "422":{
+            "description":"Possible Messages: \n* Can't delete Deployment, it has x dependent Document\n* Can't delete Document, it has x dependent Document "
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/documents/name/{documentName}":{
+      "get":{
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Returns a Document.",
+        "description": "Returns a Document. \nFor filtering syntax see <a href='/helpdocs/#help/app/helpdocs/topic/features/apiSearchandFilter' target='_blank'><b>here</b></a>.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+           {
+              "name": "documentName",
+              "in": "path",
+              "required": true,
+              "description": "The name of the Document to retrieve",
+              "type": "string"
+           }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved Document",
+            "document": {
+              "$ref": "#/definitions/Document"
+            }
+          },
+          "404": {
+            "description": "A Document with name 'X' does not exist."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put":{
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Updates a Document.",
+        "description": "Updates a Document.",
+        "produces": [
+          "application/json"
+        ],
+        "consume": [
+          "application/json"
+        ],
+        "parameters": [
+           {
+              "name": "documentName",
+              "in": "path",
+              "required": true,
+              "description": "The name of the Document to update",
+              "type": "string"
+           },
+           {
+             "in": "body",
+             "name": "body",
+             "description": "Document object that represents your OpenStack Document<br>Partial update possible, not all fields in body required. <br><b>Note:</b> Partial update only applies to root fields values such as <b>\"name\"</b> etc. However, when updating the <b>\"content\"</b> field you must provide all the original content field's value with your alterations.",
+             "required": true,
+             "schema":{
+               "$ref": "#/definitions/Document"
+              }
+            }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated Document",
+            "schema": {
+              "$ref": "#/definitions/Document"
+            }
+          },
+         "400": {
+            "description": "Possible messages:\n* 'There was a syntax error found in your request, please make sure that it is valid and try again\n* Path `name` {Path} is shorter than the minimum allowed length (5).\n* Path `name` {Path}is longer than the maximum allowed length (50). "
+          },
+          "404":{
+            "description":"A Document with name 'X' does not exist."
+          },
+          "422": {
+            "description": "Possible messages:\n* There were x errors found when validating the given Document against the schema\n* The given Schema id could not be found\n* You cannot change a Documents schema's category from {value} to {value}\n* Not enough Vrrp ids available to populate Document. 2 available, 3 required.\n* Could not find a managed config matching the requested schema and the Labels from managed config {Value}\n* No duplicate managed configs allowed. '{NameValue}' already exists with schema_id: '{SchemaIdValue}' and label(s): '{LabelsValue}'. \n* There are not enough free (IPv4/IPv6) addresses in the project ranges to auto populate. x (IPv4/IPv6) addresses are required in total but the project ranges only have x (IPv4/IPv6) addresses in total. Please add more and try again.\n* The ip address given {Value} is not a valid address.\n* Unable to retrieve a hostname for ip {Value}, from dns\n* errors found when validating the given Document against the schema\n* You cannot have both managed config and autopopulate enabled together\n* A managed config cannot have managed configs attached to it\n* Label {Value} does not exist!\n* There are duplicate Labels assigned to this Document.\n* You cannot change a Documents managed config mode\n* The attached managed config {Value} is not using the same Schema id as the Document itself\n* You cannot attach the Document {Value} as a managed config as it is not a managed config\n* You cannot attach the same managed config twice"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete":{
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Deletes a Document.",
+        "description": "Deletes a Document.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+           {
+              "name": "documentName",
+              "in": "path",
+              "required": true,
+              "description": "The name of the Document to delete",
+              "type": "string"
+           }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully deleted Document",
+            "document": {
+              "$ref": "#/definitions/Document"
+            }
+          },
+          "404":{
+            "description":"A Document with name 'X' does not exist."
+          },
+          "422":{
+            "description":"Possible Messages: \n* Can't delete Deployment, it has x dependent Document\n* Can't delete Document, it has x dependent Document "
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  }
+}

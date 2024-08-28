@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="cenmSedAutoPopulation">
+  <title>cENM SED Auto Population</title>
+  <conbody>
+    <ul>
+      <li><xref type="concept" href="cenmSedAutoPopulation.xml#overview">Overview</xref></li>
+      <li><xref type="concept" href="cenmSedAutoPopulation.xml#purpose">Purpose Of This Feature</xref></li>
+      <li><xref type="concept" href="cenmSedAutoPopulation.xml#ipv4">cENM IPv4 Population</xref></li>
+      <li><xref type="concept" href="cenmSedAutoPopulation.xml#ipv6">cENM IPv6 Population</xref></li>
+      <li><xref type="concept" href="cenmSedAutoPopulation.xml#pasteMode">cENM SED Paste Mode</xref></li>
+      <li><xref type="concept" href="cenmSedAutoPopulation.xml#running">When It Runs</xref></li>
+    </ul>
+    <section>
+      <title id="overview">Overview</title>
+      <lines>
+        This page describes the cENM SED auto population feature in the Deployment Inventory Tool.
+        It describes the purpose of this feature, how it works at a high level and also describes the fields that are currently supported.
+      </lines>
+    </section>
+
+    <section>
+      <title id="purpose">Purpose Of This Feature</title>
+      <lines>
+        The cENM SED is made up of keys and values that are required as input to an cENM installation or upgrade.
+        To make the population of those fields as easy as possible and to reduce possible human error, DIT provides the option to enable auto population to help fill in some of these fields based on other information found in DIT itself.
+        This feature is currently available in DIT when you are working on a document that makes use of one of the 'cenm_sed' schemas.
+        When enabled, the DIT UI will no longer allow you to edit these fields on the edit page. Instead they will be auto-populated and will be visible after the document is saved on the documents view page or by downloading the SED via REST.
+        Please note that auto population relies on details about your Pod/Project/Deployment from DIT. This means that on initial creation of the SED, it wont be associated yet with a deployment.
+        In this case, all auto-populated fields will be given default inactive values (e.g. '1.1.1.1', '::') for IP addresses. As soon as that SED is associated with its deployment, it will then be auto-populated with details found in that deployment.
+      </lines>
+    </section>
+
+    <section>
+      <title id="ipv4">IPv4 Population</title>
+      <lines>
+        DIT supports auto population of IPv4 address fields. There are fields that reference the following schema definitions.
+      </lines>
+      <simpletable>
+        <sthead>
+          <stentry>
+            Schema Definition Name
+          </stentry>
+        </sthead>
+         <strow>
+          <stentry>
+            /definitions/ipv4_autopop
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/ipv4_external_autopop
+          </stentry>
+        </strow>
+      </simpletable>
+      <lines>
+        Any keys found in the schema that match these definitions, will have their addresses taken from the ranges found in the project.
+        <b>Warning:</b> If the pod and project network details have not been added for your deployment, they must be added before enabling auto population. Otherwise the calculation of valid IPs to use for these keys can't take place.
+        Please note that during auto population of these IPs, any fields that currently have valid values within the ranges, will not be changed. IPs that are found to be duplicates, invalid, or not within the IP ranges will be removed and recalculated from those IPs found to be not in use.
+      </lines>
+    </section>
+
+    <section>
+      <title id="ipv6">IPv6 Population</title>
+      <lines>
+        DIT supports auto population of IPv6 address fields. There are fields that reference the following schema definitions.
+      </lines>
+      <simpletable>
+        <sthead>
+          <stentry>
+            Schema Definition Name
+          </stentry>
+        </sthead>
+         <strow>
+          <stentry>
+            /definitions/ipv6_autopop
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/ipv6_external_autopop
+          </stentry>
+        </strow>
+      </simpletable>
+      <lines>
+        Any keys found in the schema that match these definitions, will have their addresses taken from the ranges found in the project.
+        <b>Warning:</b> If the pod and project network details have not been added for your deployment, they must be added before enabling auto population. Otherwise the calculation of valid IPs to use for these keys can't take place.
+        Please note that during auto population of these IPs, any fields that currently have valid values within the ranges, will not be changed. IPs that are found to be duplicates, invalid, or not within the IP ranges will be removed and recalculated from those IPs found to be not in use.
+      </lines>
+    </section>
+
+    <section>
+      <title id="pasteMode">cENM SED paste mode and Auto Populate</title>
+      <lines>
+        If a SED document is entered using the paste mode in the SED document edit view and auto population is enabled, any key values not matching the DIT naming convention will be overwritten by Auto populate.
+      </lines>
+    </section>
+
+    <section>
+      <title id="running">When It Runs</title>
+      <lines>
+        Auto population runs every time the document is saved.
+        This includes when the Auto Deployer scripts are upgrading a SED from one schema version to another.
+        This means that any new keys introduced in that new schema version, will be auto-populated if they are a supported key.
+        When a change is made to a Deployment, Project or Pod in DIT, the UI will also trigger a resave of any related documents.
+        For this reason changing for example a project range that may mean there's not enough IPs, will allow the project details itself to be saved but the resave of the document will throw an error. At this point you can fix any details about the range in the project and resave that project, which will again in turn resave the related documents.
+        Note: To prevent duplicate IP addresses being assigned in the cENM SED, IP addresses may be reassigned when auto population is re-enabled.
+      </lines>
+    </section>
+
+  </conbody>
+</concept>

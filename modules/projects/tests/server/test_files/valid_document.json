@@ -1,0 +1,9 @@
+{
+  "name": "validDocument",
+  "schema_id": "",
+  "content": {
+    "testkey": "stringValue",
+    "otherkey": "otherstringValue",
+    "anotherkey": "anotherstringValue"
+  }
+}

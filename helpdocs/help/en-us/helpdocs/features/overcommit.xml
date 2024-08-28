@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="OvercommitFeature">
+  <title>Overcommit Feature</title>
+  <conbody>
+    <ul>
+      <li><xref type="concept" href="OvercommitFeature.xml#overview">Overview</xref></li>
+      <li><xref type="concept" href="OvercommitFeature.xml#purpose">Purpose</xref></li>
+      <li><xref type="concept" href="OvercommitFeature.xml#overcommit">Overcommit Key Values</xref></li>
+      <li><xref type="concept" href="OvercommitFeature.xml#running">When It Runs</xref></li>
+    </ul>
+    <section>
+      <title id="overview">Overview</title>
+      <lines>
+        This page describes the ENM SED Overcommit feature in the Deployment Inventory Tool.
+        It describes the purpose of the feature and how it works at a high level.
+      </lines>
+    </section>
+    <section>
+      <title id="purpose">Purpose</title>
+      <lines>
+        There is an implementation in the SED document to allow for categories of flavor with a mapping to the application to cater for overcommit host aggregates.
+      </lines>
+    </section>
+    <section>
+      <title id="overcommit">Overcommit Key Values</title>
+      <lines>
+        By checking the "Overcommit Flavors" checkbox, the Deployment Inventory Tool SED document create/edit page will allow the user to switch between overcommit on/off for VM flavor keys.
+
+        If a ECN Managed Config with flavor mapping keys is attached to a SED document, the user will not see the flavor fields and will not need to enter any values.
+
+        For any SED document without an attached Managed Config, the user will be required to enter the overcommit and/or non-overcommit custom flavor values once, before the SED can be saved.
+
+        <b>Note:</b> <i>In order to enable the Overcommit feature, a Managed Config with VM flavor values must first be attached to the SED document. This allows the mappings and substitution of custom flavour names to take place.</i>
+
+        <b>Warning:</b> The deletion or renaming of schema definitions in the ENM SED schema detailed below will result undesired behaviour and or failure of the Overcommit feature.
+        Any changes to the ENM SED schema definitions detailed below will required a subsequent update to functionality of DIT to ensure the Overcommit feature continues to perform as expected.
+      </lines>
+      <simpletable>
+        <sthead>
+          <stentry>
+            Schema Definition Name
+          </stentry>
+          <stentry>
+            Inactive Default Value
+          </stentry>
+        </sthead>
+        <strow>
+          <stentry>
+            /definitions/over_commit
+          </stentry>
+          <stentry>
+            not_set
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/not_over_commit
+          </stentry>
+          <stentry>
+            not_set
+          </stentry>
+        </strow>
+      </simpletable>
+    </section>
+    <section>
+      <title id="running">When It Runs</title>
+      <lines>
+        The VM flavor keys within the SED will be populated with overcommit/non-overcommit values from either being manually entered or obtained from the ECN managed config.
+      </lines>
+    </section>
+  </conbody>
+</concept>

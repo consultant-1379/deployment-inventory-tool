@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="vnfLcmSedAutoPopulation">
+  <title>VNF LCM SED Auto Population</title>
+  <conbody>
+    <ul>
+      <li><xref type="concept" href="vnfLcmSedAutoPopulation.xml#overview">Overview</xref></li>
+      <li><xref type="concept" href="vnfLcmSedAutoPopulation.xml#purpose">Purpose Of This Feature</xref></li>
+      <li><xref type="concept" href="vnfLcmSedAutoPopulation.xml#autoPopulate">Single Auto Populated Fields</xref></li>
+      <li><xref type="concept" href="vnfLcmSedAutoPopulation.xml#externalIP">External IP Population</xref></li>
+      <li><xref type="concept" href="vnfLcmSedAutoPopulation.xml#internalIP">Internal IP Population</xref></li>
+      <li><xref type="concept" href="vnfLcmSedAutoPopulation.xml#ha">HA Fields Population</xref></li>
+      <li><xref type="concept" href="vnfLcmSedAutoPopulation.xml#running">Feature Execution</xref></li>
+    </ul>
+    <section>
+      <title id="overview">Overview</title>
+      <lines>
+        This page outlines the VNF LCM SED auto population feature in the Deployment Inventory Tool.
+        It describes the purpose of this feature and how it works at a high level and the values that are currently supported.
+      </lines>
+    </section>
+    <section>
+      <title id="purpose">Purpose Of This Feature</title>
+      <lines>
+        The VNF LCM SED is comprised of a number of keys and values that are required as input for the purposes of initial installation or upgrade VNF LCM product.
+        To limit the number of key values that must be manually populated, DIT provides an option to enable automatic population feature, called auto populate.
+        The auto populate feature will enter the required values on any document utilising a 'vnflcm_sed_schema' schema based on Virtual Infrastructure Manager (VIM) data stored in DIT.
+        When enabled, the automatically populated values will not be visible on the DIT UI in the edit documents page view. These automatically populated values will be only visible after the document is saved on the documents view page or when downloading the SED document.
+        Please note that the auto populate feature relies on the information from the associated VIM Pod/Project/Deployment data stored within DIT. On initial creation of the VNF LCM SED document, the document will not be associated with a deployment, therefore all auto-populated values will be given a default inactive values, e.g. '1.1.1.1' for IP addresses.
+        Once a user associates a VNF LCM SED document with a Deployment, the document will be auto-populated with the valid associated Deployment information.
+      </lines>
+    </section>
+    <section>
+      <title id="autoPopulate">Single Auto Populated Fields</title>
+      <lines>
+        The following table shows the single fields that are automatically populated and the way in which they are derived.
+        You can see that some of the values rely on details from DIT itself, i.e. where we get details about the deployment's project, ENM SED document, or the pod related with that project. You will also notice that some of the values are made up from other SED keys.
+        <b>Warning:</b> If any of these SED keys are renamed or removed (i.e. those that are used to help generate other keys), DIT auto populate feature may fail and may need to be updated.
+      </lines>
+      <simpletable>
+        <sthead>
+          <stentry>
+            SED Key*
+          </stentry>
+          <stentry>
+            Value
+          </stentry>
+        </sthead>
+        <strow>
+          <stentry>
+            parameters.deployment_id
+          </stentry>
+          <stentry>
+            ENM SED document: parameters.deployment_id
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.ip_version
+          </stentry>
+          <stentry>
+            ENM SED document: parameters.ip_version (Note: 'v4' will changed to '4')
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.vim_url
+          </stentry>
+          <stentry>
+            deployment.project.pod.authUrl
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.vimHostName
+          </stentry>
+          <stentry>
+            VIM host name
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.vim_tenant_id
+          </stentry>
+          <stentry>
+            deployment.project.id
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.vim_tenant_name
+          </stentry>
+          <stentry>
+            deployment.project.name
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.vim_name
+          </stentry>
+          <stentry>
+            'vim_' + deployment.project.name
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.vim_tenant_username
+          </stentry>
+          <stentry>
+            deployment.project.username
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.vim_tenant_password
+          </stentry>
+          <stentry>
+            deployment.project.password
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.keypair
+          </stentry>
+          <stentry>
+            'key_pair_' + deployment.project.name
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.serviceregistry_internal_ip_list
+          </stentry>
+          <stentry>
+            ENM SED document: parameters.serviceregistry_internal_ip_list NOTE: Only if ENM SED is not FFE
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.external_ipv4_subnet_cidr
+          </stentry>
+          <stentry>
+            podNetwork.ipv4_subnet.cidr
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.external_gateway
+          </stentry>
+          <stentry>
+            podNetwork.ipv4_subnet.gateway_ip
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.external_subnet_ipv6
+          </stentry>
+          <stentry>
+            podNetwork.ipv6_subnet.cidr
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.external_gateway_ipv6
+          </stentry>
+          <stentry>
+            podNetwork.ipv6_subnet.gateway_ip
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.internal_ipv4_subnet_cidr
+          </stentry>
+          <stentry>
+            ENM SED document: parameters.internal_subnet
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.internal_ipv6_subnet_cidr
+          </stentry>
+          <stentry>
+            ENM SED document: parameters.internal_subnet_ipv6
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.dns_server_ip
+          </stentry>
+          <stentry>
+            ENM SED document: parameters.nameserverA and parameters.nameserverB
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.ossNotificationServiceIP
+          </stentry>
+          <stentry>
+            ENM SED document: parameters.visinamingnb_external_ip_list if ip_version is v4 or dual
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.ossNbiAlarmIP
+          </stentry>
+          <stentry>
+            ENM SED document: parameters.nbalarmirp_external_ip_list if ip_version is v4 or dual
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.cinder_volume_id
+          </stentry>
+          <stentry>
+            Temporary value given as value is populated at runtime by deployer
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.internal_net_id
+          </stentry>
+          <stentry>
+            Temporary value given as value is populated at runtime by deployer
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.internal_mtu
+          </stentry>
+          <stentry>
+            Temporary value given as value is populated at runtime by deployer
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.external_net_id
+          </stentry>
+          <stentry>
+            Temporary value given as value is populated at runtime by deployer
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.security_group_id
+          </stentry>
+          <stentry>
+            Temporary value given as value is populated at runtime by deployer
+          </stentry>
+        </strow>
+      </simpletable>
+      <p>*Some parameters may not be present in a document depending on the schema version used</p>
+    </section>
+
+    <section>
+      <title id="externalIP">External IP Population</title>
+      <lines>
+        DIT supports auto population of external IP address fields. These are fields that reference the following schema definitions.
+        <b>Warning:</b> If these definitions are removed or renamed in the VNF LCM SED schema, auto population of these keys will cease to function and DIT may need to be updated.
+        Whether installing or upgrading DIT, the procedure is the same.
+      </lines>
+      <simpletable>
+        <sthead>
+          <stentry>
+            Schema Definition Name
+          </stentry>
+        </sthead>
+        <strow>
+          <stentry>
+            /definitions/ipv4_external
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/ipv6_external
+          </stentry>
+        </strow>
+      </simpletable>
+      <lines>
+        Any keys defined in the schema that match these definitions, will be automatically populated with addresses from the IP ranges defined in the DIT project information.
+        <b>Warning:</b> Pod and project network information  must be defined before enabling the auto populate feature.
+        Please note during the auto population process, existing valid external IP address will not be changed. Any IP address found to be duplicate, or not within the defined IP ranges will be removed and recalculated from the available IP addresses with the defined ranges.
+      </lines>
+    </section>
+
+    <section>
+      <title id="internalIP">Internal IP Population</title>
+      <lines>
+        DIT supports auto population of internal IP address fields. These are fields that reference the following schema definitions.
+        <b>Warning:</b> If these definitions are removed or renamed in the VNF LCM SED schema, the auto populate feature will cease to function and DIT may need to be updated.
+      </lines>
+      <simpletable>
+        <sthead>
+          <stentry>
+            Schema Definition Name
+          </stentry>
+        </sthead>
+        <strow>
+          <stentry>
+            /definitions/ipv4_internal
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/ipv4_internal_list - to specify number of IPs, use xx_xx_count parameter. e.g. serviceregistry_internal_ip_list -> ip_list_count, ipv4_for_db_vm -> db_vm_count
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/ipv6_internal
+          </stentry>
+        </strow>
+      </simpletable>
+      <lines>
+        For internal IP addresses, the IP address range that is used starts where the existing 'dynamic_ip_range_end' and 'dynamic_ipv6_range_end' keys finish. The auto populate range is from the next IP address, up until the end of the available IPs in the internal subnet.
+      </lines>
+    </section>
+
+      <section>
+      <title id="ha">HA Fields Population</title>
+      <lines>
+        DIT supports auto population of High Availability (HA) fields. The HA feature comprises of a checkbox in the VNF SED document view which allows a user of DIT to auto-populate fields based on using HA or not.
+        Warning: If these definitions are removed or renamed in the VNF LCM SED schema, the auto populate feature will cease to function and DIT may need to be updated.
+        The following table shows the HA fields and how they are populated given whether HA is true or false</lines>
+      <simpletable>
+        <sthead>
+          <stentry>
+            SED Key*
+          </stentry>
+          <stentry>
+            HA False
+          </stentry>
+          <stentry>
+            HA True
+          </stentry>
+        </sthead>
+        <strow>
+          <stentry>
+            parameters.services_vm_count
+          </stentry>
+          <stentry>
+            1
+          </stentry>
+          <stentry>
+            2
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.db_vm_count
+          </stentry>
+          <stentry>
+            1
+          </stentry>
+          <stentry>
+            2
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.svc_external_vrrp_id
+          </stentry>
+          <stentry>
+            empty
+          </stentry>
+          <stentry>
+            1(no deployment)/next available vrrp when deployment attached
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.svc_internal_vrrp_id
+          </stentry>
+          <stentry>
+            empty
+          </stentry>
+          <stentry>
+            2(no deployment)/next available vrrp when deployment attached
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.svc_internal_vrrp_id
+          </stentry>
+          <stentry>
+            empty
+          </stentry>
+          <stentry>
+            3(no deployment)/next available vrrp when deployment attached
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.availability_rule
+          </stentry>
+          <stentry>
+            affinity
+          </stentry>
+          <stentry>
+            anti-affinity
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.internal_ipv4_for_db_vm
+          </stentry>
+          <stentry>
+            One IP Address should be populated for this Key's value.
+          </stentry>
+          <stentry>
+            Two IP Addresses should be populated for this Key's value.
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.internal_ipv6_for_db_vm
+          </stentry>
+          <stentry>
+            One IP Address should be populated for this Key's value.
+          </stentry>
+          <stentry>
+            Two IP Addresses should be populated for this Key's value.
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.internal_ipv4_for_services_vm
+          </stentry>
+          <stentry>
+            One IP Address should be populated for this Key's value.
+          </stentry>
+          <stentry>
+            Two IP Addresses should be populated for this Key's value.
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.external_ipv4_for_services_vm
+          </stentry>
+          <stentry>
+            One IP Address should be populated for this Key's value.
+          </stentry>
+          <stentry>
+            Two IP Addresses should be populated for this Key's value.
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.internal_ipv6_for_services_vm
+          </stentry>
+          <stentry>
+            One IP Address should be populated for this Key's value.
+          </stentry>
+          <stentry>
+            Two IP Addresses should be populated for this Key's value.
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.external_ipv6_for_services_vm
+          </stentry>
+          <stentry>
+            One IP Address should be populated for this Key's value.
+          </stentry>
+          <stentry>
+            Two IP Addresses should be populated for this Key's value.
+          </stentry>
+        </strow>
+      </simpletable>
+      <p>*Some parameters may not be present in a document depending on the schema version used</p>
+    </section>
+
+    <section>
+      <title id="running">Feature Execution</title>
+      <lines>
+        The Auto populate feature executes on saving the document, including any modification made to the document via the DIT REST API.
+        Document schema version upgrades including any new keys introduced in the new schema version, will be auto-populated if they are a supported key.
+        If any change is made to a VIM Deployment, Project or Pod data in DIT, the auto populate will initiate a resave of all the associated documents.
+        For example changing the IP address range within a Project to range with an insufficient amount of IP addresses will be possible, however the resulting resave of the associated documents will fail.
+        On any such occurrence the IP address range in the project must be updated with sufficient range. Once the Project IP address range has been updated and saved resulting in a resave of the associated documents.
+      </lines>
+    </section>
+  </conbody>
+</concept>

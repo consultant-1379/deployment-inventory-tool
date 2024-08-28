@@ -1,0 +1,17 @@
+{
+  "name": "validPodOnlyv4",
+  "authUrl": "http://validPodOnlyv4.com/",
+  "networks": [
+    {
+      "name": "provider_network_v4",
+      "vrrp_range": {
+        "start": "1",
+        "end": "2"
+      },
+      "ipv4_subnet": {
+        "cidr": "131.160.203.0/24",
+        "gateway_ip": "131.160.203.1"
+      }
+    }
+  ]
+}

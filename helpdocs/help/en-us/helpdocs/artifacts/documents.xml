@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<task id="documents">
+  <title>Documents</title>
+  <taskbody>
+    <context>
+      <p>
+        A document is generated from an associated schema. They are generally used as inputs into deployments such as the SED, the netsim information etc.<br/>
+        The following documents make use of the auto population feature to populate all of the keys that it obtains from the associated schema:
+        <ul>
+          <li><xref type="concept" href="../features/enmSedAutoPopulation.xml">vENM SED</xref></li>
+          <li><xref type="concept" href="../features/cenmSedAutoPopulation.xml">cENM SED</xref></li>
+          <li><xref type="concept" href="../features/vnfLcmSedAutoPopulation.xml">VNF LCM SED</xref></li>
+        </ul>
+        <b>NOTE:</b> You can download the Document's content to JSON or YAML from the Document view page, on the top right hand side. See following for more details <xref type="concept" href="../features/parameterDefaults.xml">here</xref>.
+      </p>
+      <p><b>Objective</b></p>
+      <p>Create a new document for the Deployment Inventory Tool</p>
+      <p>
+        <b>Outline</b>
+        <ol>
+          <li><xref href="#openDocument">Open the Document View</xref></li>
+          <li><xref href="#createDocument">Create New Document</xref></li>
+          <li><xref href="#enterDetails">Enter the Document Details</xref></li>
+          <li><xref href="#saveDocument">Save Document</xref></li>
+          <li><xref href="documents.xml#schemaVersionUpdate">Schema Version Update</xref></li>
+        </ol>
+      </p>
+    </context>
+    <prereq>
+      <p>To create a new document the user must have the following:</p>
+      <ul>
+        <li>Associated Schema already created in the tool</li>
+      </ul>
+    </prereq>
+    <steps>
+      <step id="openDocument">
+        <cmd>Open the Document View</cmd>
+        <info>
+          <p>Click the document view from the nav bar at the top</p>
+          <p>Select one of the following document type from the dropdown:
+            <ul>
+              <li>vENM SEDs</li>
+              <li>cENM SEDs</li>
+              <li>VNF LCM SEDs</li>
+              <li>Managed Configs</li>
+              <li>Other</li>
+            </ul>
+          </p>
+        </info>
+      </step>
+      <step id="createDocument">
+        <cmd>Create New Document</cmd>
+        <info>
+          <p>Click the <b>Create new</b> button</p>
+        </info>
+      </step>
+      <step id="enterDetails">
+        <cmd>Enter the Document Details</cmd>
+        <info>
+          <p>Enter the details as shown below.</p>
+          <p><b>NOTE:</b> Restrictions on the fields are as follows: </p>
+          <ul>
+            <li><b>Name</b> must be between 5 and 80 characters</li>
+            <li><b>Show Snapshots</b> option may be turned on if you want snapshot versions of schemas to be visible in the next step</li>
+            <li><b>Schema</b> must be an existing schema</li>
+            <li>Based on schema chosen you will need to fill out the document as needed.</li>
+            <li>
+              <b>Auto Populate</b> option for SEDs may be turned on and off. When fields are autopopulated they are removed from the UI,<br/>
+              more info can be found here:
+              <ul>
+                 <li><xref type="concept" href="../features/enmSedAutoPopulation.xml">vENM SED</xref></li>
+                 <li><xref type="concept" href="../features/cenmSedAutoPopulation.xml">cENM SED</xref></li>
+                 <li><xref type="concept" href="../features/vnfLcmSedAutoPopulation.xml">VNF LCM SED</xref></li>
+              </ul>
+            </li>
+            <li>If you have an existing document you wish to paste in the <b>Paste Mode</b> can be toggled.</li>
+            <li><b><xref type="concept" href="../artifacts/managedConfigs.xml">Managed Configs</xref></b> can be attached using the + symbol.<br/>
+             <b>NOTE:</b> Select a category from one of the following choices: size, site or other, in the 'Category' drop-down.<br/>
+             This will filter the Managed Configs list by the category selected, for the 'Managed Config' drop-down.<br/>
+             This feature is only available for vENM SED Documents.
+            </li>
+          </ul>
+        </info>
+      </step>
+      <step id="saveDocument">
+        <cmd>Save Document</cmd>
+        <info>
+          <p>Click the <b>Save</b> button and you will be redirected back to the previous page</p>
+          <p><b>NOTE:</b> Document will not save if any fields are invalid (RED in UI)</p>
+        </info>
+      </step>
+    </steps>
+    <result>
+      <p>A New Document is created in the Deployment Inventory Tool.</p>
+    </result>
+    <section>
+      <title id="schemaVersionUpdate">Schema Version Update</title>
+      <lines>
+        This section will describe what happens when a Document's Schema version changed or updated, either through the UI or via the REST API.
+
+        When editing a Document and changing the Document's Schema version, the newly rendered Document form will change/update based on the content defined in the selected Document's Schema version.
+        For vENM SED Documents, this will also update the version of any Managed Configs that is attached to the Document as they are directly associated with the Schema version.
+        For more information on <xref type="concept" href="../artifacts/managedConfigs.xml">Managed Configs</xref>.
+        If no Managed Configs are attached, then the User will be required to manually enter the required data for any blank key-value pair fields/inputs in order to save the updated Document.
+        In the case of non vENM SED Documents, if the selected Schema version introduces new key-value pairs in its content that does not have a pre-defined default value within
+        the Schema content will require manual data entry from the User editing the Document.
+
+        When using REST API to update, the User will need to perform the following steps:
+      </lines>
+      <ol>
+        <li>
+          Get the Schema ID of new Schema version using the <xref href="/apidocs/#/Schemas/get_schemas" scope="external">Schemas GET REST API</xref>, to get value for "_id" from the returned JSON response body.<br/>
+          <b>Example:</b> /api/schemas?q=name=schemaName%26version=schemaVersion&amp;fields=_id
+        </li>
+        <li>
+          Get the Document JSON using the <xref href="/apidocs/#/Documents/get_documents" scope="external">Documents GET REST API</xref>, the Document "_id" value is required for the PUT REST API.<br/>
+          <b>Example:</b> /api/documents?q=name=documentName
+        </li>
+        <li>
+          Update the Document JSON, with the new Schema version ID by replacing the "schema_id" value and any other updates required for the Document to use this Schema version.<br/>
+          <b>NOTE:</b> Attached vENM Managed Configs will automatically update to the same Schema version as the associated vENM SED Document when it is updated.
+        </li>
+        <li>
+          Add the new updated Document JSON to DIT using the <xref href="/apidocs/#/Deployments/put_deployments__deploymentId_" scope="external">Documents PUT REST API</xref>.
+        </li>
+      </ol>
+      <lines>
+        See DIT Help: <xref href="/apidocs" scope="external"><b>API Documentation</b></xref> for more information on how use DIT REST APIs.
+
+        <b>NOTE:</b> The information described in the sections above will depend on whether the Document's <b>Auto Populated</b> feature is enabled, to ensure this process is as automatic as possible.
+        It may require other manual action/input to complete, such as adding more IP addresses.
+
+        <b>Upgrade/Rollback</b>
+        Content will change based on the Document's Schema version, either by adding/removing key-value pair fields/inputs.
+        In some circumstances, vENM SED Document may require new Managed Config(s) to be attached or indeed to be removed based on the desired Deployment configuration state.
+        This result in the alterations the contents of the Document, such as additions or loss of data compared to previous version used.
+
+        For any reason, a User needs to recover data from the previous Document Schema combination,
+        e.g a Rollback of the Document's Schema version and there was loss of data when the Document was Upgraded/updated to a newer Schema version,
+        it can be possible by using the <b>Restore</b> feature found in the Document Logs.
+
+        The Documents Logs can be accessed through the Document View Page by clicking <b>View Log</b> button on the top right corner, where the User can review all the changes made to that Document.
+        The User can find a change/state they want to restore, then by clicking <b>Restore</b> button it will restore the Document to the selected change/state.
+      </lines>
+    </section>
+  </taskbody>
+</task>

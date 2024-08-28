@@ -1,0 +1,14 @@
+{
+  "name": "validVnfDeployment",
+  "project_id": "",
+  "documents": [
+    {
+      "schema_name": "vnflcm_sed_schema",
+      "document_id": "",
+      "schema_category": "vnflcm"
+    }
+  ],
+  "enm": {
+    "sed_id": ""
+  }
+}

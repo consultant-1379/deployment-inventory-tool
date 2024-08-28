@@ -1,0 +1,258 @@
+{
+  "paths": {
+    "/pods": {
+      "get": {
+        "tags": [
+          "Pods"
+        ],
+        "summary": "Returns a list of Pods that match the provided query parameters.",
+        "description": "Returns a list of all Pods and their key-values when no filter parameters are provided. \nFor filtering syntax see <a href='/helpdocs/#help/app/helpdocs/topic/features/apiSearchandFilter' target='_blank'><b>here</b></a>.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name":"q",
+            "in":"query",
+            "description":"Specifies what Pods should be retrieved based on provided key-values. \nMultiple key-values can be specified with the ampersand-delimited format. Eg. To list all Pods with the name 'Anewpod': 'q=name=Anewpod', and to list all Pods with the name 'Anewpod' and authUrl 'https://newpod.com': 'q=name=Anewpod&authUrl=https://newpod.com'",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "name=Anewpod&authUrl=https://newpod.com"
+          },
+          {
+            "name":"fields",
+            "in":"query",
+            "description":"Specifies what key-values associated with the retrieved Pods that you want to receive. \nMultiple key-values can be retrieved through filtering keys with the comma-delimited format. Eg. For the name value alone: 'fields=name', and for the name and authUrl values: 'fields=name,authUrl'",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "name,authUrl"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pod"
+              }
+            }
+          },
+          "422": {
+            "description": "Improperly structured query. Make sure to use ?q=&lt;key&gt;=&lt;value&gt; syntax"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post":{
+        "tags": [
+          "Pods"
+        ],
+        "summary": "Creates a new Pod.",
+        "description": "Creates and returns a new Pod.",
+        "produces": [
+          "application/json"
+        ],
+        "consume": [
+          "application/json"
+        ],
+        "parameters":[
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Pod object that represents your OpenStack Pod",
+            "required": true,
+            "schema":{
+              "$ref": "#/definitions/Pod"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created Pod successfully."
+          },
+          "400": {
+             "description": "Possible messages:\n* Path {PATH} is required\n* Path 'name' {PATH} is shorter than the minimum allowed length (5).\n* {VALUE} + ' is not correct.\n* The authUrl must be a valid url.\n* Field {PATH} is not in schema and strict mode is set to throw.\n* There was a syntax error found in your request, please make sure that it is valid and try again\n* You must provide at least one network\n* {PATH} must be a valid {PATH}. {VALUE} is not valid\n* {Path} must be between 1 - 255. {VALUE} is not valid.\n* Cast to Array failed for value"
+           },
+          "422": {
+            "description": "Possible messages:\n* Name already exists.\n* AuthUrl already exists\n* You cannot have duplicate network names \n* The IPv{4/6} subnet gateway ip given {VALUE} is not valid within the given CIDR {VALUE}"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/pods/{podId}":{
+      "get":{
+        "tags": [
+          "Pods"
+        ],
+        "summary": "Returns a Pod.",
+        "description": "Returns a Pod. \nFor filtering syntax see <a href='/helpdocs/#help/app/helpdocs/topic/features/apiSearchandFilter' target='_blank'><b>here</b></a>.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters":[
+           {
+              "name":"podId",
+              "in":"path",
+              "required":true,
+              "description":"The id of the Pod to retrieve",
+              "type":"string"
+           }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved Pod",
+            "schema": {
+              "$ref": "#/definitions/Pod"
+            }
+          },
+          "404":{
+            "description":"A Pod with that id does not exist"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put":{
+        "tags": [
+          "Pods"
+        ],
+        "summary": "Updates a Pod.",
+        "description": "Updates a Pod.",
+        "produces": [
+          "application/json"
+        ],
+        "consume": [
+          "application/json"
+        ],
+        "parameters":[
+           {
+              "name":"podId",
+              "in":"path",
+              "required":true,
+              "description":"The id of the Pod to update",
+              "type":"string"
+           },
+           {
+             "in": "body",
+             "name": "body",
+             "description": "Pod object that represents your OpenStack Pod<br>Partial update possible, not all fields in body required",
+             "required": true,
+             "schema":{
+               "$ref": "#/definitions/Pod"
+              }
+            }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated Pod",
+            "schema": {
+              "$ref": "#/definitions/Pod"
+            }
+          },
+         "400": {
+            "description": "Possible messages:\n* Path {PATH} is required\n* Path `name` {PATH} is shorter than the minimum allowed length (5).\n* {VALUE} + ' is not correct.\n* The authUrl must be a valid url.\n* Field {PATH} is not in schema and strict mode is set to throw.\n* There was a syntax error found in your request, please make sure that it is valid and try again\n* You must provide at least one network\n* {PATH} must be a valid {PATH}. {VALUE} is not valid\n* {Path} must be between 1 - 255. {VALUE} is not valid.\n* Cast to Array failed for value"
+          },
+          "404":{
+            "description":"A Pod with that id does not exist"
+          },
+          "422": {
+            "description": "Possible messages:\n* Name already exists.\n* AuthUrl already exists\n* You cannot have duplicate network names \n* The IPv{4/6} subnet gateway ip given {VALUE} is not valid within the given CIDR {VALUE}"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete":{
+        "tags": [
+          "Pods"
+        ],
+        "summary": "Deletes a Pod.",
+        "description": "Deletes a Pod.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters":[
+           {
+              "name":"podId",
+              "in":"path",
+              "required":true,
+              "description":"The id of the Pod to delete",
+              "type":"string"
+           }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully deleted Pod",
+            "schema": {
+              "$ref": "#/definitions/Pod"
+            }
+          },
+          "404":{
+            "description": "A Pod with that id does not exist"
+          },
+          "422":{
+            "description": "Can't delete Pod, it has dependent projects"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/pods/{podId}/subnet/{networkName}":{
+      "get":{
+        "tags": [
+          "Pods"
+        ],
+        "summary": "Returns a Pod's network subnet data.",
+        "description": "Returns a Pod's netmask subnet data. \nFor more details see Help Documentation: <a href='/helpdocs/#help/app/helpdocs/topic/features/apiPodNetworkSubnet' target='_blank'><b>here</b></a>.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters":[
+           {
+              "name":"podId",
+              "in":"path",
+              "required":true,
+              "description":"The id of the Pod to retrieve",
+              "type":"string"
+           },
+           {
+              "name":"networkName",
+              "in":"path",
+              "required":true,
+              "description":"The name of the Pod's network",
+              "type":"string"
+           }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved Pod's netmask subnet data",
+            "schema": {
+              "$ref": "#/definitions/PodNetworkSubnet"
+            }
+          },
+          "404":{
+            "description":"A Pod with that id does not exist"
+          },
+          "422":{
+            "description":"Possible messages:\n* The given network name 'networkName' could not be found."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  }
+}

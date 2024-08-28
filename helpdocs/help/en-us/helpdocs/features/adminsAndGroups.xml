@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="AdminsAndGroups">
+  <title>Admins and Groups</title>
+  <conbody>
+    <ul>
+      <li><xref type="concept" href="adminsAndGroups.xml#overview">Overview</xref></li>
+      <li><xref type="concept" href="adminsAndGroups.xml#purpose">Purpose of this Feature</xref></li>
+      <li><xref type="concept" href="adminsAndGroups.xml#adminCreation">Creating an Admin</xref></li>
+      <li><xref type="concept" href="adminsAndGroups.xml#groupCreation">Creating a Group</xref></li>
+      <li><xref type="concept" href="adminsAndGroups.xml#addingUsers">Adding Additional Users to a Group</xref></li>
+    </ul>
+
+    <section>
+      <title id="overview">Overview</title>
+      <lines>
+        This page provides information on Admins and Groups in the Deployment Inventory Tool.
+        Groups in DIT are used to map artifacts (e.g. Documents, Pods, Projects and Deployments) stored in the tool to the respective owners and restricts view/edit functionality to only these owners.
+      </lines>
+    </section>
+
+    <section>
+      <title id="purpose">Purpose of this Feature</title>
+      <lines>
+        For CRUD operations in the DIT UI or through the DIT API, users will need to be associated with one or many groups.
+
+        There are three role types available in DIT:
+      </lines>
+        <ol>
+            <li><b>user</b> : Default role in DIT. Only CRUD operations allowed on artifacts associated with their group.</li>
+            <li><b>admin</b> : In addition to 'user' privileges, admins can add/remove users associated with their groups.</li>
+            <li><b>superAdmin</b> : This role type has no restrictions.</li>
+        </ol>
+    </section>
+
+    <section>
+      <title id="adminCreation">Creating an Admin</title>
+        <ol>
+            <li>When logged in as a superAdmin, the user should click on the username in the top right corner of the tool.</li>
+            <li>From the revealed dropdown menu, click on 'Admins'.</li>
+            <li>In the 'Admins' page, click 'Create new admin'.</li>
+            <li>Enter the username of the person the user wishes to make an admin in DIT.</li>
+            <li>Click 'Save'. This user is now an admin.</li>
+        </ol>
+        <lines>
+        NOTE: Only users who have logged into DIT at least once can be made admins.
+        </lines>
+    </section>
+
+    <section>
+      <title id="groupCreation">Creating a Group</title>
+        <ol>
+            <li>When logged in as a superAdmin, the user should click on the username in the top right corner of the tool.</li>
+            <li>From the revealed dropdown menu, click on 'Groups'.</li>
+            <li>In the 'Groups' page, click 'Create new group'.</li>
+            <li>The user should enter the name of the group they wish to create in DIT.</li>
+            <li>From the 'Group Admin' dropdown, select the user to assign as the admin of this group.</li>
+            <li>On the left side of the page, add whichever DIT artifacts (e.g. Document, Pods, Projects, Deployments) that need to be associated with this group.</li>
+            <li>On the right side of the page, add the users which will be associated with this group.</li>
+            <li>Click 'Save'. This group will be active in DIT.</li>
+        </ol>
+        <lines>
+        NOTE: Only users who have logged into DIT at least once can be added to a group.
+        </lines>
+    </section>
+
+    <section>
+      <title id="addingUsers">Adding Additional Users to a Group</title>
+        <ol>
+            <li>When logged in as an admin, the user should click on the username in the top right corner of the tool.</li>
+            <li>From the revealed dropdown menu, click on 'Groups'.</li>
+            <li>In the 'Groups' page, click the edit button beside the group where users are to be added.</li>
+            <li>On the right side of the group edit page, add/remove users as required.</li>
+            <li>Click 'Save'. This group will now be updated in DIT.</li>
+        </ol>
+        <lines>
+        NOTE: Only group admins and superAdmins can edit a group's users.
+        NOTE: Only users who have logged into DIT at least once can be added to a group.
+        </lines>
+    </section>
+  </conbody>
+</concept>
+

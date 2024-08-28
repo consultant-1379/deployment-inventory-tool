@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="Ipv6Feature">
+  <title>IPv6 Feature</title>
+  <conbody>
+    <ul>
+      <li><xref type="concept" href="ipv6.xml#overview">Overview</xref></li>
+      <li><xref type="concept" href="ipv6.xml#purpose">Purpose Of This Feature</xref></li>
+      <li><xref type="concept" href="ipv6.xml#Ipv6">IPv6 Associated Key Values</xref></li>
+      <li><xref type="concept" href="ipv6.xml#running">When It Runs</xref></li>
+    </ul>
+    <section>
+      <title id="overview">Overview</title>
+      <lines>
+        This page describes the ENM SED IPv6 feature in the Deployment Inventory Tool.
+        It describes the purpose of this feature and how it works at a high level.
+      </lines>
+    </section>
+    <section>
+      <title id="purpose">Purpose Of This Feature</title>
+      <lines>
+        The ENM SED has key values associated with IPv6. The 'IPv6' feature comprises of a checkbox in the ENM SED document view which allows a user of DIT to enable or disable IPv6 keys to show or hide respectively.
+        The IPv6 associated key values will only be editable or visible when the IPv6 feature checkbox is checked and auto-populate is off. By default the IPv6 checkbox is disabled and the respective IPv6 keys are hidden in the SED, in order to enable the IPv6 option, values should be entered in Pod's and Project's for the respective deployment.
+
+        <b>Note:</b> Following internal IPv6 keys are shown at all times: <b>dynamic_ipv6_range_start</b>, <b>dynamic_ipv6_range_end</b> and <b>internal_subnet_ipv6</b>.
+        The <b>internal_subnet_ipv6</b> key has a default value in the ENM SED schema and will auto populate the ENM SED document field value with it. Alter this value, if not using the default internal IPv6 address range.
+      </lines>
+    </section>
+    <section>
+      <title id="Ipv6">IPv6 Associated Key Values</title>
+      <lines>
+        DIT identifies IPv6 associated key values via reference to the following schema definitions.
+        Any key values found in the ENM SED schema that match these definitions for IPv6 defined below will be editable by a user of DIT on ENM SED edit document view when the 'IPv6' checkbox is enabled and auto-populate is off.
+        When the 'IPv6' checkbox is disabled, any key values for IPv6 found in the ENM SED schema that match these definitions will not be editable or visible in the edit ENM SED document view.
+
+        <b>Warning:</b> The deletion or renaming of schema definitions in the ENM SED schema detailed below will result undesired behaviour and failure of the 'IPv6' feature.
+        Any changes to the ENM SED schema definitions detailed below will require a subsequent update to functionality of DIT to ensure the 'IPv6' feature continues to perform as expected.
+      </lines>
+      <simpletable>
+        <sthead>
+          <stentry>
+            Schema Definition Name
+          </stentry>
+          <stentry>
+            Inactive Default Value
+          </stentry>
+        </sthead>
+        <strow>
+          <stentry>
+            /definitions/ipv6_cidr
+          </stentry>
+          <stentry>
+            ::
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/ipv6_external
+          </stentry>
+          <stentry>
+            ::
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/ipv6_external_list
+          </stentry>
+          <stentry>
+            ::
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/ipv6_internal
+          </stentry>
+          <stentry>
+            ::
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/ipv6_internal_list
+          </stentry>
+          <stentry>
+            ::
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/nfs_ipv6_external_list
+          </stentry>
+          <stentry>
+            ::
+          </stentry>
+        </strow>
+      </simpletable>
+    </section>
+    <section>
+      <title id="running">When It Runs</title>
+      <lines>
+        On selection of the desired IPv6 solution via the 'IPv6' feature checkbox in ENM SED edit document view and when auto-populate is off, the required IPv6 key values are made editable in the create ENM SED edit document view.
+        When the 'IPv6' checkbox is not selected, any key values for IPv6 found in the ENM SED schema that match these definitions will not be editable or visible in the edit ENM SED document view.
+      </lines>
+    </section>
+  </conbody>
+</concept>

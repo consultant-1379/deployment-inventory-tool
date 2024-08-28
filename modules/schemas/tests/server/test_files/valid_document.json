@@ -1,0 +1,9 @@
+{
+  "schema_id": "000000000000000000000000",
+  "name": "validDocument",
+  "content": {
+    "parameters": {
+      "samplekey": "stringValue"
+    }
+  }
+}

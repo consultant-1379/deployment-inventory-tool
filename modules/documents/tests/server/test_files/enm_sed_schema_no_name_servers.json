@@ -1,0 +1,487 @@
+{
+  "name": "enm_sed",
+  "version": "2.2.3",
+  "content": {
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "additionalProperties": false,
+    "definitions": {
+      "any_string": {
+        "description": "This must be any string",
+        "pattern": "^.+$",
+        "type": "string"
+      },
+      "url": {
+        "description": "This must be a valid url",
+        "pattern": "^(https?:\\/\\/)([a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\\.[a-z0-9](?:[-0-9a-z]{0,61}[0-9a-z])?)*)(.*)$",
+        "type": "string"
+      },
+      "ipv4": {
+        "description": "This must be a valid ipv4 address",
+        "pattern": "^(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)$",
+        "type": "string"
+      },
+      "ipv4_cidr": {
+        "description": "This must be a valid ipv4 cidr",
+        "pattern": "^(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)/([1-9]|[12][0-9]|3[0-2])$",
+        "type": "string"
+      },
+      "ipv6_cidr": {
+        "description": "This must be a valid ipv6 cidr",
+        "pattern": "^s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:)))(%.+)?s*(/([0-9]|[1-9][0-9]|1[0-1][0-9]|12[0-8]))?$",
+        "type": "string"
+      },
+      "ipv4_external": {
+        "description": "This must be a valid ipv4 address on the external network",
+        "pattern": "^(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)$",
+        "type": "string"
+      },
+      "ipv4_internal": {
+        "description": "This must be a valid ipv4 address on the internal network",
+        "pattern": "^(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)$",
+        "type": "string"
+      },
+      "ipv6_external": {
+        "description": "This must be a valid ipv6 address on the external network",
+        "pattern": "^\\s*(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:)))(?:%.+)?\\s*$",
+        "type": "string"
+      },
+      "ipv6_internal": {
+        "description": "This must be a valid ipv6 address on the internal network",
+        "pattern": "^\\s*(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:)))(?:%.+)?\\s*$",
+        "type": "string"
+      },
+      "ipv6_external_list": {
+        "description": "This must be a comma separated list of ipv6 addresses on the external network",
+        "pattern": "^\\s*(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:)))(?:%.+)?\\s*(,\\s*\\s*(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:)))(?:%.+)?\\s*)*$",
+        "type": "string"
+      },
+      "ipv6_internal_list": {
+        "description": "This must be a comma separated list of ipv6 addresses on the internal network",
+        "pattern": "^\\s*(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:)))(?:%.+)?\\s*(,\\s*\\s*(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:)))(?:%.+)?\\s*)*$",
+        "type": "string"
+      },
+      "ipv4_netmask": {
+        "description": "This must be a valid netmask",
+        "pattern": "^(254|252|248|240|224|192|128)\\.0\\.0\\.0|255\\.(254|252|248|240|224|192|128|0)\\.0\\.0|255\\.255\\.(254|252|248|240|224|192|128|0)\\.0|255\\.255\\.255\\.(254|252|248|240|224|192|128|0)$",
+        "type": "string"
+      },
+      "ipv4_external_list": {
+        "description": "This must be a comma separated list of ipv4 addresses on the external network",
+        "pattern": "^(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)(,\\s*(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?))*$",
+        "type": "string"
+      },
+      "ipv4_internal_list": {
+        "description": "This must be a comma separated list of ipv4 addresses on the internal network",
+        "pattern": "^(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)(,\\s*(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?))*$",
+        "type": "string"
+      },
+      "positive_integer": {
+        "description": "This must be a positive integer",
+        "pattern": "^\\d+$",
+        "type": "string"
+      },
+      "hostname": {
+        "description": "This must be a valid hostname",
+        "pattern": "^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\\.[a-z0-9](?:[-0-9a-z]{0,61}[0-9a-z])?)*$",
+        "type": "string"
+      },
+      "ldap_root_suffix": {
+        "description": "This should be a valid ldap root suffix",
+        "pattern": "^((CN|cn|OU|ou|DC|dc)=([\\w-]+))(,((CN|cn|OU|ou|DC|dc)=([\\w-]+)))*$",
+        "type": "string"
+      },
+      "cookie_domain": {
+        "description": "Value should be the same as the httpd_fqdn.",
+        "pattern": "^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\\.[a-z0-9](?:[-0-9a-z]{0,61}[0-9a-z])?)*$",
+        "type": "string"
+      },
+      "virtual_router_identifier": {
+        "description": "The LVS router uses VRRP (Virtual Router Redundancy Protocol) to control on which LVS node the VIPs should be assigned. A uniqie ID is required within the network to distinguish from other routers which may use the same protocol. Not assigning a unique ID will lead to connectivity issues",
+        "pattern": "^([1-9]|[1-8][0-9]|9[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",
+        "type": "string"
+      },
+      "volume_size": {
+        "description": "This is the volume size in GB. This must be an integer between 1 and 9999, eg 50",
+        "pattern": "^([1-9]|[1-8][0-9]|9[0-9]|[1-8][0-9]{2}|9[0-8][0-9]|99[0-9]|[1-8][0-9]{3}|9[0-8][0-9]{2}|99[0-8][0-9]|999[0-9])$",
+        "type": "string"
+      },
+      "openstack_flavor": {
+        "description": "This must be a valid openstack flavor name. The flavor must have at minimum the number of vCPUs and MB of memory specified",
+        "pattern": "^.+$",
+        "type": "string"
+      },
+      "over_commit": {
+        "description": "This must be any string",
+        "pattern": "^.+$",
+        "type": "string"
+      },
+      "not_over_commit": {
+        "description": "This must be any string",
+        "pattern": "^.+$",
+        "type": "string"
+      },
+      "nfs_ipv4_external_list": {
+        "description": "This must be a comma separated list of ipv4 addresses on the external network",
+        "pattern": "^(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)(,\\s*(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?))*$",
+        "type": "string"
+      },
+      "nfs_ipv6_external_list": {
+        "description": "This must be a comma separated list of ipv6 addresses on the external network",
+        "pattern": "^\\s*(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:)))(?:%.+)?\\s*(,\\s*\\s*(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:)))(?:%.+)?\\s*)*$",
+        "type": "string"
+      }
+    },
+    "properties": {
+      "parameters": {
+        "additionalProperties": false,
+        "default": {},
+        "description": "Please fill in all required fields",
+        "properties": {
+          "nfsamos_volume_size": {
+            "$ref": "#/definitions/volume_size"
+          },
+          "notAutopopulatedKey": {
+            "$ref": "#/definitions/any_string"
+          },
+          "cloudManagerRestInterfaceBaseURL": {
+            "$ref": "#/definitions/url"
+          },
+          "cloudManagerTenantId": {
+            "$ref": "#/definitions/any_string"
+          },
+          "cloudManagerTenantName": {
+            "$ref": "#/definitions/any_string"
+          },
+          "cloudManagerUserName": {
+            "$ref": "#/definitions/any_string"
+          },
+          "cloudManagerUserPassword": {
+            "$ref": "#/definitions/any_string"
+          },
+          "enm_internal_network_name": {
+            "$ref": "#/definitions/any_string"
+          },
+          "enm_external_security_group_name": {
+            "$ref": "#/definitions/any_string",
+            "default": "default"
+          },
+          "enm_internal_security_group_name": {
+            "$ref": "#/definitions/any_string",
+            "default": "default"
+          },
+          "enm_laf_security_group_name": {
+            "$ref": "#/definitions/any_string",
+            "default": "default"
+          },
+          "enm_external_network_name": {
+            "$ref": "#/definitions/any_string"
+          },
+          "laf_url": {
+            "$ref": "#/definitions/url"
+          },
+          "httpd_fqdn": {
+            "$ref": "#/definitions/hostname"
+          },
+          "SSO_COOKIE_DOMAIN": {
+            "$ref": "#/definitions/hostname"
+          },
+          "internal_subnet": {
+            "$ref": "#/definitions/ipv4_cidr"
+          },
+          "internal_subnet_ipv6": {
+            "$ref": "#/definitions/ipv6_cidr"
+          },
+          "dynamic_ip_range_start": {
+            "$ref": "#/definitions/ipv4_internal"
+          },
+          "dynamic_ip_range_end": {
+            "$ref": "#/definitions/ipv4_internal"
+          },
+          "dynamic_ipv6_range_start": {
+            "$ref": "#/definitions/ipv6_internal"
+          },
+          "dynamic_ipv6_range_end": {
+            "$ref": "#/definitions/ipv6_internal"
+          },
+          "external_subnet": {
+            "$ref": "#/definitions/ipv4_cidr"
+          },
+          "external_subnet_ipv6": {
+            "$ref": "#/definitions/ipv6_cidr"
+          },
+          "external_gateway": {
+            "$ref": "#/definitions/ipv4_external"
+          },
+          "external_gateway_ipv6": {
+            "$ref": "#/definitions/ipv6_external"
+          },
+          "external_netmask": {
+            "$ref": "#/definitions/ipv4_netmask"
+          },
+          "haproxy_instances": {
+            "$ref": "#/definitions/positive_integer",
+            "default": "1"
+          },
+          "service1_external_ip_list": {
+            "$ref": "#/definitions/ipv4_external_list"
+          },
+          "service1_internal_ip_list": {
+            "$ref": "#/definitions/ipv4_internal_list"
+          },
+          "service1_external_ipv6_list": {
+            "$ref": "#/definitions/ipv6_external_list"
+          },
+          "service1_internal_ipv6_list": {
+            "$ref": "#/definitions/ipv6_internal_list"
+          },
+          "service2_external_ip_list": {
+            "$ref": "#/definitions/ipv4_external_list"
+          },
+          "service2_external_ipv6_list": {
+            "$ref": "#/definitions/ipv6_external_list"
+          },
+          "service3_external_ip_list": {
+            "$ref": "#/definitions/ipv4_external_list"
+          },
+          "service3_external_ipv6_list": {
+            "$ref": "#/definitions/ipv6_external_list"
+          },
+          "singleip1_ip_internal": {
+            "$ref": "#/definitions/ipv4_internal"
+          },
+          "singleip1_ip_external": {
+            "$ref": "#/definitions/ipv4_external"
+          },
+          "singleip1_ipv6_internal": {
+            "$ref": "#/definitions/ipv6_internal"
+          },
+          "singleip1_ipv6_external": {
+            "$ref": "#/definitions/ipv6_external"
+          },
+          "singleip2_ip_external": {
+            "$ref": "#/definitions/ipv4_external"
+          },
+          "singleip2_ipv6_external": {
+            "$ref": "#/definitions/ipv6_external"
+          },
+          "singleip3_ip_external": {
+            "$ref": "#/definitions/ipv4_external"
+          },
+          "singleip3_ipv6_external": {
+            "$ref": "#/definitions/ipv6_external"
+          },
+          "service1_instances": {
+            "$ref": "#/definitions/positive_integer",
+            "default": "2"
+          },
+          "service2_instances": {
+            "$ref": "#/definitions/positive_integer",
+            "default": "2"
+          },
+          "svc_CM_vip_to_fip": {
+            "$ref": "#/definitions/ipv4_external"
+          },
+          "svc_FM_vip_to_fip": {
+            "$ref": "#/definitions/ipv4_external"
+          },
+          "svc_PM_vip_to_fip": {
+            "$ref": "#/definitions/ipv4_external"
+          },
+          "svc_CM_vip_external_ip_address": {
+            "$ref": "#/definitions/ipv4_external"
+          },
+          "svc_FM_vip_external_ip_address": {
+            "$ref": "#/definitions/ipv4_external"
+          },
+          "svc_PM_vip_external_ip_address": {
+            "$ref": "#/definitions/ipv4_external"
+          },
+          "enm_laf_1_ip_external": {
+            "$ref": "#/definitions/ipv4_external"
+          },
+          "enm_laf_1_ip_internal": {
+            "$ref": "#/definitions/ipv4_internal"
+          },
+          "enm_laf_1_ipv6_external": {
+          "$ref": "#/definitions/ipv6_external"
+          },
+          "vnflaf_db_1_ip_internal": {
+            "$ref": "#/definitions/ipv4_internal"
+          },
+          "haproxy_external_ip_list": {
+            "$ref": "#/definitions/ipv4_external_list"
+          },
+          "neo4j_internal_ip_list": {
+            "$ref": "#/definitions/ipv4_internal_list"
+          },
+          "neo4j_instances": {
+            "$ref": "#/definitions/positive_integer",
+            "default": "3"
+          },
+          "neo4j_1_ip_internal": {
+            "$ref": "#/definitions/ipv4_internal"
+          },
+          "neo4j_2_ip_internal": {
+            "$ref": "#/definitions/ipv4_internal"
+          },
+          "neo4j_3_ip_internal": {
+            "$ref": "#/definitions/ipv4_internal"
+          },
+          "esmon_hostname": {
+            "$ref": "#/definitions/hostname"
+          },
+          "esmon_instances": {
+            "$ref": "#/definitions/positive_integer",
+            "default": "1"
+          },
+          "esmon_external_ip_list": {
+            "$ref": "#/definitions/ipv4_external_list"
+          },
+          "COM_INF_LDAP_ROOT_SUFFIX": {
+            "$ref": "#/definitions/ldap_root_suffix"
+          },
+          "key_name": {
+            "$ref": "#/definitions/any_string",
+            "default": "enm_keypair"
+          },
+          "lvs_external_CM_vrrp_id": {
+            "$ref": "#/definitions/virtual_router_identifier"
+          },
+          "lvs_external_FM_vrrp_id": {
+            "$ref": "#/definitions/virtual_router_identifier"
+          },
+          "lvs_external_PM_vrrp_id": {
+            "$ref": "#/definitions/virtual_router_identifier"
+          },
+          "flavor_said": {
+            "$ref": "#/definitions/openstack_flavor"
+          },
+          "flavor_nbfmsnmp": {
+            "$ref": "#/definitions/openstack_flavor"
+          },
+          "flavor_esmon": {
+            "$ref": "#/definitions/openstack_flavor"
+          },
+          "flavor_elementmanager": {
+            "$ref": "#/definitions/openstack_flavor"
+          },
+          "flavor_6vC6M1_1": {
+            "$ref": "#/definitions/over_commit"
+          },
+          "flavor_6vC6M3_1": {
+            "$ref": "#/definitions/over_commit"
+          },
+          "flavor_2vC4M3_1": {
+            "$ref": "#/definitions/over_commit"
+          },
+          "flavor_6vC6M": {
+            "$ref": "#/definitions/not_over_commit"
+          },
+          "flavor_2vC4M": {
+            "$ref": "#/definitions/not_over_commit"
+          },
+          "deployment_id": {
+            "description": "Unique string to identify deployment. Must be 17 characters or less in length and only contain numbers, letters, and dashes. Must not be in integer.",
+            "pattern": "^(?![0-9]+$)[a-zA-Z0-9-]{1,17}$",
+            "type": "string"
+          },
+          "ip_version": {
+            "default": "dual",
+            "description": "Specifies which IP versions to use, 'v4' for IPv4 only and 'dual' for IPv4 and IPv6",
+            "enum": [
+              "v4",
+              "dual"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "deployment_id",
+          "ip_version",
+          "notAutopopulatedKey",
+          "cloudManagerRestInterfaceBaseURL",
+          "cloudManagerTenantId",
+          "cloudManagerTenantName",
+          "cloudManagerUserName",
+          "cloudManagerUserPassword",
+          "enm_internal_network_name",
+          "enm_external_security_group_name",
+          "enm_internal_security_group_name",
+          "enm_laf_security_group_name",
+          "enm_external_network_name",
+          "laf_url",
+          "httpd_fqdn",
+          "SSO_COOKIE_DOMAIN",
+          "dynamic_ip_range_start",
+          "dynamic_ip_range_end",
+          "dynamic_ipv6_range_start",
+          "dynamic_ipv6_range_end",
+          "internal_subnet",
+          "internal_subnet_ipv6",
+          "external_subnet",
+          "external_subnet_ipv6",
+          "external_gateway",
+          "external_gateway_ipv6",
+          "external_netmask",
+          "service1_external_ip_list",
+          "service1_internal_ip_list",
+          "service1_external_ipv6_list",
+          "service1_internal_ipv6_list",
+          "service2_external_ip_list",
+          "service2_external_ipv6_list",
+          "service3_external_ip_list",
+          "service3_external_ipv6_list",
+          "service1_instances",
+          "service2_instances",
+          "singleip1_ip_internal",
+          "singleip1_ip_external",
+          "singleip1_ipv6_internal",
+          "singleip1_ipv6_external",
+          "singleip2_ip_external",
+          "singleip2_ipv6_external",
+          "singleip3_ip_external",
+          "singleip3_ipv6_external",
+          "svc_CM_vip_to_fip",
+          "svc_FM_vip_to_fip",
+          "svc_PM_vip_to_fip",
+          "svc_CM_vip_external_ip_address",
+          "svc_FM_vip_external_ip_address",
+          "svc_PM_vip_external_ip_address",
+          "enm_laf_1_ip_external",
+          "haproxy_external_ip_list",
+          "haproxy_instances",
+          "neo4j_internal_ip_list",
+          "neo4j_instances",
+          "enm_laf_1_ip_internal",
+          "enm_laf_1_ipv6_external",
+          "vnflaf_db_1_ip_internal",
+          "neo4j_1_ip_internal",
+          "neo4j_2_ip_internal",
+          "neo4j_3_ip_internal",
+          "esmon_instances",
+          "esmon_hostname",
+          "COM_INF_LDAP_ROOT_SUFFIX",
+          "key_name",
+          "lvs_external_CM_vrrp_id",
+          "lvs_external_FM_vrrp_id",
+          "lvs_external_PM_vrrp_id",
+          "flavor_said",
+          "flavor_nbfmsnmp",
+          "flavor_esmon",
+          "flavor_elementmanager",
+          "flavor_6vC6M1_1",
+          "flavor_6vC6M3_1",
+          "flavor_2vC4M3_1",
+          "flavor_6vC6M",
+          "flavor_2vC4M"
+        ],
+        "title": "Site Engineering Data for ENM on Cloud",
+        "type": "object"
+      }
+    },
+    "required": [
+      "parameters"
+    ],
+    "type": "object"
+  }
+}

@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="enmSedAutoPopulation">
+  <title>vENM SED Auto Population</title>
+  <conbody>
+    <ul>
+      <li><xref type="concept" href="enmSedAutoPopulation.xml#overview">Overview</xref></li>
+      <li><xref type="concept" href="enmSedAutoPopulation.xml#purpose">Purpose Of This Feature</xref></li>
+      <li><xref type="concept" href="enmSedAutoPopulation.xml#autoPopulate">Single Auto Populated Fields</xref></li>
+      <li><xref type="concept" href="enmSedAutoPopulation.xml#externalIP">External IP Population</xref></li>
+      <li><xref type="concept" href="enmSedAutoPopulation.xml#internalIP">Internal IP Population</xref></li>
+      <li><xref type="concept" href="enmSedAutoPopulation.xml#vrrpIDs">Virtual Router Identifier Population</xref></li>
+      <li><xref type="concept" href="enmSedAutoPopulation.xml#SmallIntegratedEnmDocumentOptions">Small Integrated ENM document options</xref></li>
+      <li><xref type="concept" href="enmSedAutoPopulation.xml#pasteMode">vENM SED Paste Mode</xref></li>
+      <li><xref type="concept" href="enmSedAutoPopulation.xml#running">When It Runs</xref></li>
+    </ul>
+    <section>
+      <title id="overview">Overview</title>
+      <lines>
+        This page describes the vENM SED auto population feature in the Deployment Inventory Tool.
+        It describes the purpose of this feature, how it works at a high level and also describes the fields that are currently supported.
+      </lines>
+    </section>
+
+    <section>
+      <title id="purpose">Purpose Of This Feature</title>
+      <lines>
+        The vENM SED is made up of hundreds of keys and values that are required as input to a vENM installation or upgrade.
+        To make the population of those fields as easy as possible and to reduce possible human error, DIT provides the option to enable auto population to help fill in some of these fields based on other information found in DIT itself.
+        This feature is currently available in DIT when you are working on a document that makes use of one of the 'enm_sed' schemas.
+        When enabled, the DIT UI will no longer allow you to edit these fields on the edit page. Instead they will be auto-populated and will be visible after the document is saved on the documents view page or by downloading the SED via REST.
+        Please note that auto population relies on details about your Pod/Project/Deployment from DIT. This means that on initial creation of the SED, it wont be associated yet with a deployment.
+        In this case, all auto-populated fields will be given default inactive values (e.g. '1.1.1.1') for IP addresses. As soon as that SED is associated with its deployment, it will then be auto-populated with details found in that deployment.
+      </lines>
+    </section>
+
+    <section>
+      <title id="autoPopulate">Single Auto Populated Fields</title>
+      <lines>
+        The following table shows the single fields that are automatically populated and the way in which they are derived.
+        You can see that some of the values rely on details from DIT itself, i.e. where we get details about the deployments project, or the pod related with that project. You will also notice that some of the values are made up from other SED keys.
+        <b>Warning:</b> If any of these SED keys are renamed or removed (i.e. those that are used to help generate other keys), DIT auto population may break down and may need to be updated.
+      </lines>
+      <simpletable>
+        <sthead>
+          <stentry>
+            SED Key*
+          </stentry>
+          <stentry>
+            Value
+          </stentry>
+        </sthead>
+        <strow>
+          <stentry>
+            parameters.cloudManagerRestInterfaceBaseURL
+          </stentry>
+          <stentry>
+            deployment.project.pod.authUrl
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.cloudManagerTenantId
+          </stentry>
+          <stentry>
+            deployment.project.id
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.vim_name
+          </stentry>
+          <stentry>
+            'vim_' + deployment.project.id
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.vim_tenant_name
+          </stentry>
+          <stentry>
+            deployment.project.id
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.cloudManagerTenantName
+          </stentry>
+          <stentry>
+            deployment.project.name
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.cloudManagerUserName
+          </stentry>
+          <stentry>
+            deployment.project.username
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.cloudManagerUserPassword
+          </stentry>
+          <stentry>
+            deployment.project.password
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.enm_internal_network_name
+          </stentry>
+          <stentry>
+            'enm_internal_network_' + deployment.project.name
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.enm_external_security_group_name
+          </stentry>
+          <stentry>
+            'enm_external_security_group_' + deployment.project.name
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.enm_internal_security_group_name
+          </stentry>
+          <stentry>
+            'enm_internal_security_group_' + deployment.project.name
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.enm_laf_security_group_nam
+          </stentry>
+          <stentry>
+            'enm_laf_security_group_' + deployment.project.name
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.enm_external_network_name
+          </stentry>
+          <stentry>
+            podNetwork.name
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.external_subnet
+          </stentry>
+          <stentry>
+            podNetwork.ipv4_subnet.cidr
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.external_gateway
+          </stentry>
+          <stentry>
+            podNetwork.ipv4_subnet.gateway_ip
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.external_netmask
+          </stentry>
+          <stentry>
+            Calculated from value of podNetwork.ipv4_subnet.cidr
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.external_subnet_ipv6
+          </stentry>
+          <stentry>
+            podNetwork.ipv6_subnet.cidr
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.external_gateway_ipv6
+          </stentry>
+          <stentry>
+            podNetwork.ipv6_subnet.gateway_ip
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.svc_CM_vip_to_fip
+          </stentry>
+          <stentry>
+            parameters.svc_CM_vip_external_ip_address
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.svc_FM_vip_to_fip
+          </stentry>
+          <stentry>
+            parameters.svc_FM_vip_external_ip_address
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.svc_PM_vip_to_fip
+          </stentry>
+          <stentry>
+            parameters.svc_PM_vip_external_ip_address
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.laf_url
+          </stentry>
+          <stentry>
+            'http://' + parameters.enm_laf_1_ip_external
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.httpd_fqdn
+          </stentry>
+          <stentry>
+            DNS query based off first IP from parameters.haproxy_external_ip_list or temporary if haproxy_instances is set to 0
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.SSO_COOKIE_DOMAIN
+          </stentry>
+          <stentry>
+            parameters.httpd_fqdn
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.esmon_hostname
+          </stentry>
+          <stentry>
+            DNS query based off first IP from parameters.esmon_external_ip_list
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.COM_INF_LDAP_ROOT_SUFFIX
+          </stentry>
+          <stentry>
+            dc=&lt;First part of parameters.httpd_fqdn&gt;,dc=com
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.key_name
+          </stentry>
+          <stentry>
+            'key_pair_' + deployment.project.name
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            parameters.serviceregistry_internal_ip_list
+          </stentry>
+          <stentry>
+            VNFLCM SED document: parameters.serviceregistry_internal_ip_list NOTE: Only if ENM SED is FFE
+          </stentry>
+        </strow>
+      </simpletable>
+      <p>*Some parameters may not be present in a document depending on the schema version used</p>
+    </section>
+
+    <section>
+      <title id="externalIP">External IP Population</title>
+      <lines>
+        DIT also supports auto population of external IP address fields. There are fields that reference the following schema definitions.
+        <b>Warning:</b> If these definitions are removed or renamed in the ENM SED schema, auto population of these keys will break down and DIT may need to be updated.
+        Whether installing or upgrading DIT, the procedure is the same.
+      </lines>
+      <simpletable>
+        <sthead>
+          <stentry>
+            Schema Definition Name
+          </stentry>
+        </sthead>
+        <strow>
+          <stentry>
+            /definitions/ipv4_external
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/ipv4_external_list
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/ipv6_external
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/ipv6_external_list
+          </stentry>
+        </strow>
+      </simpletable>
+      <lines>
+        Any keys found in the schema that match these definitions, will have their addresses taken from the ranges found in the project.
+        <b>Warning:</b> If the pod and project network details have not been added for your deployment, they must be added before enabling auto population. Otherwise the calculation of valid IPs to use for these keys can't take place.
+        Please note that during auto population of these IPs, any fields that currently have valid values within the ranges, will not be changed. IPs that are found to be duplicates, invalid, or not within the IP ranges will be removed and recalculated from those IPs found to be not in use.
+        The number of IPs given to the list keys, will match the instance count set for that particular service.
+        <ul>
+        <li>If no instance count is found in the SED, it is assumed to be 1.</li>
+        <li>If the instance count is set to 0, a default inactive IP address value (e.g. '1.1.1.1') will be given to that key to ensure it can still be saved.</li>
+      </ul>
+      </lines>
+    </section>
+
+    <section>
+      <title id="internalIP">Internal IP Population</title>
+      <lines>
+        DIT also supports auto population of internal IP address fields. These are fields that reference the following schema definitions.
+        <b>Warning:</b> If any of these definitions are removed or renamed in the ENM SED schema, auto population of these keys will break down and DIT may need to be updated.
+      </lines>
+      <simpletable>
+        <sthead>
+          <stentry>
+            Schema Definition Name
+          </stentry>
+        </sthead>
+        <strow>
+          <stentry>
+            /definitions/ipv4_internal
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/ipv4_internal_list
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/ipv6_internal
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/ipv6_internal_list
+          </stentry>
+        </strow>
+      </simpletable>
+      <lines>
+        For internal IPs, the IP address range that is used starts where the existing 'dynamic_ip_range_end' and 'dynamic_ipv6_range_end' keys finish. The auto-populate range is from the next IP, up until the end of the available IPs in the internal subnet
+        Special handling is added for the neo4j keys. The neo4j keys are duplicated in the SED currently. They exist as a list and as three individual internal keys. The list keys are auto-populated first, then the individual keys get a copy of the IPs given in the list.
+      </lines>
+    </section>
+
+    <section>
+      <title id="vrrpIDs">Virtual Router Identifier Population</title>
+      <lines>
+        DIT also supports auto population of virtual router identifier fields. These IDs must be unique per pod network and can range from 1 - 255. A subset of this range can be used by filling in the range start and end when creating/editing your pod within DIT.
+        These are fields that reference the following schema definition.
+        <b>Warning:</b> If any of these definitions are removed or renamed in the vENM SED schema, auto population of these keys will break down and DIT may need to be updated.
+      </lines>
+      <simpletable>
+        <sthead>
+          <stentry>
+            Schema Definition Name
+          </stentry>
+        </sthead>
+        <strow>
+          <stentry>
+            /definitions/virtual_router_identifier
+          </stentry>
+        </strow>
+      </simpletable>
+    </section>
+
+    <section>
+      <title id="SmallIntegratedEnmDocumentOptions">Small Integrated vENM document options</title>
+      <lines>
+        On selection of a Small Integrated vENM document option, the vENM SED parameter of "enm_deployment_type" will be populated with the respective value.
+        When the "Small Integrated vENM Transport Only" document option is selected, the "enm_deployment_type" is populated with the value "SIENM_transport_only".
+        When the "Optimized Small Integrated vENM Transport Only" document option is selected, the "enm_deployment_type" is populated with the value "OSIENM_transport_only".
+        When the "Small Integrated vENM Multi-technology" document option is selected the parameter is populated with the value "SIENM_multi_technology".
+        NOTE: The Small Integrated vENM document options will overwrite "enm_deployment_type" parameter set by any attached Managed Config.
+        On non-Small Integrated vENM deployments and where the 'enm_deployment_type' parameter is not populated by a Managed Config the user must define this "enm_deployment_type" parameter value.
+      </lines>
+    </section>
+
+    <section>
+      <title id="pasteMode">vENM SED paste mode and Auto Populate</title>
+      <lines>
+        If a SED document is entered using the paste mode in the SED document edit view and auto population is enabled, any key values not matching the DIT naming conventions as documented in the <xref type="concept" href="enmSedAutoPopulation.xml#autoPopulate">Single Auto Populated Fields</xref> above will be overwritten by Auto populate.
+      </lines>
+    </section>
+
+    <section>
+      <title id="running">When It Runs</title>
+      <lines>
+        Auto population runs every time the document is saved.
+        This includes when the Auto Deployer scripts are upgrading a SED from one schema version to another.
+        This means that any new keys introduced in that new schema version, will be auto-populated if they are a supported key.
+        When a change is made to a Deployment, Project or Pod in DIT, the UI will also trigger a resave of any related documents.
+        For this reason changing for example a project range that may mean there's not enough IPs, will allow the project details itself to be saved but the resave of the document will throw an error. At this point you can fix any details about the range in the project and resave that project, which will again in turn resave the related documents.
+        Note: To prevent duplicate IP addresses being assigned in the vENM SED, IP addresses may be reassigned when auto population is re-enabled. ENM/VNF common values will always take precedence over ENM only keys.
+      </lines>
+    </section>
+
+  </conbody>
+</concept>

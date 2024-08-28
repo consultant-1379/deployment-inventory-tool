@@ -1,0 +1,24 @@
+{
+  "parameters": {
+    "flavor_accesscontrol": "",
+    "flavor_amos": "",
+    "flavor_apserv": "",
+    "flavor_bnsiserv": "",
+    "flavor_cmevents": "flavor_2vC4M",
+    "flavor_cmserv": "flavor_3vC6M",
+    "flavor_cmutilities": "flavor_2vC4M",
+    "flavor_cnom": "flavor_4vC8M",
+    "flavor_comecimpolicy": "flavor_2vC4M",
+    "flavor_dchistory": "flavor_1vC4M",
+    "flavor_dlms": "flavor_1vC4M",
+    "flavor_domainproxy": "flavor_2vC4M",
+    "flavor_dpmediation": "flavor_2vC4M",
+    "flavor_elasticsearch": "flavor_4vC8M",
+    "flavor_elementmanager": "flavor_4vC8M",
+    "flavor_emp": "flavor_2vC2M",
+    "flavor_esmon": "flavor_2vC4M",
+    "flavor_eventbasedclient": "flavor_2vC4M",
+    "flavor_flowautomation": "flavor_2vC4M",
+    "flavor_flsserv": "flavor_2vC4M"
+  }
+}

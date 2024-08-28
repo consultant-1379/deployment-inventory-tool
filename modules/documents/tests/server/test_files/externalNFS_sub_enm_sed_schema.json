@@ -1,0 +1,129 @@
+{
+  "name": "enm_sed",
+  "version": "1.2.3",
+  "content": {
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "additionalProperties": false,
+    "definitions": {
+      "external_nfs_server": {
+        "description": "Use an external NFS server for this volume. It should be either hostname, FQDN or IPv4. Leave this value empty to use the internal NFS.",
+        "pattern": "^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\\.[a-z0-9](?:[-0-9a-z]{0,61}[0-9a-z])?)*$|^(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)$|^$",
+        "type": "string"
+      },
+      "nfs_instances": {
+        "description": "This must be a valid number of instances from 0 upwards",
+        "pattern": "^\\d+$",
+        "type": "string"
+      },
+      "nfs_ipv4_external_list": {
+        "description": "This must be a comma separated list of ipv4 addresses on the external network",
+        "pattern": "^(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)(,\\s*(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?))*$",
+        "type": "string"
+      },
+      "nfs_ipv6_external_list": {
+        "description": "This must be a comma separated list of ipv6 addresses on the external network",
+        "pattern": "^\\s*(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:)))(?:%.+)?\\s*(,\\s*\\s*(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:)))(?:%.+)?\\s*)*$",
+        "type": "string"
+      },
+      "nfs_volume_snap": {
+        "description": "Create a snapshot for backup/rollback should be either yes or no.",
+        "enum": [
+          "yes",
+          "no"
+        ],
+        "type": "string"
+      },
+      "nfs_volume_size": {
+        "description": "This is the volume size in GB. This must be an integer between 1 and 9999, eg 50.  Leave this value empty to use the external NFS",
+        "pattern": "([0-9]|[1-8][0-9]|9[0-9]|[1-8][0-9]{2}|9[0-8][0-9]|99[0-9]|[1-8][0-9]{3}|9[0-8][0-9]{2}|99[0-8][0-9]|999[0-9])$|^$",
+        "type": "string"
+      },
+      "nfs_exported_fs": {
+        "description": "This must be the exported FS for external NFS. Leave this blank to use internal NFS",
+        "pattern": "^.*$",
+        "type": "string"
+      }
+    },
+    "properties": {
+      "parameters": {
+        "additionalProperties": false,
+        "default": {},
+        "description": "Please fill in all required fields",
+        "properties": {
+          "nfsamos_volume_size": {
+            "$ref": "#/definitions/nfs_volume_size"
+          },
+          "nfsamos_external_server": {
+            "$ref": "#/definitions/external_nfs_server"
+          },
+          "nfsamos_external_exported_fs": {
+            "$ref": "#/definitions/nfs_exported_fs"
+          },
+          "nfspm_external_ip_list": {
+            "$ref": "#/definitions/nfs_ipv4_external_list"
+          },
+          "nfspm_external_ipv6_list": {
+            "$ref": "#/definitions/nfs_ipv6_external_list"
+          },
+          "nfspm_volume_size": {
+            "$ref": "#/definitions/nfs_volume_size"
+          },
+          "nfspm_volume_backup": {
+            "$ref": "#/definitions/nfs_volume_snap",
+            "default": "no"
+          },
+          "nfspm_instances": {
+            "$ref": "#/definitions/nfs_instances"
+          },
+          "nfspmlinks_instances": {
+            "$ref": "#/definitions/nfs_instances"
+          },
+          "nfspmlinks_external_ip_list": {
+            "$ref": "#/definitions/nfs_ipv4_external_list"
+          },
+          "nfspmlinks_external_ipv6_list": {
+            "$ref": "#/definitions/nfs_ipv6_external_list"
+          },
+          "nfspmlinks_external_server": {
+            "$ref": "#/definitions/external_nfs_server"
+          },
+          "nfspmlinks_external_exported_fs": {
+            "$ref": "#/definitions/nfs_exported_fs"
+          },
+          "nfspmlinks_volume_backup": {
+            "$ref": "#/definitions/nfs_volume_snap",
+            "default": "no"
+          },
+          "nfssmrs_instances": {
+            "$ref": "#/definitions/nfs_instances"
+          },
+          "nfssmrs_external_server": {
+            "$ref": "#/definitions/external_nfs_server"
+          },
+          "nfssmrs_external_exported_fs": {
+            "$ref": "#/definitions/nfs_exported_fs"
+          },
+          "nfspm1_external_server": {
+            "$ref": "#/definitions/external_nfs_server"
+          },
+          "nfspm1_external_exported_fs": {
+            "$ref": "#/definitions/nfs_exported_fs"
+          },
+          "nfspm2_external_server": {
+            "$ref": "#/definitions/external_nfs_server"
+          },
+          "nfspm2_external_exported_fs": {
+            "$ref": "#/definitions/nfs_exported_fs"
+          }
+        },
+        "required": [],
+        "title": "Site Engineering Data for ENM on Cloud",
+        "type": "object"
+      }
+    },
+    "required": [
+      "parameters"
+    ],
+    "type": "object"
+  }
+}

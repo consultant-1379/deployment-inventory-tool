@@ -1,0 +1,26 @@
+{
+  "pod_id": "",
+  "name": "tmpProj1",
+  "id": "validId",
+  "username": "validUsername",
+  "password": "validPassword",
+  "network": {
+    "name": "provider_network",
+    "ipv4_ranges": [
+      {
+        "start": "131.160.202.10",
+        "end": "131.160.202.19"
+      },
+      {
+        "start": "131.160.202.29",
+        "end": "131.160.202.29"
+      }
+    ],
+    "ipv6_ranges": [
+      {
+        "start": "2001:1b70:6207:0027:0000:0874:1001:0000",
+        "end": "2001:1b70:6207:0027:0000:0874:1001:ffff"
+      }
+    ]
+  }
+}

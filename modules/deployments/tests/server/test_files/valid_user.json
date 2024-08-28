@@ -1,0 +1,8 @@
+{
+  "username": "testuser",
+  "password": "validPassword",
+  "firstName": "firstName",
+  "roles": ["admin"],
+  "lastName": "lastName",
+  "email": "testuser@ericsson.com"
+}

@@ -1,0 +1,206 @@
+<section>
+  <div class="page-header">
+    <h1>{{ vm.pageTitle }} '{{ vm.project.name }}'</h1>
+  </div>
+  <form name="form" ng-submit="vm.submitForm()">
+    <fieldset>
+      <div class="row row-relative">
+        <div class="col-md-8">
+          <div class="form-group has-feedback" ng-class="{ 'has-error': form['pod-select'].$invalid, 'has-success': form['pod-select'].$valid }">
+            <label for="pod-select">Pod</label>
+            <select class="form-control" id="pod-select" name="pod-select" ng-model="vm.project.pod_id" ng-options="pod._id as pod.name for pod in vm.pods" autofocus required>
+              <option value="" disabled selected>--Select Pod--</option>
+            </select>
+            <span class="help-block" ng-messages="form['pod-select'].$error">
+              <p ng-message="required">This field is required</p>
+            </span>
+          </div>
+
+          <div class="form-group has-feedback" ng-class="{ 'has-error': form.name.$invalid, 'has-success': form.name.$valid }">
+            <label for="name">Project Name</label>
+            <input class="form-control" type="text" id="name" name="name" placeholder="Name" ng-model="vm.project.name" ng-pattern="/^[a-zA-Z0-9\-_.]*$/" required>
+            <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form.name.$invalid, 'glyphicon-ok': form.name.$valid }"></span>
+            <span class="help-block" ng-if="vm.project.name.startsWith('A_Health_')">
+              <p><b>Warning:</b> Projects with names beginning in 'A_Health_' are reserved for Health-Check Testing: They have no logs stored and are automatically removed during DIT upgrades.</p>
+            </span>
+            <span class="help-block" ng-messages="form.name.$error">
+              <p ng-message="required">This field is required</p>
+              <p ng-message="pattern">This must only contain letters, numbers, dots, dashes and underscores</p>
+            </span>
+          </div>
+
+          <div class="form-group has-feedback" ng-class="{ 'has-error': form.id.$invalid, 'has-success': form.id.$valid }">
+            <label for="id">Openstack Project ID</label>
+            <input class="form-control" type="text" id="id" name="id" placeholder="Openstack Project ID" ng-model="vm.project.id" required>
+            <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form.id.$invalid, 'glyphicon-ok': form.id.$valid }"></span>
+            <span class="help-block" ng-messages="form.id.$error">
+              <p ng-message="required">This field is required</p>
+            </span>
+          </div>
+
+          <div class="form-group has-feedback" ng-class="{ 'has-error': form.username.$invalid, 'has-success': form.username.$valid }">
+            <label for="username">Username</label>
+            <input class="form-control" type="text" id="username" name="username" placeholder="Username" ng-model="vm.project.username" required>
+            <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form.username.$invalid, 'glyphicon-ok': form.username.$valid }"></span>
+            <span class="help-block" ng-messages="form.username.$error">
+              <p ng-message="required">This field is required</p>
+            </span>
+          </div>
+
+          <div class="form-group has-feedback" ng-class="{ 'has-error': form.password.$invalid, 'has-success': form.password.$valid }">
+            <label for="password">Password</label>
+            <input class="form-control" type="password" id="password" name="password" placeholder="Password" ng-model="vm.project.password" required>
+            <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form.password.$invalid, 'glyphicon-ok': form.password.$valid }"></span>
+            <span class="help-block" ng-messages="form.password.$error">
+              <p ng-message="required">This field is required</p>
+            </span>
+          </div>
+          <div class="form-group has-feedback" ng-class="{ 'has-error': form['network-select'].$invalid, 'has-success': form['network-select'].$valid }">
+            <label for="network-select">Network Name</label>
+            <select class="form-control" id="network-select" name="network-select" ng-model="vm.project.network.name" ng-options="network.name as network.name for network in vm.pod.networks" required>
+              <option value="" disabled selected>--Select Network Name--</option>
+            </select>
+            <span class="help-block" ng-messages="form['network-select'].$error">
+              <p ng-message="required">This field is required</p>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-4 col-border">
+          <div class="col-border-padding">
+            <legend>Manage Groups <i class="ebIcon ebIcon_info" title="Attach a number of groups that are allowed to view and edit this Project."></i></legend>
+            <div ng-if="vm.allUserGroups.length > 0 || vm.project.usergroups.length > 0">
+              <div ng-repeat="group in vm.project.usergroups track by $index">
+                <div class="form-group has-feedback" ng-class="{ 'has-error': form['userGroups[{{$index}}]'].$invalid, 'has-success': form['userGroups[{{$index}}]'].$valid }">
+                  <div class="input-group">
+                    <select class="form-control" ng-disabled="vm.disableGroupsButton(group, 'select')" ng-init="vm.project.usergroups[$index]" id="userGroups[{{$index}}]" name="userGroups[{{$index}}]" ng-model="vm.project.usergroups[$index]" ng-options="group.id as group.name for group in vm.groupOptions(vm.disableGroupsButton(group, 'select'))" required></select>
+                    <span class="input-group-btn">
+                      <a ng-disabled="!vm.project.usergroups[$index]" ui-sref="groups.view({groupId: vm.project.usergroups[$index]}) " type="button" class="btn btn-default btn-sm" target="_blank" title="View Group In Another Tab"><i class="ebIcon ebIcon_eye"></i></a>
+                      <a ng-disabled="vm.disableGroupsButton(group, 'remove')" ng-click="vm.removeUserGroup(group)" type="button" class="btn btn-default btn-sm" title="Detach Group"><i class="ebIcon ebIcon_cancelled"></i></a>
+                    </span>
+                  </div>
+                  <span class="help-block" ng-messages="form['userGroups[' + $index + ']'].$error">
+                    <p ng-message="required">This field is required</p>
+                  </span>
+                </div>
+              </div>
+              <button ng-hide="vm.disableGroupsButton(group, 'add')" ng-click="vm.addUserGroup()" type="button" class="btn btn-default btn-sm pull-right" title="Attach Group"><i class="ebIcon ebIcon_add"></i></button>
+            </div>
+            <div ng-if="vm.allUserGroups.length == 0 && vm.project.usergroups.length == 0">
+              <p>Not in any group, please contact Admin to be added to a group or to create a new group if required.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>IPv4 Ranges</legend>
+      <div ng-repeat="range in vm.project.network.ipv4_ranges" class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h6 class="panel-title pull-left" style="padding-top: 7.5px;">IPv4 Range {{ $index + 1 }}</h6>
+          <div class="btn-group pull-right" ng-if="$index != 0">
+            <button ng-click="vm.removeIPV4Range(range)" type="button" class="btn btn-sm"><i class="glyphicon glyphicon-remove"></i> Remove</button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="form-group has-feedback" ng-class="{ 'has-error': form['network.ipv4_ranges[{{$index}}].start'].$invalid, 'has-success': form['network.ipv4_ranges[{{$index}}].start'].$valid }">
+            <label for="network.ipv4_ranges[{{$index}}].start">Start IP</label>
+            <input class="form-control" type="text" id="network.ipv4_ranges[{{$index}}].start" name="network.ipv4_ranges[{{$index}}].start" placeholder="IPv4 Range {{$index + 1}} Start IP" ng-model="range.start" ng-pattern="vm.ipv4regex" required>
+            <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form['network.ipv4_ranges[{{$index}}].start'].$invalid, 'glyphicon-ok': form['network.ipv4_ranges[{{$index}}].start'].$valid }"></span>
+            <span class="help-block" ng-messages="form['network.ipv4_ranges[' + $index + '].start'].$error">
+              <p ng-message="required">This field is required</p>
+              <p ng-message="pattern">This must be a valid IPv4 address</p>
+            </span>
+          </div>
+          <div class="form-group has-feedback" ng-class="{ 'has-error': form['network.ipv4_ranges[{{$index}}].end'].$invalid, 'has-success': form['network.ipv4_ranges[{{$index}}].end'].$valid }">
+            <label for="network.ipv4_ranges[{{$index}}].end">End IP</label>
+            <input class="form-control" type="text" id="network.ipv4_ranges[{{$index}}].end" name="network.ipv4_ranges[{{$index}}].end" placeholder="IPv4 Range {{$index + 1}} End IP" ng-model="range.end" ng-pattern="vm.ipv4regex" required>
+            <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form['network.ipv4_ranges[{{$index}}].end'].$invalid, 'glyphicon-ok': form['network.ipv4_ranges[{{$index}}].end'].$valid }"></span>
+            <span class="help-block" ng-messages="form['network.ipv4_ranges[' + $index + '].end'].$error">
+              <p ng-message="required">This field is required</p>
+              <p ng-message="pattern">This must be a valid IPv4 address</p>
+            </span>
+          </div>
+        </div>
+      </div>
+      <button ng-click="vm.addIPV4Range()" type="button" class="btn btn-default pull-right"><i class="glyphicon glyphicon-plus"></i> Add IPv4 Range</button>
+    </fieldset>
+    <fieldset>
+    <legend>IPv6 Ranges <i ng-show="vm.disableIpv6Btn" class="ebIcon ebIcon_info" title="No IPv6 Subnet on this Network. If require IPv6 Range, added IPv6 Subnet to this Network on the Pod."></i></legend>
+    <div ng-repeat="range in vm.project.network.ipv6_ranges" class="panel panel-default">
+      <div class="panel-heading clearfix">
+        <h6 class="panel-title pull-left" style="padding-top: 7.5px;">IPv6 Range {{ $index + 1 }}</h6>
+        <div class="btn-group pull-right">
+          <button ng-click="vm.removeIPV6Range(range)" type="button" class="btn btn-sm" id="removeBtn"><i class="glyphicon glyphicon-remove"></i> Remove</button>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="form-group has-feedback" ng-class="{ 'has-error': form['network.ipv6_ranges[{{$index}}].start'].$invalid, 'has-success': form['network.ipv6_ranges[{{$index}}].start'].$valid }">
+          <label for="network.ipv6_ranges[{{$index}}].start">Start IP</label>
+          <input class="form-control" type="text" id="network.ipv6_ranges[{{$index}}].start" name="network.ipv6_ranges[{{$index}}].start" placeholder="IPv6 Range {{$index + 1}} Start IP" ng-model="range.start" ng-pattern="vm.ipv6regex" required>
+          <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form['network.ipv6_ranges[{{$index}}].start'].$invalid, 'glyphicon-ok': form['network.ipv6_ranges[{{$index}}].start'].$valid }"></span>
+          <span class="help-block" ng-messages="form['network.ipv6_ranges[' + $index + '].start'].$error">
+            <p ng-message="required" id="ipv6RangeStartMsg">This field is required</p>
+            <p ng-message="pattern">This must be a valid IPv6 address</p>
+          </span>
+        </div>
+        <div class="form-group has-feedback" ng-class="{ 'has-error': form['network.ipv6_ranges[{{$index}}].end'].$invalid, 'has-success': form['network.ipv6_ranges[{{$index}}].end'].$valid }">
+          <label for="network.ipv6_ranges[{{$index}}].end">End IP</label>
+          <input class="form-control" type="text" id="network.ipv6_ranges[{{$index}}].end" name="network.ipv6_ranges[{{$index}}].end" placeholder="IPv6 Range {{$index + 1}} End IP" ng-model="range.end" ng-pattern="vm.ipv6regex" required>
+          <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form['network.ipv6_ranges[{{$index}}].end'].$invalid, 'glyphicon-ok': form['network.ipv6_ranges[{{$index}}].end'].$valid }"></span>
+          <span class="help-block" ng-messages="form['network.ipv6_ranges[' + $index + '].end'].$error">
+            <p ng-message="required" id="ipv6RangeEndMsg">This field is required</p>
+            <p ng-message="pattern">This must be a valid IPv6 address</p>
+          </span>
+        </div>
+      </div>
+    </div>
+    <button ng-disabled="vm.disableIpv6Btn" ng-click="vm.addIPV6Range()" type="button" class="btn btn-default pull-right" id="ipv6RangeBtn"><i class="glyphicon glyphicon-plus"></i> Add IPv6 Range</button>
+  </fieldset>
+  <fieldset>
+    <legend>Exclusion IPv4 Addresses</legend>
+    <div ng-repeat="ip in vm.project.exclusion_ipv4_addresses track by $index" class="panel panel-default">
+      <div class="panel-heading clearfix">
+        <h6 class="panel-title pull-left" style="padding-top: 7.5px;">IPv4 Address {{ $index + 1 }}</h6>
+        <div class="btn-group pull-right">
+          <button ng-click="vm.removeExclusionIPAddress(vm.project.exclusion_ipv4_addresses[$index].ipv4, 'exclusion_ipv4_addresses')" type="button" class="btn btn-sm"><i class="glyphicon glyphicon-remove"></i> Remove</button>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="form-group has-feedback" ng-class="{ 'has-error': form['exclusion_ipv4_addresses[{{$index}}].ipv4'].$invalid, 'has-success': form['exclusion_ipv4_addresses[{{$index}}].ipv4'].$valid }">
+          <input class="form-control" type="text" id="exclusion_ipv4_addresses.ipv4[{{$index}}]" name="exclusion_ipv4_addresses[{{$index}}].ipv4" placeholder="IPv4 Address {{$index + 1}}" ng-model="vm.project.exclusion_ipv4_addresses[$index].ipv4" ng-pattern="vm.ipv4regex" required>
+          <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form['exclusion_ipv4_addresses[{{$index}}].ipv4'].$invalid, 'glyphicon-ok': form['exclusion_ipv4_addresses[{{$index}}].ipv4'].$valid }"></span>
+          <span class="help-block" ng-messages="form['exclusion_ipv4_addresses[' + $index + '].ipv4'].$error">
+            <p ng-message="required">This field is required</p>
+            <p ng-message="pattern">This must be a valid IPv4 address</p>
+          </span>
+        </div>
+      </div>
+    </div>
+    <button ng-click="vm.addExclusionIPAddress('exclusion_ipv4_addresses')" type="button" class="btn btn-default pull-right"><i class="glyphicon glyphicon-plus"></i> Add IPv4 Address</button>
+  </fieldset>
+  <fieldset>
+    <legend>Exclusion IPv6 Addresses</legend>
+    <div ng-repeat="ip in vm.project.exclusion_ipv6_addresses track by $index" class="panel panel-default">
+      <div class="panel-heading clearfix">
+        <h6 class="panel-title pull-left" style="padding-top: 7.5px;">IPv6 Address {{ $index + 1 }}</h6>
+        <div class="btn-group pull-right">
+          <button ng-click="vm.removeExclusionIPAddress(vm.project.exclusion_ipv6_addresses[$index].ipv6, 'exclusion_ipv6_addresses')" type="button" class="btn btn-sm"><i class="glyphicon glyphicon-remove"></i> Remove</button>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="form-group has-feedback" ng-class="{ 'has-error': form['exclusion_ipv6_addresses[{{$index}}].ipv6'].$invalid, 'has-success': form['exclusion_ipv6_addresses[{{$index}}].ipv6'].$valid }">
+          <input class="form-control" type="text" id="exclusion_ipv6_addresses[{{$index}}].ipv6" name="exclusion_ipv6_addresses[{{$index}}].ipv6" placeholder="IPv6 Address {{$index + 1}}" ng-model="vm.project.exclusion_ipv6_addresses[$index].ipv6" ng-pattern="vm.ipv6regex" required>
+          <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form['exclusion_ipv6_addresses[{{$index}}].ipv6'].$invalid, 'glyphicon-ok': form['exclusion_ipv6_addresses[{{$index}}].ipv6'].$valid }"></span>
+          <span class="help-block" ng-messages="form['exclusion_ipv6_addresses[' + $index + ']'].$error">
+            <p ng-message="pattern">This must be a valid IPv6 address</p>
+          </span>
+        </div>
+      </div>
+    </div>
+    <button ng-click="vm.addExclusionIPAddress('exclusion_ipv6_addresses')" type="button" class="btn btn-default pull-right"><i class="glyphicon glyphicon-plus"></i> Add IPv6 Address</button>
+  </fieldset>
+    <div class="btn-group pull-left" title="{{form.$invalid || vm.formSubmitting ? 'Ensure all values are valid and required fields are filled in.' : ''}}">
+      <button class="btn btn-primary" type="submit" ng-disabled="form.$invalid || vm.formSubmitting">Save</button>
+    </div>
+    </form>
+  </section>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="apiSearchandFilter">
+  <title>API Search and Filter</title>
+  <conbody>
+    <ul>
+      <li><xref type="concept" href="apiSearchandFilter.xml#note">Note</xref></li>
+      <li><xref type="concept" href="apiSearchandFilter.xml#search">Search</xref></li>
+      <li><xref type="concept" href="apiSearchandFilter.xml#filter">Filter</xref></li>
+    </ul>
+    <section>
+      <title id="search">Note</title>
+      <lines>
+        All examples on this page are shown as unencoded, where name = 'Cloud3a' is encoded as name+%3d+%27Cloud3a%27.
+        Client libraries handle this encoding automatically.
+      </lines>
+    </section>
+    <section>
+      <title id="search">Search</title>
+      <lines>
+        When using the GET method on the API, the results can be searched by adding ?q=&lt;key&gt;=&lt;value&gt; to the end of your request.
+        Using this you can search the GET to only show results that meet your criteria.
+        <b>Example:</b> /api/pods/?q=name=Cloud3a
+        This example will only show pods that have the name 'Cloud3a'. If no pod is named 'Cloud3a', an empty array is returned.
+
+        Use a.b to search using field b that is nested within field a;
+        <b>Example:</b> /api/pods/?q=networks.name=provider_network_3A
+        This example will only display pods that have a network named 'provider_network_3A'. If none of the networks are named 'provider_network_3A' an empty array is returned.
+      </lines>
+    </section>
+    <section>
+      <title id="search">Filter</title>
+      <lines>
+        When using the GET method on the API the results can be filtered by adding ?fields=fieldName to the end of your request.
+        Using this you can filter the GET to return a partial response.
+        <b>Example:</b> /api/pods/?fields=name
+        This example will only show the names of all the pods.
+
+        Use a,b to select multiple fields
+        <b>Example:</b> /api/pods/?fields=name,authUrl
+        This example will show the names and authUrls of all the pods.
+
+        Use a/b or a(b) to select a field b that is nested within field a;
+        <b>Example:</b> /api/pods/?fields=networks/name or /api/pods/?fields=networks(name)
+
+        These can be used in conjunction with the search above to return a partial response of a specific search.
+        <b>Example:</b> /api/projects/?q=pod_id=594aa0abe0138800154d165d&amp;fields=name
+        This will return the names of all projects that use the pod with that id.
+      </lines>
+    </section>
+  </conbody>
+</concept>

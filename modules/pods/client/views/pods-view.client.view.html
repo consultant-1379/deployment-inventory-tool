@@ -1,0 +1,126 @@
+<section>
+  <div class="page-header">
+    <div class="btn-toolbar pull-right">
+      <div class="btn-group">
+        <a class="btn btn-sm btn-primary" ui-sref="pods.edit({podId: vm.pod._id})">Edit</a>
+      </div>
+      <div class="btn-group">
+        <a class="btn btn-sm btn-warning" id="view-log" ui-sref="logs.view({ objType: 'pods', objId: vm.pod._id })">View Log</a>
+      </div>
+    </div>
+    <h1>Viewing pod '{{ vm.pod.name }}'</h1>
+  </div>
+  <form>
+    <fieldset disabled>
+      <div class="row row-relative">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Name</label>
+            <p class="form-control-static">{{ vm.pod.name }}</p>
+          </div>
+          <div class="form-group">
+            <label>Authentication URL</label>
+            <p class="form-control-static">{{ vm.pod.authUrl }}</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-border">
+          <div class="col-border-padding">
+            <div class="form-group">
+              <label>Associated Groups</label>
+              <div ng-switch="vm.groups.length">
+                <p ng-switch-when="0">None</p>
+                <p ng-switch-default ng-repeat="group in vm.groups">
+                  <a ui-sref="groups.view({groupId: group.id})">{{ group.name }}</a>
+                </p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Dependent Projects</label>
+              <div ng-switch="vm.dependentProjects.length">
+                <p ng-switch-when="0">None</p>
+                <div ng-switch-default class="dependant-items">
+                  <p ng-repeat="dependentProject in vm.dependentProjects">
+                    <a ui-sref="projects.view({projectId: dependentProject._id})">{{ dependentProject.name }}</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="form-group">
+        <table class="table table-striped table-condensed table-hover full-document-view">
+          <thead>
+            <tr>
+              <th colspan="2">
+                Networks
+              </th>
+              <th>
+                Vrrp Range Start
+              </th>
+              <th>
+                Vrrp Range End
+              </th>
+              <th colspan="2">
+                IPv4 Subnet CIDR
+              </th>
+              <th colspan="2">
+                IPv4 Subnet Gateway IP
+              </th>
+              <th colspan="2">
+                IPv4 Subnet Info
+              </th>
+              <th colspan="2">
+                IPv6 Subnet CIDR
+              </th>
+              <th colspan="2">
+                IPv6 Subnet Gateway IP
+              </th>
+              <th colspan="2">
+                IPv6 Subnet Info
+              </th>
+            </tr>
+        </thead>
+          <tbody>
+            <tr ng-repeat="network in vm.pod.networks">
+              <td colspan="2">
+                {{ network.name }}
+              </td>
+              <td>
+                {{network.vrrp_range.start}}
+              </td>
+              <td>
+                {{network.vrrp_range.end}}
+              </td>
+              <td colspan="2">
+                {{ network.ipv4_subnet.cidr }}
+              </td>
+              <td colspan="2">
+                {{ network.ipv4_subnet.gateway_ip }}
+              </td>
+              <td colspan="2">
+                <b>Size:</b> {{ network.ipv4_subnet.size }} <br>
+                <b>Assigned:</b> {{ network.ipv4_subnet.assigned }} <br>
+                <b>Free:</b> {{ network.ipv4_subnet.free }}
+              </td>
+              <td colspan="2">
+                {{ network.ipv6_subnet.cidr }}
+              </td>
+              <td colspan="2">
+                {{ network.ipv6_subnet.gateway_ip }}
+              </td>
+              <td colspan="2">
+                <span ng-if="network.ipv6_subnet.cidr">
+                  <b>Size:</b> {{ network.ipv6_subnet.size }} <br>
+                  <b>Assigned:</b> {{ network.ipv6_subnet.assigned }} <br>
+                  <b>Free:</b> {{ network.ipv6_subnet.free }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </fieldset>
+  </form>
+</section>

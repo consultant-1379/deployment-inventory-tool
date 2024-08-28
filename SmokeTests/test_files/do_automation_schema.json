@@ -1,0 +1,263 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "additionalProperties": false,
+  "type": "object",
+  "properties": {
+    "ENVIRONMENT": {
+      "description": "This field is default and fixed , Please do not modify",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "ECM07"
+    },
+    "ECM_Host_Blade_IP": {
+      "description": "This must be a valid IPv4 address",
+      "pattern": "^(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)(,\\s*(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?))*$",
+      "type": "string",
+      "default": "131.160.159.235"
+    },
+    "ECM_Host_Blade_username": {
+      "description": "This must be any string",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "root"
+    },
+    "ECM_Host_Blade_Password": {
+      "description": "This must be any string",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "ECM123.laf"
+    },
+    "ECM_GUI_Username": {
+      "description": "This must be any string",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "ecmadmin"
+    },
+    "ECM_GUI_Password": {
+      "description": "This must be any string",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "CloudAdmin123"
+    },
+    "ENM_GUI_Hostname": {
+      "description": "This must be a valid hostname ",
+      "pattern": "^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\\.[a-z0-9](?:[-0-9a-z]{0,61}[0-9a-z])?)*$",
+      "type": "string",
+      "default": "ieatenmc4a10-39.athtem.eei.ericsson.se"
+    },
+    "ENM_GUI_Username": {
+      "description": "This must be any string",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "administrator"
+    },
+    "ENM_GUI_Password": {
+      "description": "This must be any string",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "TestPassw0rd"
+    },
+    "CORE_VM_IP": {
+      "description": "This must be a valid IPv4 address",
+      "pattern": "^(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)(,\\s*(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?))*$",
+      "type": "string",
+      "default": "131.160.159.236"
+    },
+    "CORE_VM_Hostname": {
+      "description": "This must be a valid hostname",
+      "pattern": "^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\\.[a-z0-9](?:[-0-9a-z]{0,61}[0-9a-z])?)*$",
+      "type": "string",
+      "default": "ieatecm07core.athtem.eei.ericsson.se"
+    },
+    "CORE_VM_Username": {
+      "description": "This must be any string",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "root"
+    },
+    "CORE_VM_Password": {
+      "description": "This must be any string",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "ecm123"
+    },
+    "VIM_Zone_name_for_CEE": {
+      "description": "This must be any string",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "cee_cloud1_ecm07"
+    },
+    "CEE_Host_IP_address": {
+      "description": "This must be a valid IPv4 address",
+      "pattern": "^(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)(,\\s*(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?))*$",
+      "type": "string",
+      "default": "131.160.163.12"
+    },
+    "CEE_Hostname": {
+      "description": "This must be a valid hostname",
+      "pattern": "^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\\.[a-z0-9](?:[-0-9a-z]{0,61}[0-9a-z])?)*$",
+      "type": "string",
+      "default": "ieatcee01cic.athtem.eei.ericsson.se"
+    },
+    "CEE_Tenant_ID": {
+      "description": "This must be any string",
+      "pattern": "^.+$",
+      "type": "string"
+    },
+    "CEE_Tenant_name": {
+      "description": "This must be any string",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "ieatecm07_project1"
+    },
+    "CEE_Tenant_username": {
+      "description": "This must be any string",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "ieatecm07_project1_admin"
+    },
+    "CEE_Tenant_password": {
+      "description": "This must be any string",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "Ieatecm07.laf"
+    },
+    "ATLAS_IP": {
+      "description": "This must be a valid IPv4 address",
+      "pattern": "^(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)(,\\s*(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?))*$",
+      "type": "string",
+      "default": "131.160.163.20"
+    },
+    "ATLAS_Hostname": {
+      "description": "This must be a valid hostname",
+      "pattern": "^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\\.[a-z0-9](?:[-0-9a-z]{0,61}[0-9a-z])?)*$",
+      "type": "string",
+      "default": "ieatatlas01.athtem.eei.ericsson.se"
+    },
+    "VNF_LCM_Service_IP": {
+      "description": "This must be a valid IPv4 address",
+      "pattern": "^(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)(,\\s*(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?))*$",
+      "type": "string"
+    },
+    "VNF_LCM_Service_Username": {
+      "description": "This must be any string",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "cloud-user"
+    },
+    "VNF_LCM_Service_Password": {
+      "description": "This must be any string",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "12shroot"
+    },
+    "VDCID": {
+      "description": "This must be any string",
+      "pattern": "^.+$",
+      "type": "string"
+    },
+    "TENANT_NAME": {
+      "description": "First attribute for integration testcases , This must be any string",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "ECM"
+    },
+    "SOFTWARE_VERSION": {
+      "description": "This must be any string",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "18.0"
+    },
+    "IS_PUBLIC": {
+      "description": "This must be any string e.g true or false",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "false"
+    },
+    "VNF_SOFTWARE_VESRION": {
+      "description": "This must be any string e.g 18.11, 18.08",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "18.08"
+    },
+    "SERVICES_IMAGE": {
+      "description": "This must be an alpha_numeric id ",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "ad4320fa-f5e2-43a0-8ecb-fdf6756cb9d9"
+    },
+    "SERVICES_FLAVOR": {
+      "description": "This must be an alpha_numeric id or name ",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "CM-M1.medium07-New"
+    },
+    "EXTERNAL_NET_ID": {
+      "description": "This must be an alpha_numeric id ",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "d9ce5a38-6fa3-4a70-bff4-5a07068772b8"
+    },
+    "EXTERNAL_SUBNET_CIDR": {
+      "description": "This must be an valid IPv4 address with port ",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "10.36.255.192/27"
+    },
+    "EXTERNAL_SUBNET_GATEWAY": {
+      "description": "This must be an valid IPv4 address ",
+      "pattern": "^(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)(,\\s*(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?))*$",
+      "type": "string",
+      "default": "10.36.255.193"
+    },
+    "EXTERNAL_IP_FOR_SERVICES_VM": {
+      "description": "This must be an valid IPv4 address ",
+      "pattern": "^(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)(,\\s*(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?))*$",
+      "type": "string",
+      "default": "10.36.255.211"
+    },
+    "CLOUD_MANAGER_TYPE": {
+      "description": "This must be any string",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "CEE"
+    },
+    "OSS_TYPE": {
+      "description": "This must be any string",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "ENM"
+    },
+    "OSS_MASTER_HOSTNAME": {
+      "description": "This must be any string",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "ieatenmc4a10-scp-0"
+    },
+    "OSS_MASTER_HOST_IP": {
+      "description": "This must be an valid IPv4 address ",
+      "pattern": "^(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)(,\\s*(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?))*$",
+      "type": "string",
+      "default": "131.160.205.16"
+    },
+    "OSS_NOTIFICATION_SERVICE_HOST": {
+      "description": "This must be any string",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "ieatenmc4a10-visinamingnb-0"
+    },
+    "OSS_NOTIFICATION_SERVICE_IP": {
+      "description": "This must be an valid IPv4 address ",
+      "pattern": "^(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)(,\\s*(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?))*$",
+      "type": "string",
+      "default": "131.160.205.16"
+    },
+    "VNF_MANAGER_ID": {
+      "description": "This must be any string",
+      "pattern": "^.+$",
+      "type": "string",
+      "default": "ieatenmc4a10-visinamingnb-0"
+    }
+  },
+  "required": []
+}

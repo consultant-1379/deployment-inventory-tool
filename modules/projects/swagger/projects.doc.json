@@ -1,0 +1,253 @@
+{
+  "paths": {
+    "/projects": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Returns a list of Projects that match the provided query parameters.",
+        "description": "Returns a list of all Projects and their key-values when no filter parameters are provided. \nFor filtering syntax see <a href='/helpdocs/#help/app/helpdocs/topic/features/apiSearchandFilter' target='_blank'><b>here</b></a>.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name":"q",
+            "in":"query",
+            "description":"Specifies what Projects should be retrieved based on provided key-values. \nMultiple key-values can be specified with the ampersand-delimited format. Eg. To list all Projects with the name 'Anewproject': 'q=name=Anewproject', and to list all Pods with the name 'Anewproject' and pod_id '592d1fa182ee3e002055763b': 'q=name=Anewproject&pod_id=592d1fa182ee3e002055763b'",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "name=Anewproject&pod_id=592d1fa182ee3e002055763b"
+          },
+          {
+            "name":"fields",
+            "in":"query",
+            "description":"Specifies what key-values associated with the retrieved Projects that you want to receive. \nMultiple key-values can be retrieved through filtering keys with the comma-delimited format. Eg. For the name value alone: 'fields=name', and for the name and pod_id values: 'fields=name,pod_id'",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "name,pod_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Project"
+              }
+            }
+          },
+          "422": {
+            "description": "Improperly structured query. Make sure to use ?q=&lt;key&gt;=&lt;value&gt; syntax"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post":{
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Creates a new Project.",
+        "description": "Creates and returns a new Project.",
+        "produces": [
+          "application/json"
+        ],
+        "consume": [
+          "application/json"
+        ],
+        "parameters":[
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Project object that represents your OpenStack Project",
+            "required": true,
+            "schema":{
+              "$ref": "#/definitions/Project"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created Project successfully."
+          },
+          "400": {
+            "description": "Possible Messages:\n* There was a syntax error found in your request, please make sure that it is valid and try again\n* {PATH} is not in schema and strict mode is set to throw\n* {PATH} is not valid, {VALUE} is not an integer\n* {PATH} is less than minimum allowed value (0)\n* {PATH} is required"
+          },
+          "422": {
+            "description": "Field already exists"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/projects/{projectId}":{
+      "get":{
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Returns a Project.",
+        "description": "Returns a Project. \nFor filtering syntax see <a href='/helpdocs/#help/app/helpdocs/topic/features/apiSearchandFilter' target='_blank'><b>here</b></a>.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters":[
+           {
+              "name":"projectId",
+              "in":"path",
+              "required":true,
+              "description":"The id of the Project to retrieve",
+              "type":"string"
+           }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved Project",
+            "schema": {
+              "$ref": "#/definitions/Project"
+            }
+          },
+          "404": {
+            "description": "A Project with the given Id could not be found in the database"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put":{
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Updates a Project.",
+        "description": "Updates a Project.",
+        "produces": [
+          "application/json"
+        ],
+        "consume": [
+          "application/json"
+        ],
+        "parameters":[
+           {
+              "name":"projectId",
+              "in":"path",
+              "required":true,
+              "description":"The id of the Project to update",
+              "type":"string"
+           },
+           {
+             "in": "body",
+             "name": "body",
+             "description":"Project object that represents your OpenStack Project <br>Partial update possible, not all fields in body required",
+             "required": true,
+             "schema":{
+               "$ref": "#/definitions/Project"
+              }
+            }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated Project",
+            "schema": {
+              "$ref": "#/definitions/Project"
+            }
+          },
+          "400": {
+            "description": "Possible Messages:\n* There was a syntax error found in your request, please make sure that it is valid and try again\n* {PATH} is not in schema and strict mode is set to throw\n* {PATH} is not valid, {VALUE} is not an integer\n* {PATH} is less than minimum allowed value (0)\n* {PATH} is required"
+          },
+          "404":{
+            "description":"A Project with that id does not exist"
+          },
+          "422": {
+            "description": "Field already exists"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete":{
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Deletes a Project.",
+        "description": "Deletes a Project.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters":[
+           {
+              "name":"projectId",
+              "in":"path",
+              "required":true,
+              "description":"The id of the Project to delete",
+              "type":"string"
+           }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully deleted Project",
+            "schema": {
+              "$ref": "#/definitions/Project"
+            }
+          },
+          "404":{
+            "description":"A project with that id does not exist"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/projects/free_address": {
+      "post": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Finds free address(es) in a Pod for a Project and adds them to the Project.",
+        "description": "Finds free addresses in a Pod network's subnet, adds to a Project and returns a Project.\nNOTE: Created to help with managing IP addresses for ECFE Deployments. Not recommended to be used for non ECFE Deployments. \nFor more details see Help Documentation: <a href='/helpdocs/#help/app/helpdocs/topic/features/apiProjectFreeAddress' target='_blank'><b>here</b></a>.",
+        "produces": [
+          "application/json"
+        ],
+        "consume": [
+          "application/json"
+        ],
+        "parameters":[
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The parameters to use this API",
+            "required": true,
+            "schema":{
+              "$ref": "#/definitions/ProjectFreeAddress"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Found Free IP Address for the Project and updated the Project successfully."
+          },
+          "201": {
+            "description": "Found Free IP Address for the Project and created the Project successfully."
+          },
+          "400": {
+            "description": "Possible Messages:\n* There was a syntax error found in your request, please make sure that it is valid and try again\n* {PATH} is not in schema and strict mode is set to throw\n* {PATH} is not valid, {VALUE} is not an integer\n* {PATH} is required"
+          },
+          "422": {
+            "description": "Possible Messages:\n* number_of_addresses must be a number, received: 'number_of_addresses'\n* The given Pod name 'pod_name' could not be found\n* The given network name 'network_name' could not be found\n* No IPv6 subnet found for network 'network_name'\n* Not enough free ip addresses within network 'network_name' subnet, only 'number of free' found left\n* No more free ip addresses within network 'network_name' subnet"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  }
+}

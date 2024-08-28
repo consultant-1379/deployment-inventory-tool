@@ -1,0 +1,177 @@
+<section>
+  <div class="page-header">
+    <h1>{{ vm.pageTitle }} '{{ vm.group.name }}'</h1>
+  </div>
+  <form name="form" ng-submit="vm.submitForm()">
+    <fieldset ng-disabled="vm.Authentication.user.roles[0] !== 'superAdmin'">
+      <div class="form-group has-feedback" ng-class="{ 'has-error': form.name.$invalid, 'has-success': form.name.$valid }">
+        <label for="name">Name</label>
+        <input class="form-control" type="text" id="name" name="name" placeholder="Name" ng-model="vm.group.name" ng-minlength="2" ng-maxlength="50" required autofocus>
+        <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form.name.$invalid, 'glyphicon-ok': form.name.$valid }"></span>
+        <span class="help-block" ng-if="vm.group.name.startsWith('A_Health_')">
+          <p><b>Warning:</b> Groups with names beginning in 'A_Health_' are reserved for Health-Check Testing: They have no logs stored and are automatically removed during DIT upgrades.</p>
+        </span>
+        <span class="help-block" ng-messages="form.name.$error">
+          <p ng-message="required">This field is required</p>
+          <p ng-message="maxlength">This must be at most of length 50</p>
+          <p ng-message="minlength">This must be at least of length 2</p>
+        </span>
+      </div>
+      <label>Group Admins</label>
+      <div class="form-group has-feedback" ng-class="{ 'has-error': form.adminPrimary.$invalid, 'has-success': form.adminPrimary.$valid }">
+        <select class="form-control" name="adminPrimary" id="admin_select" ng-model="vm.group.admin_IDs[0]" ng-options="user._id as user.username for user in vm.admins" ng-init="vm.group.admin_IDs[0] = vm.group.admin_IDs[0]" required></select>
+        <span class="help-block" ng-messages="form.admin.$error">
+          <p ng-message="required">This field is required</p>
+        </span>
+      </div>
+      <div class="form-group has-feedback" ng-class="{ 'has-error': form.adminSecondary.$invalid, 'has-success': form.adminSecondary.$valid }">
+        <select class="form-control" name="adminSecondary" id="admin_select" ng-model="vm.group.admin_IDs[1]" ng-options="user._id as user.username for user in vm.admins | filter: {_id: '!' + vm.group.admin_IDs[0] }" ng-init="vm.group.admin_IDs[1] = vm.group.admin_IDs[1]" required></select>
+      </div>
+    </fieldset>
+    <p></p>
+    <div class="row row-relative">
+      <div class="col-md-6">
+        <fieldset ng-disabled="vm.Authentication.user.roles[0] !== 'superAdmin'">
+          <legend>Associated Documents</legend>
+          <div class="input-group">
+            <input class="form-control" type="text" id="docName" name="docName" placeholder="Enter Document Name" ng-model="vm.document.name" autofocus>
+              <span class="input-group-btn">
+                <button ng-click="vm.addArtifact('document')" type="button" class="btn btn-default pull-right"><i class="glyphicon glyphicon-plus"></i></button>
+              </span>
+          </div>
+          <p ng-if="vm.currentDocNames.length == 0">There are currently no associated documents.</p>
+          <table ng-if="vm.group.associatedDocuments.length > 0" class="table table-striped table-condensed table-hover">
+            <thead>
+              <tr>
+                <th>Document</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="document in vm.currentDocNames">
+                <td>{{ document }}</td>
+                <td>
+                  <a ng-click="vm.removeArtifact('document', document)" type="button" class="btn btn-default btn-sm" title="Remove Document"><i class="glyphicon glyphicon-remove"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </fieldset>
+        <hr>
+        <fieldset ng-disabled="vm.Authentication.user.roles[0] !== 'superAdmin'">
+          <legend>Associated Pods</legend>
+          <div class="input-group">
+            <input class="form-control" type="text" id="podName" name="podName" placeholder="Enter Pod Name" ng-model="vm.pod.name" autofocus>
+              <span class="input-group-btn">
+                <button ng-click="vm.addArtifact('pod')" type="button" class="btn btn-default pull-right"><i class="glyphicon glyphicon-plus"></i></button>
+              </span>
+          </div>
+          <p ng-if="vm.currentPodNames.length == 0">There are currently no associated pods.</p>
+          <table ng-if="vm.group.associatedPods.length > 0" class="table table-striped table-condensed table-hover">
+            <thead>
+              <tr>
+                <th>Pod</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="pod in vm.currentPodNames">
+                <td>{{ pod }}</td>
+                <td>
+                  <a ng-click="vm.removeArtifact('pod', pod)" type="button" class="btn btn-default btn-sm" title="Remove Pod"><i class="glyphicon glyphicon-remove"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </fieldset>
+        <hr>
+        <fieldset ng-disabled="vm.Authentication.user.roles[0] !== 'superAdmin'">
+          <legend>Associated Projects</legend>
+          <div class="input-group">
+            <input class="form-control" type="text" id="projectName" name="projectName" placeholder="Enter Project Name" ng-model="vm.project.name" autofocus>
+              <span class="input-group-btn">
+                <button ng-click="vm.addArtifact('project')" type="button" class="btn btn-default pull-right"><i class="glyphicon glyphicon-plus"></i></button>
+              </span>
+          </div>
+          <p ng-if="vm.currentProjectNames.length == 0">There are currently no associated projects.</p>
+          <table ng-if="vm.group.associatedProjects.length > 0" class="table table-striped table-condensed table-hover">
+            <thead>
+              <tr>
+                <th>Project</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="project in vm.currentProjectNames">
+                <td>{{ project }}</td>
+                <td>
+                  <a ng-click="vm.removeArtifact('project', project)" type="button" class="btn btn-default btn-sm" title="Remove Project"><i class="glyphicon glyphicon-remove"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </fieldset>
+        <hr>
+        <fieldset ng-disabled="vm.Authentication.user.roles[0] !== 'superAdmin'">
+          <legend>Associated Deployments</legend>
+          <div class="input-group">
+            <input class="form-control" type="text" id="deploymentName" name="deploymentName" placeholder="Enter Deployment Name" ng-model="vm.deployment.name" autofocus>
+              <span class="input-group-btn">
+                <button ng-click="vm.addArtifact('deployment')" type="button" class="btn btn-default pull-right"><i class="glyphicon glyphicon-plus"></i></button>
+              </span>
+          </div>
+          <p ng-if="vm.currentDeploymentNames.length == 0">There are currently no associated deployments.</p>
+          <table ng-if="vm.group.associatedDeployments.length > 0" class="table table-striped table-condensed table-hover">
+            <thead>
+              <tr>
+                <th>Deployment</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="deployment in vm.currentDeploymentNames">
+                <td>{{ deployment }}</td>
+                <td>
+                  <a ng-click="vm.removeArtifact('deployment', deployment)" type="button" class="btn btn-default btn-sm" title="Remove Deployment"><i class="glyphicon glyphicon-remove"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </fieldset>
+      </div>
+      <div class="col-md-6 col-border">
+        <div class="col-border-padding">
+          <fieldset>
+            <legend>Users</legend>
+            <div class="input-group">
+              <input class="form-control" type="text" id="signum" name="signum" placeholder="Enter Username" ng-model="vm.signum" autofocus>
+                <span class="input-group-btn">
+                  <button ng-click="vm.addUser()" type="button" class="btn btn-default pull-right"><i class="glyphicon glyphicon-plus"></i></button>
+                </span>
+            </div>
+            <p ng-if="vm.group.users.length == 0">There are currently no users assigned to this group.</p>
+            <table ng-if="vm.group.users.length > 0" class="table table-striped table-condensed table-hover">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="user in vm.currentUserNames">
+                  <td>{{ user }}</td>
+                  <td>
+                    <a ng-click="vm.removeUser(user)" type="button" class="btn btn-default btn-sm" title="Remove User"><i class="glyphicon glyphicon-remove"></i></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+    <div class="btn-group pull-left" title="{{form.$invalid || vm.formSubmitting ? 'Ensure all values are valid and required fields are filled in.' : ''}}">
+      <button class="btn btn-primary" type="submit" ng-disabled="form.$invalid || vm.formSubmitting">Save</button>
+    </div>
+  </form>
+</section>

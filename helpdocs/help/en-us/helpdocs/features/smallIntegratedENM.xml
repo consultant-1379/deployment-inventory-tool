@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="smallIntegratedENM">
+  <title>Small Integrated ENM</title>
+  <conbody>
+    <ul>
+      <li><xref type="concept" href="smallIntegratedENM.xml#overview">Overview</xref></li>
+      <li><xref type="concept" href="smallIntegratedENM.xml#purpose">Purpose Of This Feature</xref></li>
+      <li><xref type="concept" href="smallIntegratedENM.xml#vioCommonDefinitions">Small Integrated ENM Common Associated Key Values</xref></li>
+      <li><xref type="concept" href="smallIntegratedENM.xml#vioTransportOnly">Small Integrated ENM Transport Only Associated Key Values</xref></li>
+      <li><xref type="concept" href="smallIntegratedENM.xml#vioOptimizedTransportOnly">Optimized Small Integrated ENM Transport Only Associated Key Values</xref></li>
+      <li><xref type="concept" href="smallIntegratedENM.xml#vioMulti-technology">Small Integrated ENM Multi-Technology Associated Key Values</xref></li>
+      <li><xref type="concept" href="smallIntegratedENM.xml#running">When It Runs</xref></li>
+    </ul>
+    <section>
+      <title id="overview">Overview</title>
+      <lines>
+        This page describes the ENM SED options for Small Integrated ENM in the Deployment Inventory Tool. There are two distinct offerings in Small Integrated ENM Transport Only and Multi-technology.
+        It describes the purpose of these options and how they work at a high level.
+      </lines>
+    </section>
+    <section>
+      <title id="purpose">Purpose Of This Feature</title>
+      <lines>
+        The ENM SED has key values associated with Small Integrated ENM Transport Only and Multi-technology. The feature comprises of a checkboxes in the ENM SED document view which allows a user of DIT to enable or disable Small Integrated ENM keys auto population.
+        The Small Integrated ENM associated key values will only be editable or visible when one the Small Integrated ENM feature checkbox is selected.
+        On selecting of the "Small Integrated ENM Transport Only" document option the ENM SED parameter "enm_deployment_type" is populated with the value "SIENM_transport_only".
+        On selecting of the "Optimized Small Integrated ENM Transport Only" document option the ENM SED parameter "enm_deployment_type" is populated with the value "OSIENM_transport_only".
+        On selecting of the "Small Integrated Mutli-technology" document option is selected, the ENM SED parameter is populated with the value "SIENM_multi_technology".
+        If any of the Small Integrated ENM feature checkbox is not selected then the associated key values are hidden from view and are auto-populated with default inactive state values.
+      </lines>
+    </section>
+    <section>
+      <title id="vioCommonDefinitions">Small Integrated ENM Common Associated Key Values</title>
+      <lines>
+        DIT identifies Small Integrated ENM associated key values via reference to the following schema definitions, these definitions are both common options of Small Integrated ENM.
+        Any key values found in the ENM SED schema that match these definitions for Small Integrated ENM defined below will be editable by a user of DIT on ENM SED edit document view when the 'Small Integrated ENM' checkbox is selected.
+        When either of the Small Integrated ENM checkboxes is not selected, any key values for Small Integrated ENM found in the ENM SED schema that match these definitions will not be editable or visible in the edit ENM SED document view and will be auto-populated with inactive default values.
+
+        <b>Warning:</b> The deletion or renaming of schema definitions in the ENM SED schema detailed below will result undesired behaviour and failure of the Small Integrated ENM feature.
+        Any changes to the ENM SED schema definitions detailed below will require a subsequent update to functionality of DIT to ensure the Small Integrated ENM feature continues to perform as expected.
+      </lines>
+      <simpletable>
+        <sthead>
+          <stentry>
+            Schema Definition Name
+          </stentry>
+          <stentry>
+            Inactive Default Value
+          </stentry>
+        </sthead>
+        <strow>
+          <stentry>
+            /definitions/ipv4_common_vio
+          </stentry>
+          <stentry>
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/ipv6_common_vio
+          </stentry>
+          <stentry>
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/vio_common_any_string
+          </stentry>
+          <stentry>
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/vio_common_hostname
+          </stentry>
+          <stentry>
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/vio_common_positive_integer
+          </stentry>
+          <stentry>
+          </stentry>
+        </strow>
+      </simpletable>
+    </section>
+    <section>
+      <title id="vioTransportOnly">Small Integrated ENM Transport Only Associated Key Values</title>
+      <lines>
+        DIT identifies Small Integrated ENM Transport Only associated key values via reference to the following schema definitions.
+        Any key values found in the ENM SED schema that match these definitions for Small Integrated ENM Transport Only defined below will be editable by a user of DIT on ENM SED edit document view when the 'Small Integrated ENM Transport Only' checkbox is selected.
+        When the 'Small Integrated ENM Transport Only' checkbox is not selected, any key values for Small Integrated ENM Transport Only found in the ENM SED schema that match these definitions will not be editable or visible in the edit ENM SED document view and will be auto-populated with inactive default values.
+
+        <b>Warning:</b> The deletion or renaming of schema definitions in the ENM SED schema detailed below will result undesired behaviour and failure of the 'Small Integrated ENM Transport Only' feature.
+        Any changes to the ENM SED schema definitions detailed below will require a subsequent update to functionality of DIT to ensure the 'Small Integrated ENM Transport Only' feature continues to perform as expected.
+      </lines>
+      <simpletable>
+        <sthead>
+          <stentry>
+            Schema Definition Name
+          </stentry>
+          <stentry>
+            Inactive Default Value
+          </stentry>
+        </sthead>
+        <strow>
+          <stentry>
+            /definitions/ipv4_single_vio
+          </stentry>
+          <stentry>
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/ipv6_single_vio
+          </stentry>
+          <stentry>
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/vio_single_any_string
+          </stentry>
+          <stentry>
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/vio_single_hostname
+          </stentry>
+          <stentry>
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/vio_single_positive_integer
+          </stentry>
+          <stentry>
+          </stentry>
+        </strow>
+      </simpletable>
+    </section>
+    <section>
+      <title id="vioOptimizedTransportOnly">Optimized Small Integrated ENM Transport Only Associated Key Values</title>
+      <lines>
+        DIT identifies Optimized Small Integrated ENM Transport Only associated key values via reference to the following schema definitions.
+        Any key values found in the ENM SED schema that match these definitions for Optimized Small Integrated ENM Transport Only defined below will be editable by a user of DIT on ENM SED edit document view when the 'Optimized Small Integrated ENM Transport Only' checkbox is selected.
+        When the 'Optimized Small Integrated ENM Transport Only' checkbox is not selected, any key values for Optimized Small Integrated ENM Transport Only found in the ENM SED schema that match these definitions will not be editable or visible in the edit ENM SED document view and will be auto-populated with inactive default values.
+
+        <b>Warning:</b> The deletion or renaming of schema definitions in the ENM SED schema detailed below will result undesired behaviour and failure of the 'Optimized Small Integrated ENM Transport Only' feature.
+        Any changes to the ENM SED schema definitions detailed below will require a subsequent update to functionality of DIT to ensure the 'Optimized Small Integrated ENM Transport Only' feature continues to perform as expected.
+      </lines>
+      <simpletable>
+        <sthead>
+          <stentry>
+            Schema Definition Name
+          </stentry>
+          <stentry>
+            Inactive Default Value
+          </stentry>
+        </sthead>
+        <strow>
+          <stentry>
+            /definitions/ipv4_single_vio
+          </stentry>
+          <stentry>
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/ipv6_single_vio
+          </stentry>
+          <stentry>
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/vio_single_any_string
+          </stentry>
+          <stentry>
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/vio_single_hostname
+          </stentry>
+          <stentry>
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/vio_single_positive_integer
+          </stentry>
+          <stentry>
+          </stentry>
+        </strow>
+      </simpletable>
+    </section>
+    <section>
+      <title id="vioMulti-technology">Small Integrated ENM Multi-Technology Associated Key Values</title>
+      <lines>
+        DIT identifies Small Integrated Multi-technology associated key values via reference to the following schema definitions.
+        Any key values found in the ENM SED schema that match these definitions for Small Integrated ENM Multi-technology defined below will be editable by a user of DIT on ENM SED edit document view when the 'Small Integrated ENM Multi-technology' checkbox is selected.
+        When the 'Small Integrated ENM Multi-technology' checkbox is not selected, any key values for Small Integrated ENM Multi-technology found in the ENM SED schema that match these definitions will not be editable or visible in the edit ENM SED document view and will be auto-populated with inactive default values.
+
+        <b>Warning:</b> The deletion or renaming of schema definitions in the ENM SED schema detailed below will result undesired behaviour and failure of the 'Small Integrated ENM Multi-technology' feature.
+        Any changes to the ENM SED schema definitions detailed below will require a subsequent update to functionality of DIT to ensure the 'Small Integrated ENM Multi-technology' feature continues to perform as expected.
+      </lines>
+      <simpletable>
+        <sthead>
+          <stentry>
+            Schema Definition Name
+          </stentry>
+          <stentry>
+            Inactive Default Value
+          </stentry>
+        </sthead>
+        <strow>
+          <stentry>
+            /definitions/ipv4_multi_vio
+          </stentry>
+          <stentry>
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/ipv6_multi_vio
+          </stentry>
+          <stentry>
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/vio_multi_any_string
+          </stentry>
+          <stentry>
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/vio_multi_hostname
+          </stentry>
+          <stentry>
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/vio_multi_positive_integer
+          </stentry>
+          <stentry>
+          </stentry>
+        </strow>
+      </simpletable>
+    </section>
+    <section>
+      <title id="running">When It Runs</title>
+      <lines>
+        On selection of the desired Small Integrated ENM option via the associated checkbox in ENM SED edit document view, the required Small Integrated ENM key values are made editable in the create ENM SED edit document view.
+        When either Small Integrated ENM checkbox is not selected, any key values for Small Integrated ENM found in the ENM SED schema that match these definitions will not be editable or visible in the edit ENM SED document view and will be auto-populated with inactive default values.
+      </lines>
+    </section>
+  </conbody>
+</concept>

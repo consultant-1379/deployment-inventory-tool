@@ -1,0 +1,11 @@
+{
+  "name": "validSedMConfig",
+  "schema_id": "",
+  "autopopulate": false,
+  "managedconfig": true,
+  "content": {
+    "parameters": {
+      "enm_external_network_name": "test"
+    }
+  }
+}

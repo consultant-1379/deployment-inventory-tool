@@ -1,0 +1,99 @@
+{
+  "definitions": {
+    "Deployment": {
+      "type": "object",
+      "required": [
+        "name",
+        "project_id",
+        "documents",
+        "enm",
+        "usergroups"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "note": "Name must be unique",
+          "example": "ieatenmpd201"
+        },
+        "project_id": {
+          "type": "string",
+          "note": "A project with this id must already exist. It must also be unique, two deployments can't share the same project.",
+          "example": "592d1fa182ee3e002055763b",
+          "minLength": 24,
+          "maxLength": 24
+        },
+        "documents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "schema_name",
+              "schema_category",
+              "document_id"
+            ],
+            "properties": {
+              "schema_name": {
+                "type": "string",
+                "note": "Must match the schema name associated with the document_id",
+                "example": "netsim"
+              },
+              "schema_category": {
+                "type": "string",
+                "example": "other",
+                "note": "Must be one of the following: vnflcm, other or cenm. Is required: \n* If schema_name starts with 'vnflcm_sed_schema', the schema_category will be 'vnflcm'.\n* If schema_name starts with 'cenm_', the schema_category will be 'cenm'.\n* Every other schema_name, the schema_category will be 'other'.",
+                "enum": ["vnflcm", "other", "cenm"],
+                "default": "other"
+              },
+              "document_id": {
+                "type": "string",
+                "note": "A document with this id must already exist. It must not be a managed config document. It must not use a schema of name enm_sed, cenm_site_values",
+                "example": "592d1fa182ee3e002055763b",
+                "minLength": 24,
+                "maxLength": 24
+              }
+            }
+          },
+          "example": [
+            {
+              "schema_name": "netsim",
+              "document_id": "592d1fa182ee3e002055763b"
+            }
+          ]
+        },
+        "enm": {
+          "type": "object",
+          "required": [
+            "sed_id"
+          ],
+          "properties": {
+            "sed_id": {
+              "type": "string",
+              "note": "A document with this id must already exist. The vENM document must use a schema of name enm_sed. The cENM document must use schema of name cenm_site_values.",
+              "example": "592d1fa182ee3e002055763b",
+              "minLength": 24,
+              "maxLength": 24
+            },
+            "private_key": {
+              "type": "string",
+              "note": "A test environments private key, used during tests"
+            },
+            "public_key": {
+              "type": "string",
+              "note": "A test environments public key, used during tests"
+            }
+          }
+        },
+        "jira_issues": {
+          "type": "array",
+          "note": "List of JIRA Issues that are associated with setup of the Deployments.",
+          "example": ["CIP-29798", "CIP-30055"]
+        },
+        "usergroups": {
+          "type": "array",
+          "note": "Can contain one or more groupId, in which you want the deployment to be associated with",
+          "example": ["groupId1", "groupId2"]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+<section>
+  <div class="page-header">
+    <div class="pull-right">
+      <div class="btn-toolbar input-group" style="width:300px">
+        <input type="text" class="form-control" id="filter-field" placeholder="Search any field...">
+        <span class="input-group-addon search-clear glyphicon glyphicon-remove-circle"></span>
+        <span class="input-group-addon glyphicon glyphicon-search"></span>
+      </div>
+    </div>
+    <h1>Schemas</h1>
+  </div>
+  <a ui-sref="schemas.create" class="btn btn-sm btn-success ">Create new schema</a>
+  <div class="pull-right">
+    <toggle size="btn-sm" ng-model="vm.showAllSchemaVersions" ng-change="vm.setVisibleSchemas()" class="no-animate"></toggle> Show Snapshots
+  </div>
+  <table ng-if="vm.schemas.length > 0" id="schemas-list-table" class="table table-striped table-condensed table-hover">
+    <tbody>
+    </tbody>
+  </table>
+</section>

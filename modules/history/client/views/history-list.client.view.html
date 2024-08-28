@@ -1,0 +1,43 @@
+<section>
+  <div class="page-header">
+    <div class="pull-right">
+      <div class="btn-toolbar input-group" style="width:300px">
+        <input type="text" class="form-control" id="filter-field" placeholder="Search any field...">
+        <span class="input-group-addon search-clear glyphicon glyphicon-remove-circle"></span>
+        <span class="input-group-addon glyphicon glyphicon-search"></span>
+      </div>
+    </div>
+    <h1 ng-if="vm.objType != 'documents'">{{ vm.objectType }} Historical Logs</h1>
+    <div class="documents" ng-if="vm.objType == 'documents'">
+      <h1>{{ vm.documentType }} Historical Logs</h1>
+      <div class="documentsDropdown">
+        <button ng-click="vm.showDropDown()" class="btn btn-sm btn-primary">Select Document Type</button>
+        <div id="documentsDropdown" class="dropdown-content">
+          <a ng-repeat="documentType in vm.documentTypes" ng-click="vm.switchDocumentLogs(documentType)">{{ documentType }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pull-right" ng-if="vm.objType == 'schemas'">
+    Show Snapshots <toggle size="btn-sm" ng-model="vm.showAllLogVersions" ng-change="vm.setVisibleLogs()" class="no-animate"></toggle>
+  </div>
+  <h3>Live in Database</h3>
+  <div ng-repeat="pass in [{logs: vm.logs, lastChange: 'Last Modified'}]" ng-include="'log-table-template-1'"></div>
+
+  <h3>Deleted from Database</h3>
+  <div ng-repeat="pass in [{logs: vm.logs, lastChange: 'Deleted'}]" ng-include="'log-table-template-2'"></div>
+</section>
+
+<script id="log-table-template-1" type="text/ng-template">
+  <table class="table table-striped table-condensed table-hover" id="live-table">
+    <tbody>
+    </tbody>
+  </table>
+</script>
+
+<script id="log-table-template-2" type="text/ng-template">
+  <table class="table table-striped table-condensed table-hover" id="deleted-table">
+    <tbody>
+    </tbody>
+  </table>
+</script>

@@ -1,0 +1,138 @@
+{
+  "name": "enm_sed",
+  "version": "1.2.3",
+  "content": {
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "additionalProperties": false,
+    "definitions": {
+      "any_string_or_empty": {
+        "description": "This must be any or empty string",
+        "pattern": "^.*$",
+        "type": "string"
+      },
+      "external_nfs_server": {
+        "description": "Use an external NFS server for this volume. It should be either hostname, FQDN or IPv4. Leave this value empty to use the internal NFS.",
+        "pattern": "^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\\.[a-z0-9](?:[-0-9a-z]{0,61}[0-9a-z])?)*$|^(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)$|^$",
+        "type": "string"
+      },
+      "volume_size": {
+        "description": "This is the volume size in GB. This must be an integer between 1 and 9999, eg 50",
+        "pattern": "^([1-9]|[1-8][0-9]|9[0-9]|[1-8][0-9]{2}|9[0-8][0-9]|99[0-9]|[1-8][0-9]{3}|9[0-8][0-9]{2}|99[0-8][0-9]|999[0-9])$",
+        "type": "string"
+      },
+      "instances": {
+        "description": "This must be a valid number of instances from 0 upwards",
+        "pattern": "^\\d+$",
+        "type": "string"
+      },
+      "ipv4_external_list": {
+        "description": "This must be a comma separated list of ipv4 addresses on the external network",
+        "pattern": "^(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)(,\\s*(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?))*$",
+        "type": "string"
+      },
+      "ipv6_external_list": {
+        "description": "This must be a comma separated list of ipv6 addresses on the external network",
+        "pattern": "^\\s*(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:)))(?:%.+)?\\s*(,\\s*\\s*(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:)))(?:%.+)?\\s*)*$",
+        "type": "string"
+      },
+      "volume_snap": {
+        "description": "Create a snapshot for backup/rollback should be either yes or no.",
+        "enum": [
+          "yes",
+          "no"
+        ],
+        "type": "string"
+      }
+    },
+    "properties": {
+      "parameters": {
+        "additionalProperties": false,
+        "default": {},
+        "description": "Please fill in all required fields",
+        "properties": {
+          "nfsamos_volume_size": {
+            "$ref": "#/definitions/volume_size"
+          },
+          "nfsamos_external_server": {
+            "$ref": "#/definitions/external_nfs_server"
+          },
+          "nfsamos_external_exported_fs": {
+            "$ref": "#/definitions/any_string_or_empty"
+          },
+          "nfspm_external_ip_list": {
+            "$ref": "#/definitions/ipv4_external_list"
+          },
+          "nfspm_external_ipv6_list": {
+            "$ref": "#/definitions/ipv6_external_list"
+          },
+          "nfspm_volume_size": {
+            "$ref": "#/definitions/volume_size",
+            "default": "2048"
+          },
+          "nfspm_volume_backup": {
+            "$ref": "#/definitions/volume_snap",
+            "default": "no"
+          },
+          "nfspm_instances": {
+            "$ref": "#/definitions/instances"
+          },
+          "nfspmlinks_instances": {
+            "$ref": "#/definitions/instances"
+          },
+          "nfspmlinks_external_ip_list": {
+            "$ref": "#/definitions/ipv4_external_list"
+          },
+          "nfspmlinks_external_ipv6_list": {
+            "$ref": "#/definitions/ipv6_external_list"
+          },
+          "nfspmlinks_external_server": {
+            "$ref": "#/definitions/external_nfs_server"
+          },
+          "nfspmlinks_external_exported_fs": {
+            "$ref": "#/definitions/any_string_or_empty"
+          },
+          "nfspmlinks_volume_backup": {
+            "$ref": "#/definitions/volume_snap",
+            "default": "no"
+          },
+          "nfspmlinks_volume_size": {
+            "$ref": "#/definitions/volume_size",
+            "default": "70"
+          },
+          "nfssmrs_instances": {
+            "$ref": "#/definitions/instances"
+          },
+          "nfssmrs_volume_size": {
+            "$ref": "#/definitions/volume_size",
+            "default": "2600"
+          },
+          "nfssmrs_external_server": {
+            "$ref": "#/definitions/external_nfs_server"
+          },
+          "nfssmrs_external_exported_fs": {
+            "$ref": "#/definitions/any_string_or_empty"
+          },
+          "nfspm1_external_server": {
+            "$ref": "#/definitions/external_nfs_server"
+          },
+          "nfspm1_external_exported_fs": {
+            "$ref": "#/definitions/any_string_or_empty"
+          },
+          "nfspm2_external_server": {
+            "$ref": "#/definitions/external_nfs_server"
+          },
+          "nfspm2_external_exported_fs": {
+            "$ref": "#/definitions/any_string_or_empty"
+          }
+        },
+        "required": [],
+        "title": "Site Engineering Data for ENM on Cloud",
+        "type": "object"
+      }
+    },
+    "required": [
+      "parameters"
+    ],
+    "type": "object"
+  }
+}

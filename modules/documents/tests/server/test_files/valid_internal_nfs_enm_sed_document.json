@@ -1,0 +1,20 @@
+{
+  "name": "validInternalNFSEnmSedDocument",
+  "schema_id": "",
+  "autopopulate": false,
+  "useexternalnfs": false,
+  "content": {
+    "parameters": {
+      "nfsamos_external_server": "",
+      "nfsamos_external_exported_fs": "",
+      "nfspmlinks_external_server": "",
+      "nfspmlinks_external_exported_fs": "",
+      "nfspm1_external_server": "",
+      "nfspm1_external_exported_fs": "",
+      "nfspm2_external_server": "",
+      "nfspm2_external_exported_fs": "",
+      "nfssmrs_external_server": "",
+      "nfssmrs_external_exported_fs": ""
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "validPod",
+  "authUrl": "https://cloud4b.athtem.eei.ericsson.se:13000/v3",
+  "networks": [
+    {
+      "name": "provider_network",
+      "vrrp_range": {
+        "start": "100",
+        "end": "255"
+      },
+      "ipv6_subnet": {
+        "cidr": "2001:1B70:6207:27::/64",
+        "gateway_ip": "2001:1B70:6207:27:0:874:0:1"
+      },
+      "ipv4_subnet": {
+        "cidr": "131.160.202.0/24",
+        "gateway_ip": "131.160.202.1"
+      }
+    }
+  ]
+}

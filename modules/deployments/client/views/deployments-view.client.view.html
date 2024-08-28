@@ -1,0 +1,126 @@
+<section>
+  <div class="page-header">
+    <div class="btn-toolbar pull-right">
+      <div class="btn-group">
+        <a class="btn btn-sm btn-primary" ui-sref="deployments.edit({deploymentId: vm.deployment._id})">Edit</a>
+      </div>
+      <div class="btn-group">
+        <a class="btn btn-sm btn-warning" id="view-log" ui-sref="logs.view({ objType: 'deployments', objId: vm.deployment._id })">View Log</a>
+      </div>
+    </div>
+    <h1>Viewing deployment '{{ vm.deployment.name }}'</h1>
+  </div>
+  <form>
+    <fieldset disabled>
+      <div class="row row-relative">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Name</label>
+            <p class="form-control-static">{{ vm.deployment.name }}</p>
+          </div>
+          <div class="form-group">
+            <label>Project</label>
+            <p class="form-control-static"><a ui-sref="projects.view({ projectId: vm.project._id })">{{ vm.project.name }}</a></p>
+          </div>
+          <div class="form-group">
+            <label>{{(vm.iscENM) ? 'c' :''}}ENM SED</label>
+            <table class="table table-striped table-condensed table-hover full-document-view">
+              <thead>
+                <tr>
+                  <th>
+                    Name
+                  </th>
+                  <th colspan="2">
+                    Schema Version
+                  </th>
+                  <th>
+                    IP Version
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="form-control-static"><a ui-sref="documents.view({ documentId: vm.sed._id })">{{ vm.sed.name }}</a></td>
+                  <td class="form-control-static" colspan="2"><a ui-sref="schemas.view({ schemaId: vm.sed.schema_id })">{{ vm.sed.schema_version }}</a></td>
+                  <td ng-if="vm.sed.content.parameters.ip_version">{{ vm.sed.content.parameters.ip_version }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div ng-show="vm.vnfLcmSedRequired" class="form-group">
+            <label>VNF LCM SED</label>
+            <p ng-if="!vm.vnflcmSed._id">None</p>
+            <table ng-if="vm.vnflcmSed._id" class="table table-striped table-condensed table-hover full-document-view">
+              <thead>
+                <tr>
+                  <th>
+                    Name
+                  </th>
+                  <th colspan="2">
+                    Schema Version
+                  </th>
+                  <th>
+                    IP Version
+                  </th>
+                </tr>
+            </thead>
+              <tbody>
+                <tr>
+                  <td class="form-control-static"><a ui-sref="documents.view({ documentId: vm.vnflcmSed._id })">{{ vm.vnflcmSed.name }}</a></td>
+                  <td class="form-control-static" colspan="2"><a ui-sref="schemas.view({ schemaId: vm.vnflcmSed.schema_id })">{{ vm.vnflcmSed.schema_version }}</a></td>
+                  <td class="form-control-static" ng-if="vm.vnflcmSed.content.parameters.ip_version">{{ vm.vnflcmSed.content.parameters.ip_version }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-md-6 col-border">
+          <div class="col-border-padding">
+            <div class="form-group">
+              <label>Associated Groups</label>
+              <div ng-switch="vm.groups.length">
+                <p ng-switch-when="0">None</p>
+                <p ng-switch-default ng-repeat="group in vm.groups">
+                  <a ui-sref="groups.view({groupId: group.id})">{{ group.name }}</a>
+                </p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Associated Documents</label>
+              <p ng-if="!vm.deployment.documents.length || (vm.deployment.documents.length === 1 && vm.vnflcmSed._id !== undefined)">None</p>
+              <p ng-repeat="document in vm.dependentDocuments">
+                 <a ng-if="document._id !== vm.vnflcmSed._id" ui-sref="documents.view({documentId: document._id})">{{ document.name }}</a>
+              </p>
+            </div>
+            <div class="form-group">
+              <label>Associated JIRA Issues</label>
+              <div ng-switch="vm.deployment.jira_issues.length">
+                <p ng-switch-when="0">None</p>
+                <div ng-switch-default>
+                  <table class="table table-striped table-condensed table-hover full-document-view">
+                    <thead>
+                      <tr>
+                        <th>Issue</th>
+                        <th colspan="2">Summary</th>
+                        <th>Team</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="jira in vm.jiraIssuesData">
+                        <td><a href="{{jira.viewUrl}}">{{jira.issue}}</a></td>
+                        <td colspan="2">{{jira.summary}}</td>
+                        <td>{{jira.team}}</td>
+                        <td>{{jira.status}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</section>

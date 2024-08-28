@@ -1,0 +1,15 @@
+{
+  "name": "validSedMConfig",
+  "schema_id": "",
+  "autopopulate": false,
+  "managedconfig": true,
+  "content": {
+    "parameters": {
+      "flavor_6vC6M1_1": "ECN_custom_overcommit_flavor1_1",
+      "flavor_6vC6M3_1": "ECN_custom_overcommit_flavor_1,flavor_esmon,flavor_said",
+      "flavor_2vC4M3_1": "ECN_custom_overcommit_flavor_2,flavor_nbfmsnmp,flavor_elementmanager",
+      "flavor_6vC6M": "ECN_custom_not_overcommit_flavor_3",
+      "flavor_2vC4M": "ECN_custom_not_overcommit_flavor_4"
+    }
+  }
+}

@@ -1,0 +1,154 @@
+<section>
+  <div class="page-header">
+    <h1>{{ vm.pageTitle }} '{{ vm.deployment.name }}'</h1>
+  </div>
+  <form name="form" ng-submit="vm.submitForm(form)" novalidate>
+    <fieldset>
+      <div class="row row-relative">
+        <div class="col-md-8">
+          <div class="form-group has-feedback" ng-class="{ 'has-error': form.name.$invalid, 'has-success': form.name.$valid }">
+            <label for="name">Name</label>
+            <input class="form-control" type="text" id="name" name="name" placeholder="Name" ng-model="vm.deployment.name" ng-pattern="/^[a-zA-Z0-9\-_.]*$/" required autofocus>
+            <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form.name.$invalid, 'glyphicon-ok': form.name.$valid }"></span>
+            <span class="help-block" ng-if="vm.deployment.name.startsWith('A_Health_')">
+              <p><b>Warning:</b> Deployments with names beginning in 'A_Health_' are reserved for Health-Check Testing: They have no logs stored and are automatically removed during DIT upgrades.</p>
+            </span>
+            <span class="help-block" ng-messages="form.name.$error">
+              <p ng-message="required">This field is required</p>
+              <p ng-message="pattern">This must only contain letters, numbers, dots, dashes and underscores</p>
+            </span>
+          </div>
+          <div class="form-group has-feedback" ng-class="{ 'has-error': form['project-select'].$invalid, 'has-success': form['project-select'].$valid }">
+            <label for="project">Project</label>
+            <select class="form-control" name="project-select" id="project-select" ng-model="vm.deployment.project_id" ng-options="project._id as project.name for project in vm.projects" required>
+              <option value="" disabled selected>--Select PROJECT--</option>
+            </select>
+            <span class="help-block" ng-messages="form['project-select'].$error">
+              <p ng-message="required">This field is required</p>
+            </span>
+          </div>
+
+          <div class="form-group has-feedback" ng-class="{ 'has-error': form['enm-sed-select'].$invalid, 'has-success': form['enm-sed-select'].$valid }">
+            <label for="enm-sed-select"><toggle name="sedType" size="btn-btn" ng-model="vm.showENMSeds" ng-change="vm.toggleSEDHandler()" class="no-animate" width="130px"
+              on="<i class='fa fa-file'></i><b> vENM SED</b>" off="<i class='fa fa-file'></i> <b> cENM SED</b>">
+            </toggle> <i ng-if="vm.showENMSeds" class="ebIcon ebIcon_info" title="VNF LCM SED separated from ENM Schema version 1.39.15"></i></label>
+            <select class="form-control" id="enm-sed-select" name="enm-sed-select" ng-model="vm.deployment.enm.sed_id" ng-options="document._id as document.name for document in vm.currentDocumentsList" required>
+               <option value="" disabled selected>--Select vENM-SED--</option>
+            </select>
+            <span class="help-block" ng-messages="form['enm-sed-select'].$error">
+              <p ng-message="required">This field is required</p>
+            </span>
+          </div>
+          <div ng-if="vm.vnfLcmSedRequired && vm.showENMSeds" class="form-group has-feedback" ng-class="{ 'has-error': form['vnfLcm-sed-select'].$invalid, 'has-success': form['vnfLcm-sed-select'].$valid }">
+            <label for="vnfLcm-sed-select">VNF LCM SED</label>
+            <select class="form-control" id="vnfLcm-sed-select" name="vnfLcm-sed-select" ng-model="vm.vnfLcmSedDocumentId" ng-options="document._id as document.name for document in vm.vnfLcmSedDocuments" required>
+              <option value="" disabled selected>--Select VNF LCM SED--</option>
+            </select>
+            <span class="help-block" ng-messages="form['vnfLcm-sed-select'].$error">
+              <p ng-message="required">This field is required</p>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-4 col-border">
+          <div class="col-border-padding">
+            <legend>Manage Groups <i class="ebIcon ebIcon_info" title="Attach a number of groups that are allowed to view and edit this Deployment."></i></legend>
+            <div ng-if="vm.allUserGroups.length > 0 || vm.deployment.usergroups.length > 0">
+              <div ng-repeat="group in vm.deployment.usergroups track by $index">
+                <div class="form-group has-feedback" ng-class="{ 'has-error': form['userGroups[{{$index}}]'].$invalid, 'has-success': form['userGroups[{{$index}}]'].$valid }">
+                  <div class="input-group">
+                    <select class="form-control" ng-disabled="vm.disableGroupsButton(group, 'select')" ng-init="vm.deployment.usergroups[$index]" id="userGroups[{{$index}}]" name="userGroups[{{$index}}]" ng-model="vm.deployment.usergroups[$index]" ng-options="group.id as group.name for group in vm.groupOptions(vm.disableGroupsButton(group, 'select'))" required></select>
+                    <span class="input-group-btn">
+                      <a ng-disabled="!vm.deployment.usergroups[$index]" ui-sref="groups.view({groupId: vm.deployment.usergroups[$index]}) " type="button" class="btn btn-default btn-sm" target="_blank" title="View Group In Another Tab"><i class="ebIcon ebIcon_eye"></i></a>
+                      <a ng-disabled="vm.disableGroupsButton(group, 'remove')" ng-click="vm.removeUserGroup(group)" type="button" class="btn btn-default btn-sm" title="Detach Group"><i class="ebIcon ebIcon_cancelled"></i></a>
+                    </span>
+                  </div>
+                  <span class="help-block" ng-messages="form['userGroups[' + $index + ']'].$error">
+                    <p ng-message="required">This field is required</p>
+                  </span>
+                </div>
+              </div>
+              <button ng-hide="vm.disableGroupsButton(group, 'add')" ng-click="vm.addUserGroup()" type="button" class="btn btn-default btn-sm pull-right" title="Attach Group"><i class="ebIcon ebIcon_add"></i></button>
+            </div>
+            <div ng-if="vm.allUserGroups.length == 0 && vm.deployment.usergroups.length == 0">
+              <p>Not in any group, please contact Admin to be added to a group or to create a new group if required.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Associated Documents</legend>
+      <p ng-if="vm.deployment.documents.length === 0 || (vm.deployment.documents.length === 1 && vm.vnfLcmSedDocumentId !== undefined)">There are currently no associated documents.</p>
+      <table ng-if="vm.deployment.documents.length > 0 && !(vm.deployment.documents.length === 1 && vm.vnfLcmSedDocumentId !== undefined)" class="table table-striped table-condensed table-hover">
+        <thead>
+          <tr>
+            <th>Schema Name</th>
+            <th>Document</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-if="vm.checkDocument(document)" ng-repeat="document in vm.deployment.documents track by $index">
+            <td>
+              <div class="form-group has-feedback" ng-class="{ 'has-error': form['documents{{$index}}-schema'].$invalid, 'has-success': form['documents{{$index}}-schema'].$valid }">
+                <select class="form-control" id="documents{{$index}}-schema" name="documents{{$index}}-schema" ng-model="document.schema_name" ng-options="schema_name as schema_name for (schema_name, documents) in vm.documentsForSchema" required>
+                  <option value="" disabled selected>--Select Schema Name--</option>
+                </select>
+                <span class="help-block" ng-messages="form['documents' + $index + '-schema'].$error">
+                  <p ng-message="required">This field is required</p>
+                </span>
+              </div>
+            </td>
+            <td style="display:none">
+              <input type="hidden" id="documents[{{$index}}].schema_category" name="documents[{{$index}}].schema_category" ng-model="document.schema_category" value="other">
+            </td>
+            <td>
+              <div class="form-group has-feedback" ng-class="{ 'has-error': form['documents{{$index}}-document'].$invalid, 'has-success': form['documents{{$index}}-document'].$valid }">
+                <select class="form-control" id="documents{{$index}}-document" name="documents{{$index}}-document" ng-model="document.document_id" ng-options="documentForSchema._id as documentForSchema.name for documentForSchema in vm.documentsForSchema[document.schema_name]" required>
+                  <option value="" disabled selected>--Select Document--</option>
+                </select>
+                <span class="help-block" ng-messages="form['documents' + $index + '-document'].$error">
+                  <p ng-message="required">This field is required</p>
+                </span>
+              </div>
+            </td>
+            <td>
+              <a ng-click="vm.removeDocument(document)" type="button" class="btn btn-default btn-sm" title="Remove Document"><i class="glyphicon glyphicon-remove"></i></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button id="add-document" ng-click="vm.addDocument()" type="button" class="btn btn-default pull-right"><i class="glyphicon glyphicon-plus"></i>Add Document</button>
+    </fieldset>
+    <fieldset>
+      <legend>JIRA Issues</legend>
+      <div ng-repeat="jiraIssue in vm.deployment.jira_issues track by $index" class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h6 class="panel-title pull-left" style="padding-top: 7.5px;">JIRA Issue {{ $index + 1 }}: <strong>{{ jiraIssue }}</strong></h6>
+          <div class="btn-group pull-right">
+            <button ng-click="vm.removeJiraIssue($index)" type="button" class="btn btn-sm"><i class="glyphicon glyphicon-remove"></i> Remove JIRA Issue</button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <!-- JIRA Issue -->
+          <div class="form-group has-feedback" ng-class="{ 'has-error': form['jira_issues[' + $index + ']'].$invalid, 'has-success': form['jira_issues[' + $index + ']'].$valid }">
+            <label>Issue</label>
+            <input class="form-control" name="jira_issues[{{$index}}]" type="text" placeholder="Issue" ng-model="vm.deployment.jira_issues[$index]" ng-minlength="3" ng-maxlength="60" ng-pattern="/^[a-zA-Z0-9\-_.\s]*$/" ng-change="vm.jiraIssueValidation($index)" ng-model-options="{updateOn: 'blur'}">
+            <span class="glyphicon form-control-feedback" ng-class="{ 'glyphicon-remove': form['jira_issues[' + $index + ']'].$invalid, 'glyphicon-ok': form['jira_issues[' + $index + ']'].$valid }"></span>
+            <span class="help-block" ng-messages="form['jira_issues[' + $index + ']'].$error">
+              <p ng-message="minlength">This must be at least of length 3</p>
+              <p ng-message="maxlength">This must be at most of length 60</p>
+              <p ng-message="pattern">This must only contain letters, numbers, dots, dashes, underscores and spaces</p>
+              <p ng-message="jiraValidation">Provide a valid JIRA Issue</p>
+              <p ng-message="jiraDuplicate">You cannot add the same JIRA Issue twice</p>
+            </span>
+          </div>
+        </div>
+      </div>
+      <button id="add-jira" ng-click="vm.addJiraIssue()" type="button" class="btn btn-default pull-right"><i class="glyphicon glyphicon-plus"></i> Add JIRA Issue</button>
+    </fieldset>
+    <div class="btn-group pull-left" title="{{form.$invalid || vm.formSubmitting ? 'Ensure all values are valid and required fields are filled in.' : ''}}">
+      <button class="btn btn-primary" type="submit" ng-disabled="form.$invalid || vm.formSubmitting">Save</button>
+    </div>
+  </form>
+</section>

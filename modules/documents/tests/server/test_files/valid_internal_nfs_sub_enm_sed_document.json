@@ -1,0 +1,15 @@
+{
+  "name": "validInternalNFSSubEnmSedDocument",
+  "schema_id": "",
+  "autopopulate": true,
+  "useexternalnfs": false,
+  "content": {
+    "parameters": {
+      "nfsamos_volume_size": "100",
+      "nfspm_instances": "1",
+      "nfspmlinks_instances": "1",
+      "nfssmrs_instances": "1",
+      "nfspm_volume_size": "1"
+    }
+  }
+}

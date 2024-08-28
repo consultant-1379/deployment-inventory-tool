@@ -1,0 +1,32 @@
+{
+  "pod_id": "",
+  "name": "validExclusionProject",
+  "id": "validExclusionId",
+  "username": "validUsername",
+  "password": "validPassword",
+  "network": {
+    "name": "exclusion_provider_network",
+    "ipv4_ranges": [
+      {
+        "start": "131.160.202.30",
+        "end": "131.160.202.45"
+      }
+    ],
+    "ipv6_ranges": [
+      {
+        "start": "2001:1b70:6207:0027:0000:0874:1001:0000",
+        "end": "2001:1b70:6207:0027:0000:0874:1001:ffff"
+      }
+    ]
+  },
+  "exclusion_ipv4_addresses": [
+    {
+      "ipv4": "10.10.0.50"
+    }
+  ],
+  "exclusion_ipv6_addresses": [
+    {
+      "ipv6": "fd5b:1fd5:8295:5339:0000:0000:0000:0005"
+    }
+  ]
+}

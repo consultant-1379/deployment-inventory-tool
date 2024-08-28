@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="Overview">
+  <title>Overview</title>
+  <conbody>
+    <p>
+      The primary purpose of the Deployment Inventory Tool (DIT) is to manage, store, retrieve and
+      upgrade SED documents for all vENM and cENM test environments.
+    </p>
+    <p>
+      Due to the large number of vENM test environments and to allow automation and tooling to be
+      built around the management of them, the structure of each vENM SED and cENM SED is stored in a JSON
+      Schema.
+    </p>
+    <p>
+      These JSON Schemas allow DIT to manage the large number of SED documents that need to be
+      stored and upgraded on a regular basis.
+    </p>
+    <p>
+      The Openstack Auto-Deployment Tool (OADT) is used to automate manual steps in the vENM
+      installation procedure.
+    </p>
+    <p>
+      Additionally, DIT is used to store information relating to OpenStack Clouds (Pods) and
+      Tenancies (Projects) as well as documents unrelated to ENM.
+    </p>
+  </conbody>
+</concept>

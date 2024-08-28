@@ -1,0 +1,210 @@
+{
+  "paths": {
+    "/deployments": {
+      "get": {
+        "tags": [
+          "Deployments"
+        ],
+        "summary": "Returns a list of Deployments that match the provided query parameters.",
+        "description": "Returns a list of all Deployments and their key-values when no filter parameters are provided. \nFor filtering syntax see <a href='/helpdocs/#help/app/helpdocs/topic/features/apiSearchandFilter' target='_blank'><b>here</b></a>.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name":"q",
+            "in":"query",
+            "description":"Specifies what Deployments should be retrieved based on provided key-values. \nMultiple key-values can be specified with the ampersand-delimited format. Eg. To list all Deployments with the name 'Anewdeployment': 'q=name=Anewdeployment', and to list all Deployments with the name 'Anewdeployment' and project_id '592d1fa182ee3e002055763b': 'q=name=Anewdeployment&project_id=592d1fa182ee3e002055763b'",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "name=Anewdeployment&project_id=592d1fa182ee3e002055763b"
+          },
+          {
+            "name":"fields",
+            "in":"query",
+            "description":"Specifies what key-values associated with the retrieved Deployments that you want to receive. \nMultiple key-values can be retrieved through filtering keys with the comma-delimited format. Eg. For the name value alone: 'fields=name', and for the name and project_id values: 'fields=name,project_id'",
+            "required":false,
+            "allowReserved": true,
+            "type":"string",
+            "example": "name,project_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Deployment"
+              }
+            }
+          },
+          "422": {
+            "description": "Improperly structured query. Make sure to use ?q=&lt;key&gt;=&lt;value&gt; syntax"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post":{
+        "tags": [
+          "Deployments"
+        ],
+        "summary": "Creates a new Deployment.",
+        "description": "Creates and returns a new Deployment.",
+        "produces": [
+          "application/json"
+        ],
+        "consume": [
+          "application/json"
+        ],
+        "parameters":[
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Deployment object that represents your OpenStack Deployment",
+            "required": true,
+            "schema":{
+              "$ref": "#/definitions/Deployment"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created Deployment successfully."
+          },
+          "400": {
+            "description": "Possible Messages:\n* There was a syntax error found in your request, please make sure that it is valid and try again\n* {PATH} is not in schema and strict mode is set to throw\n* {PATH} is not valid, {VALUE} is not an integer\n* {PATH} is less than minimum allowed value (0)\n* {PATH} is required"
+          },
+          "422": {
+            "description": "Possible messages:\n* JIRA Issue: 'Jira issue' is invalid, please enter a valid Issue and try again.\n* You cannot add the same JIRA Issue multiple times. Please remove the duplicates: 'jira issues' and try again."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/deployments/{deploymentId}":{
+      "get":{
+        "tags": [
+          "Deployments"
+        ],
+        "summary": "Returns a Deployment.",
+        "description": "Returns a Deployment. \nFor filtering syntax see <a href='/helpdocs/#help/app/helpdocs/topic/features/apiSearchandFilter' target='_blank'><b>here</b></a>.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters":[
+           {
+              "name": "deploymentId",
+              "in": "path",
+              "required": true,
+              "description": "The id of the Deployment to retrieve",
+              "type": "string"
+           }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully gotten Deployment",
+            "schema": {
+              "$ref": "#/definitions/Deployment"
+            }
+          },
+          "404": {
+            "description": "A Deployment with the given Id could not be found in the database"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put":{
+        "tags": [
+          "Deployments"
+        ],
+        "summary": "Updates a Deployment.",
+        "description": "Updates a Deployment.",
+        "produces": [
+          "application/json"
+        ],
+        "consume": [
+          "application/json"
+        ],
+        "parameters":[
+           {
+              "name": "deploymentId",
+              "in": "path",
+              "required": true,
+              "description": "The id of the Deployment to update",
+              "type": "string"
+           },
+           {
+             "in": "body",
+             "name": "body",
+             "description": "Deployment object that represents your OpenStack Deployment <br>Partial update possible, not all fields in body required",
+             "required": true,
+             "schema":{
+               "$ref": "#/definitions/Deployment"
+              }
+            }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated Deployment",
+            "schema": {
+              "$ref": "#/definitions/Deployment"
+            }
+          },
+          "400": {
+            "description": "Possible Messages:\n* There was a syntax error found in your request, please make sure that it is valid and try again\n* {PATH} is not in schema and strict mode is set to throw\n* {PATH} is not valid, {VALUE} is not an integer\n* {PATH} is less than minimum allowed value (0)\n* {PATH} is required"
+          },
+          "404":{
+            "description": "A Deployment with that id does not exist"
+          },
+          "422": {
+            "description": "Possible messages:\n* JIRA Issue: 'Jira issue' is invalid, please enter a valid Issue and try again.\n* You cannot add the same JIRA Issue multiple times. Please remove the duplicates: 'jira issues' and try again."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete":{
+        "tags": [
+          "Deployments"
+        ],
+        "summary": "Deletes a Deployment.",
+        "description": "Deletes a Deployment.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters":[
+           {
+              "name": "deploymentId",
+              "in": "path",
+              "required": true,
+              "description": "The id of the Deployment to delete",
+              "type": "string"
+           }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully deleted Deployment",
+            "schema": {
+              "$ref": "#/definitions/Deployment"
+            }
+          },
+          "404":{
+            "description": "A Deployment with that id does not exist"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  }
+}

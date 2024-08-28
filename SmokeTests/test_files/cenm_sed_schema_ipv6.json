@@ -1,0 +1,218 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "additionalProperties": false,
+    "definitions": {
+      "any_string": {
+        "description": "This must be any string",
+        "pattern": "^.+$",
+        "type": "string"
+      },
+      "any_string_or_empty": {
+        "description": "This must be any or empty string",
+        "pattern": "^.*$",
+        "type": "string"
+      },
+      "cookie_domain": {
+        "description": "Value should be the same as the httpd_fqdn.",
+        "pattern": "^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\\.[a-z0-9](?:[-0-9a-z]{0,61}[0-9a-z])?)*$",
+        "type": "string"
+      },
+      "hostname": {
+        "description": "This must be a valid hostname",
+        "pattern": "^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\\.[a-z0-9](?:[-0-9a-z]{0,61}[0-9a-z])?)*$",
+        "type": "string"
+      },
+      "instances": {
+        "description": "This must be a valid number of instances from 0 upwards",
+        "pattern": "^\\d+$",
+        "type": "string"
+      },
+      "ipv4": {
+        "description": "This must be a valid ipv4 address",
+        "pattern": "^(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)$",
+        "type": "string"
+      },
+      "ipv4_common": {
+        "description": "This must be a valid ipv4 address or left blank",
+        "pattern": "^($|(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)*)$",
+        "type": "string"
+      },
+      "cidr_common": {
+        "description": "This must be a valid ipv4 cidr or left blank",
+        "pattern": "^(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)/([1-9]|[12][0-9]|3[0-2])$",
+        "type": "string"
+      },
+      "ipv4_cidr": {
+        "description": "This must be a valid ipv4 cidr",
+        "pattern": "^(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)/([1-9]|[12][0-9]|3[0-2])$",
+        "type": "string"
+      },
+      "ipv4_external": {
+        "description": "This must be a valid ipv4 address on the external network",
+        "pattern": "^(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)$",
+        "type": "string"
+      },
+      "ipv4_internal": {
+        "description": "This must be a valid ipv4 address on the internal network",
+        "pattern": "^(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)$",
+        "type": "string"
+      },
+      "ipv6": {
+        "description": "This must be a valid ipv6 address",
+        "pattern": "^\\s*(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:)))(?:%.+)?\\s*$",
+        "type": "string"
+      },
+      "ipv6_external_autopop": {
+        "description": "This must be a valid ipv6 address",
+        "pattern": "^\\s*(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:)))(?:%.+)?\\s*$",
+        "type": "string"
+      },
+      "port_number": {
+        "description": "This must be a valid port number",
+        "pattern": "^([0-9]|[1-8][0-9]|9[0-9]|[1-8][0-9]{2}|9[0-8][0-9]|99[0-9]|[1-8][0-9]{3}|9[0-8][0-9]{2}|99[0-8][0-9]|999[0-9]|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$",
+        "type": "string"
+      },
+      "positive_integer": {
+        "description": "This must be a positive integer",
+        "pattern": "^\\d+$",
+        "type": "string"
+      },
+      "url": {
+        "description": "This must be a valid url",
+        "pattern": "^(https?:\\/\\/)([a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\\.[a-z0-9](?:[-0-9a-z]{0,61}[0-9a-z])?)*)(.*)$",
+        "type": "string"
+      },
+      "domain": {
+        "description": "Value should be a domain.",
+        "pattern": "^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\\.[a-z0-9](?:[-0-9a-z]{0,61}[0-9a-z])?)*$",
+        "type": "string"
+      },
+      "ipv4_or_ipv6_address": {
+        "description": "This should be either an IPv4 or IPv6 address.",
+        "pattern": "^((?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)|(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|(([0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4})*)?)::(([0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4})*)?)))$",
+        "type": "string"
+      },
+      "ip_version": {
+        "default": "dual",
+        "description": "Specifies which IP versions to use",
+        "enum": [
+          "v4",
+          "v6",
+          "dual"
+        ],
+        "type": "string"
+      }
+    },
+    "properties": {
+      "parameters": {
+        "additionalProperties": false,
+        "default": {
+          "COM_INF_LDAP_ADMIN_CN": "uid=ssouser,ou=people",
+          "timezone": "Europe/Dublin",
+          "eric_enm_ddc_account": "upload@ddpenm6.athtem.eei.ericsson.se",
+          "eric_enm_ddc_password": "_!upLoad",
+          "ingress_l4_internal": "ens160",
+          "ingress_l4_external": "ens160",
+          "ingress_l4_podNetworkCIDR": "192.168.0.0/16",
+          "ingress_l4_cniMode": "ipip",
+          "hostPort": "9690",
+          "servicePort": "9690"
+        },
+        "description": "Please fill in all required fields",
+        "properties": {
+          "rwx_storageClass": {
+            "$ref": "#/definitions/any_string"
+          },
+          "rwo_storageClass": {
+            "$ref": "#/definitions/any_string"
+          },
+          "host_system_identifier": {
+            "$ref": "#/definitions/any_string"
+          },
+          "COM_INF_LDAP_ROOT_SUFFIX": {
+            "$ref": "#/definitions/any_string"
+          },
+          "COM_INF_LDAP_ADMIN_CN": {
+            "$ref": "#/definitions/any_string"
+          },
+          "enmHost": {
+            "$ref": "#/definitions/hostname"
+          },
+          "loadBalancerIP": {
+            "$ref": "#/definitions/ipv4"
+          },
+          "svc_fm_vip_ipv6address": {
+            "$ref": "#/definitions/ipv6_external_autopop"
+          },
+          "svc_cm_vip_ipv6address": {
+            "$ref": "#/definitions/ipv6_external_autopop"
+          },
+          "svc_pm_vip_ipv6address": {
+            "$ref": "#/definitions/ipv6_external_autopop"
+          },
+          "amos_service_ipv6_ips": {
+            "$ref": "#/definitions/ipv6_external_autopop"
+          },
+          "scripting_service_ipv6_ips": {
+            "$ref": "#/definitions/ipv6_external_autopop"
+          },
+          "visinamingsb_service_ipv6_ips": {
+            "$ref": "#/definitions/ipv6_external_autopop"
+          },
+          "itservices_service_0_ipv6_ips": {
+            "$ref": "#/definitions/ipv6_external_autopop"
+          },
+          "itservices_service_1_ipv6_ips": {
+            "$ref": "#/definitions/ipv6_external_autopop"
+          },
+          "loadBalancerIP_IPv6": {
+            "$ref": "#/definitions/ipv6"
+          },
+          "ip_version": {
+            "$ref": "#/definitions/ip_version"
+          },
+          "timezone": {
+            "$ref": "#/definitions/any_string"
+          },
+          "eric_enm_ddc_ddpid": {
+            "$ref": "#/definitions/any_string"
+          },
+          "eric_enm_ddc_account": {
+            "$ref": "#/definitions/any_string"
+          },
+          "eric_enm_ddc_password": {
+            "$ref": "#/definitions/any_string"
+          },
+          "ingress_l4_internal": {
+            "$ref": "#/definitions/any_string"
+          },
+          "ingress_l4_external": {
+            "$ref": "#/definitions/any_string"
+          },
+          "ingress_l4_podNetworkCIDR": {
+            "$ref": "#/definitions/cidr_common"
+          },
+          "ingress_l4_cniMode": {
+            "$ref": "#/definitions/any_string"
+          },
+          "hostPort": {
+            "$ref": "#/definitions/port_number"
+          },
+          "servicePort": {
+            "$ref": "#/definitions/port_number"
+          },
+          "registry_url": {
+            "$ref": "#/definitions/hostname"
+          },
+          "pullSecret": {
+            "$ref": "#/definitions/any_string"
+          }
+        },
+        "required": [],
+        "title": "Deployment Engineering Data for CENM on Cloud",
+        "type": "object"
+      }
+    },
+    "required": [],
+    "type": "object"
+  }

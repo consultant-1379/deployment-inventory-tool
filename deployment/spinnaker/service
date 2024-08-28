@@ -1,0 +1,16 @@
+#!/bin/bash
+echo "Running a service command $1 $2"
+SERVICE=$1
+COMMAND=$2
+if [[ "$SERVICE" == "halyard" ]]
+then
+    if [[ "$COMMAND" == "start" ]]
+    then
+        nohup sudo -u halyard -g halyard /opt/halyard/bin/halyard &
+    fi
+    if [[ "$COMMAND" == "restart" ]]
+    then
+        kill `ps -ef | grep halyard | grep sudo | awk '{print $2}'`
+        nohup sudo -u halyard -g halyard /opt/halyard/bin/halyard &
+    fi
+fi

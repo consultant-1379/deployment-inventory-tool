@@ -1,0 +1,11 @@
+{
+  "name": "validVioFalseEnmSedDocument",
+  "schema_id": "",
+  "autopopulate": false,
+  "vio": false,
+  "managedconfig": true,
+  "content": {
+    "parameters": {
+    }
+  }
+}

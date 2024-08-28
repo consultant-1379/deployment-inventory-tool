@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<task id="pods">
+  <title>Pods</title>
+  <taskbody>
+    <context>
+      <p>
+        A Pod within the Deployment Inventory Tool is a representation of an isolated OpenStack installation or a virtualised infrastructure manager (VIM) in the context of the network functions virtualisation management and orchestration (NFV-MANO) architecture. It includes information like the name of the Pod, the URL to authenticate against and the Network details.
+
+        The purpose of a Pod is twofold. Firstly, Pod information is used to auto-populate certain SED parameters. Secondly, it is used by DIT to validate groups of deployments in the same OpenStack installation, for example by validating IP addresses.
+      </p>
+      <p><b>Objective</b></p>
+      <p>Create a new pod for the Deployment Inventory Tool</p>
+      <p><b>Pod Field Details</b></p>
+      <simpletable>
+        <sthead>
+          <stentry>
+            Field
+          </stentry>
+          <stentry>
+            Parameter(s)*
+          </stentry>
+          <stentry>
+            Description
+          </stentry>
+          <stentry>
+            Example Value
+          </stentry>
+        </sthead>
+        <strow>
+          <stentry>
+            Authentication URL
+          </stentry>
+          <stentry>
+            vim_url**
+          </stentry>
+          <stentry>
+            The endpoint URL of the Cloud Manager (OpenStack) Rest Interface.
+          </stentry>
+          <stentry>
+            https://10.149.56.145:5000/v2.0
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            Network name
+          </stentry>
+          <stentry>
+            enm_external_network_name
+          </stentry>
+          <stentry>
+            Name of the External (Provider) network
+          </stentry>
+          <stentry>
+            Provider_Network1
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            Virtual Router Redundancy Protocol Range End
+          </stentry>
+          <stentry>
+            lvs_external_PM_vrrp_id, lvs_external_CM_vrrp_id, lvs_external_FM_vrrp_id
+          </stentry>
+          <stentry>
+            The LVS router uses VRRP (Virtual Router Redundancy Protocol) to control on which LVS node the PM, CM and FM VIPs should be assigned. A unique ID is required within the network to distinguish from other routers which may use the same protocol. Not assigning a unique ID will lead to connectivity issues. This field identifies the end of the range of values which can be used. This field must be an integer between 100 and 255.
+          </stentry>
+          <stentry>
+            100
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            Virtual Router Redundancy Protocol Range Start
+          </stentry>
+          <stentry>
+            lvs_external_PM_vrrp_id, lvs_external_CM_vrrp_id, lvs_external_FM_vrrp_id
+          </stentry>
+          <stentry>
+            This field identifies the start of the range of values corresponding to the Virtual Router Redundancy Protocol Range End described above. Use a minimum difference of 3 between the range start and end to provide for the IDs required. The field must be an integer between 100 and 255.
+          </stentry>
+          <stentry>
+            255
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            IPv4 Subnet CIDR
+          </stentry>
+          <stentry>
+            external_subnet
+          </stentry>
+          <stentry>
+            Value is assigned to external_subnet key in the SED
+          </stentry>
+          <stentry>
+            131.160.140.0/24
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+           IPV4 Subnet Gateway IP
+          </stentry>
+          <stentry>
+            external_gateway
+          </stentry>
+          <stentry>
+            Value is assigned to external_gateway key in the SED
+          </stentry>
+          <stentry>
+            131.160.140.1
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+           IPv6 Subnet CIDR^
+          </stentry>
+          <stentry>
+            external_subnet_ipv6
+          </stentry>
+          <stentry>
+            Value is assigned to external_subnet_ipv6 key in the SED
+          </stentry>
+          <stentry>
+            2001:1b70:6207:0076:0000:0000:0000:0000/64
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            IPv6 Subnet Gateway IP^
+          </stentry>
+          <stentry>
+            external_gateway_ipv6
+          </stentry>
+          <stentry>
+            Value is assigned to external_gateway_ipv6 key in the SED
+          </stentry>
+          <stentry>
+            2001:1b70:6207:0076:0000:2339:0000:0001
+          </stentry>
+        </strow>
+      </simpletable>
+      <p>*Some parameters may not be present in a document depending on the schema version used</p>
+      <p>**Formerly known as cloudManagerRestInterfaceBaseURL</p>
+      <p>^Optional</p>
+      <p>
+        <b>Outline</b>
+        <ol>
+          <li><xref href="#openPod">Open the Pod View</xref></li>
+          <li><xref href="#createPod">Create New Pod</xref></li>
+          <li><xref href="#enterDetails">Enter the Pod Details</xref></li>
+          <li><xref href="#savePod">Save Pod</xref></li>
+        </ol>
+      </p>
+    </context>
+    <steps>
+      <step id="openPod">
+        <cmd>Open the Pod View</cmd>
+        <info>
+          <p>Click the pod view from the nav bar at the top</p>
+        </info>
+      </step>
+      <step id="createPod">
+        <cmd>Create New Pod</cmd>
+        <info>
+          <p>Click the <b>Create new pod</b> button</p>
+        </info>
+      </step>
+      <step id="enterDetails">
+        <cmd>Enter the Pod Details</cmd>
+        <info>
+          <p>Enter the details as shown below.</p>
+          <p><b>NOTE:</b> Restrictions on the fields are as follows: </p>
+          <ul>
+            <li><b>Name</b> must be between 5 and 20 characters</li>
+            <li><b>Authentication URL</b> must be a valid URL</li>
+            <li><b>Network:</b> at least one valid network is needed</li>
+            <li><b>Network Name</b> must be unique within the pod</li>
+            <li><b>Virtual Router Redundancy Protocol Range Start</b> must be an integer between 1 and 255</li>
+            <li><b>Virtual Router Redundancy Protocol Range End</b> must be an integer between 1 and 255</li>
+            <li><b>IPv4 subnet CIDR</b> must be a valid IPv4 CIDR address</li>
+            <li><b>IPv4 subnet gateway IP</b> must be a valid IPv4 address</li>
+            <li><b>IPv6 Subnet:</b> is optional and can be added using the add IPv6 Subnet button</li>
+            <li><b>IPv6 subnet CIDR</b> must be a valid IPv6 CIDR address</li>
+            <li><b>IPv6 subnet gateway IP</b> must be a valid IPv6 address</li>
+          </ul>
+        </info>
+      </step>
+      <step id="savePod">
+        <cmd>Save Pod</cmd>
+        <info>
+          <p>Click the <b>Save</b> button and you will be redirected back to the previous page</p>
+          <p><b>NOTE:</b> Pod will not save if any fields are invalid (RED in UI)</p>
+        </info>
+      </step>
+    </steps>
+    <result>
+      <p>A New Pod is created in the Deployment Inventory Tool.</p>
+    </result>
+  </taskbody>
+</task>

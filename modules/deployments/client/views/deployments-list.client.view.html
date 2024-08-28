@@ -1,0 +1,17 @@
+<section>
+  <div class="page-header">
+    <div class="pull-right">
+      <div class="btn-toolbar input-group" style="width:300px">
+        <input type="text" class="form-control" id="filter-field" placeholder="Search any field...">
+        <span class="input-group-addon search-clear glyphicon glyphicon-remove-circle"></span>
+        <span class="input-group-addon glyphicon glyphicon-search"></span>
+      </div>
+    </div>
+    <h1>Deployments</h1>
+  </div>
+  <a ui-sref="deployments.create" class="btn btn-sm btn-success">Create new deployment</a>
+  <table ng-if="vm.deployments.length > 0" id="deployments-list-table" class="table table-striped table-condensed table-hover">
+    <tbody>
+    </tbody>
+  </table>
+</section>

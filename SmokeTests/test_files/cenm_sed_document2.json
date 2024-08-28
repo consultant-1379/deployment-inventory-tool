@@ -1,0 +1,22 @@
+{
+    "parameters": {
+        "CI_Portal_url": "https://www.ci-portal.seli.wh.rnd.internal.ericsson.com",
+        "EVNFM_docker_registry_password": "pass",
+        "EVNFM_docker_registry_url": "regurl",
+        "EVNFM_docker_registry_username": "username",
+        "EVNFM_hostname": "hostname",
+        "EVNFM_password": "pass",
+        "EVNFM_username": "username",
+        "client_machine_ipaddress": "7.7.7.7",
+        "client_machine_type": "type",
+        "client_machine_username": "username",
+        "email_id": "emaiId",
+        "namespace": "namespace",
+        "registry_hostname": "hostname",
+        "registry_password": "pass",
+        "registry_username": "username",
+        "sftp_machine_hostname": "hostname",
+        "sftp_machine_password": "pass",
+        "sftp_machine_username": "hostname"
+    }
+}

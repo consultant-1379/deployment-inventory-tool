@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<map>
+    <topicref href="overview.xml" navtitle="Overview" type="concept"/>
+    <topicref href="steps.xml" navtitle="Setup Steps" type="concept"/>
+    <topicref href="support.xml" navtitle="Support" type="concept"/>
+    <topicref href="https://arm1s11-eiffel004.eiffel.gic.ericsson.se:8443/nexus/content/sites/tor/deployment-inventory-tool/latest/changelog.html" navtitle="Changelog" scope="external" type="concept"/>
+    <topicref href="artifacts.xml" navtitle="Artifacts">
+      <topicref href="artifacts/pods.xml" navtitle="Pods" />
+      <topicref href="artifacts/projects.xml" navtitle="Projects" />
+      <topicref href="artifacts/schemas.xml" navtitle="Schemas" />
+      <topicref href="artifacts/documents.xml" navtitle="Documents" />
+      <topicref href="artifacts/managedConfigs.xml" navtitle="Managed Configs" />
+      <topicref href="artifacts/deployments.xml" navtitle="Deployments" />
+      <topicref href="artifacts/labels.xml" navtitle="Labels" />
+      <topicref href="artifacts/logs.xml" navtitle="Historical Logs" />
+    </topicref>
+    <topicref href="features.xml" navtitle="Features">
+      <topicref href="features/adminsAndGroups.xml" navtitle="Admins &amp; Groups Information" type="concept"/>
+      <topicref href="features/apiSearchandFilter.xml" navtitle="API: Search &amp; Filter" type="concept"/>
+      <topicref href="features/apiPodNetworkSubnet.xml" navtitle="API: Pod Network Subnet" type="concept"/>
+      <topicref href="features/apiProjectFreeAddress.xml" navtitle="API: Project Free IP Address" type="concept"/>
+      <topicref href="features/urlParameters.xml" navtitle="Artifact Create/Edit URL Parameters" type="concept"/>
+      <topicref href="features/parameterDefaults.xml" navtitle="Documents Parameter Defaults" type="concept"/>
+      <topicref href="features/enmSedAutoPopulation.xml" navtitle="vENM SED Auto-Population" type="concept"/>
+      <topicref href="features/cenmSedAutoPopulation.xml" navtitle="cENM SED Auto-Population" type="concept"/>
+      <topicref href="features/dns.xml" navtitle="vENM SED DNS" type="concept"/>
+      <topicref href="features/ipv6.xml" navtitle="vENM SED IPv6" type="concept"/>
+      <topicref href="features/overcommit.xml" navtitle="vENM SED Overcommit" type="concept"/>
+      <topicref href="features/smallIntegratedENM.xml" navtitle="vENM SED Small Integrated ENM" type="concept"/>
+      <topicref href="features/useExternalNfsFeature.xml" navtitle="vENM SED Use External NFS" type="concept"/>
+      <topicref href="features/vnfLcmSedAutoPopulation.xml" navtitle="VNF-LCM SED Auto-Population" type="concept"/>
+      <topicref href="features/notificationBar.xml" navtitle="Notification Bar" />
+    </topicref>
+</map>

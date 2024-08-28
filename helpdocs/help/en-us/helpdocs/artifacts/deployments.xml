@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<task id="deployments">
+  <title>Deployments</title>
+  <taskbody>
+    <context>
+      <p>
+        A deployment is a representation of vENM/cENM in terms of the Openstack Project it will be installed in,
+        the SED it uses and also any other information such as netsim that is necessary to deploy vENM/cENM successfully.
+        A deployment in DIT is the means through which all the different elements come together - documents, project, pod etc.
+      </p>
+      <p><b>Objective</b></p>
+      <p>Create a new deployment for the Deployment Inventory Tool</p>
+      <p>
+        <b>Outline</b>
+        <ol>
+          <li><xref href="#openDeployment">Open the Deployment View</xref></li>
+          <li><xref href="#createDeployment">Create New Deployment</xref></li>
+          <li><xref href="#enterDetails">Enter the Deployment Details</xref></li>
+          <li><xref href="#vnfLcmSedDocument">Enter VNF LCM SED Document</xref></li>
+          <li><xref href="#saveDeployment">Save Deployment</xref></li>
+        </ol>
+      </p>
+    </context>
+    <prereq>
+      <p>To create a new deployment the user must have the following:</p>
+      <ul>
+        <li>Associated Project already created in the tool</li>
+        <li>Associated documents - ENM SED and any others already created in the tool</li>
+      </ul>
+    </prereq>
+    <steps>
+      <step id="openDeployment">
+        <cmd>Open the Deployment View</cmd>
+        <info>
+          <p>Click the deployment view from the nav bar at the top</p>
+        </info>
+      </step>
+      <step id="createDeployment">
+        <cmd>Create New Deployment</cmd>
+        <info>
+          <p>Click the <b>Create new deployment</b> button</p>
+        </info>
+      </step>
+      <step id="enterDetails">
+        <cmd>Enter the Deployment Details</cmd>
+        <info>
+          <p>Enter the details as shown below.</p>
+          <p><b>NOTE:</b> Restrictions on the fields are as follows: </p>
+          <ul>
+            <li><b>Project</b> must be an existing project</li>
+            <li><b>vENM SED / cENM SED</b> must be an existing vENM or cENM SED Document. Click vENM/cENM toggle to populate wanted list of options.</li>
+            <li><b>eTeams Issues:</b>A list of eTeams Issues. <b>NOTE:</b> The Issue number will be validated once you click away from the input field.</li>
+            <li><b>Associated Document:</b>
+              <li><b>Schema Name</b> must be existing schema. <b>NOTE:</b> Select Schema Name will populate the Document dropdown field.</li>
+              <li><b>Document</b> associated with chosen schema</li>
+            </li>
+          </ul>
+        </info>
+      </step>
+      <step id="vnfLcmSedDocument">
+        <cmd>Enter VNF LCM SED Document</cmd>
+        <info>
+          <p>If the vENM SED chosen above has a schema version of 1.39.15 or higher, you will be required to enter a VNF LCM SED Document</p>
+          <p>vENM SEDs with a version before 1.39.15 will not require a separated VNF LCM SED Document</p>
+        </info>
+      </step>
+      <step id="saveDeployment">
+        <cmd>Save Deployment</cmd>
+        <info>
+          <p>Click the <b>Save</b> button and you will be redirected back to the previous page</p>
+          <p><b>NOTE:</b> Deployment will not save if any fields are invalid (RED in UI)</p>
+        </info>
+      </step>
+    </steps>
+    <result>
+      <p>A New Deployment is created in the Deployment Inventory Tool.</p>
+    </result>
+  </taskbody>
+</task>

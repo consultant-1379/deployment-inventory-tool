@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<task id="logs">
+  <title>Historical Logs</title>
+  <taskbody>
+    <context>
+      <p>
+        A Historical Log within the Deployment Inventory Tool is a representation of all actions
+        performed on a specific object. Selecting the "Logs" option in the navigation bar
+        provides users with the option to view any objects logs list view for the following object
+        types: Schemas, Documents, Pods, Projects, Deployments, Labels or Groups*.
+      </p>
+      <p>
+        * Group logs can only be viewed by a user with Admin privileges.
+      </p>
+      <p><b>Logs List View</b></p>
+      <p>
+        This page provides a list-view of logs for a specific object-type, providing some basic
+        log information on each object of a given type. The tabulated objects log information is
+        separated between two tables: "Live" and "Deleted". "Live" objects logs are for objects
+        that still exist within the Database whilst "Deleted" objects logs are for objects that
+        have been removed from the Database. A search field is provided on the view for filtering
+        the tables by specific object parameter values. The tables can be sorted by any of these
+        values.
+      </p>
+      <p>
+        The tables detail the following information on each object:
+        <ul>
+          <li>
+            Each table provides basic log information about each object: Who it was created by,
+            when it was created, the object's name and the object's ID.
+          </li>
+          <li>
+            The 'Live' table provides additional information of by who and when the object was last
+            modified.
+          </li>
+          <li>
+            The 'Deleted' table provides additional information of by who and when the object was
+            deleted.
+          </li>
+        </ul>
+      </p>
+
+      <p>
+        A 'view log' action button exists for each object that provides the user access to an
+        object's log-view page. Here, a detailed view is provided that displays more information
+        on each CRUD action performed on the object.
+      </p>
+
+      <p><b>Object Log View</b></p>
+      <p>
+        The log-view page provides detailed information records about individual actions performed
+        on a specific object. The first record provides object creation information. This includes
+        information details such as by who and when the object was created, as well as providing a
+        "Download" button so that the user can download a JSON file of the object as it existed
+        when it was created. "Restore" button to allow user to restore the object to the
+        state that matches that log entry content.
+        <b>Note:</b> The Object's Log order for the Updates section is latest to oldest by date time.
+      </p>
+      <p>
+        <b>Note:</b> Restoring deleted objects could have limitations for objects such as SED
+        Documents e.g ENM/VNF-LCM SEDs with auto-populate feature set to true, this requires the SED
+        Document to be attached to a Deployment, otherwise it will put in temporary values. This
+        means restoring a deleted SED document will only help with getting the Schema version, Managed
+        Configs and any 'Document Options' not requiring a Deployment. Following may help with fully
+        restoring a deleted SED Document, you will first need manually to attached SED Documents to a
+        Deployment. Then get JSON version of last log, of the deleted SED Document version. In
+        Edit mode of new SED Document version, use the 'Paste Mode', then add content to JSON text box
+        and save the Document. Check the logs or the JSON to see if it matches the deleted version.
+      </p>
+
+      <p>
+        If one or more updates have been performed on an object, a record is provided for each
+        update that includes the following details:
+        <ol>
+          <li>
+            Information on the person that performed the update. Selecting the Updater's name opens
+            a 'create email' panel in Outlook so that the user can contact the updater if needs be.
+          </li>
+          <li>
+            Information on the date and time that the update occurred on.
+          </li>
+          <li>
+            A table that details each specific change made to the object during that update. The
+            table is represented in a hierarchy format, where if the object is multi-layered then
+            parent object fields can be toggled to either show or hide its children's key-values.
+          </li>
+          <li>
+            A "Download" button that will download a JSON file of the object as it existed when the
+            update occurred.
+          </li>
+          <li>
+            A "Restore" button that will restore an object using the data in the log entry.
+          </li>
+        </ol>
+      <p>
+       <b>Note:</b> The toggle button located at the top right of the page is set to 'Hide OSDEPLOYER updates' by default, which means that no updates made to the object by the OSDEPLOYER will be displayed. To view all updates, simply toggle the button.
+      </p>
+      <p>
+        If the object has been deleted from the database, a final log will state by whom and when
+        the deletion occurred. A "Download" button is also provided here so that the user can
+        download a JSON file of the object as it existed before it was deleted.
+      </p>
+      <p>
+        If the object associated with a specific log is still live in the database then there is a
+        link provided at the top of that logs view to take you directly to the live objects standard
+        view page within DIT. There also exists a button on each objects normal view page to take
+        you to their log page (if a log exists for this object).
+      </p>
+
+      <p><b>Information on Legacy Object Logs</b></p>
+      <p>
+        As logging has only been implemented since January 2019, there exists legacy objects within
+        DIT that have no log view page. Legacy objects are objects that were created/updated/deleted
+        before the implementation of logging and have not been updated or deleted since
+        implementation. As such, no log object has being generated for them yet.
+      </p>
+      <p>
+        When an update/deletion is performed on a legacy object, the log object created is populated
+        not only with the update/deletion data, but also with default creation information values.
+        These default values include the 'CreatedBy' field being set to 'UNKNOWN USER' and the
+        'CreatedAt' field being set to the start of the UNIX Epoch Date - 1/1/1970.
+      </p>
+      <p>
+        These default values are provided as, previous to logging being implemented, there is no
+        record kept by DIT to know by who and when an object was actually created. This also means
+        that all modifications performed on legacy objects before logging was implemented are also
+        unknown to DIT. Therefore, the current version of a legacy object (before any further
+        modifications are made) is seen as the original version of that object. It is this version
+        of the object which is then used as the base comparator for any further modifications
+        performed on the object.
+      </p>
+      <p>
+        <b> NB: Any objects that were deleted before the implementation of logging will not have a
+        log object generated for them.</b>
+      </p>
+
+      <p><b>Deleted Artifacts Logs Retention Policy</b></p>
+      <lines>
+        The deleted Artifacts logs are only kept up to six months, anything older than six months will be permanently deleted from the database.
+        This deletion process is scheduled at start of each month.
+      </lines>
+
+      <p><b>Search Filter in Logs</b></p>
+      <p>
+        As every single artifact's history is arranged and sorted by time, it is difficult to find a specific key or value
+        in an entire artifact's history. This functionality provides the ability to search any keys or values within each
+        updated log in the entire artifact's history. Once the user inputs the search-query and clicks the corresponding
+        button to search by either key or value, the records are filtered down to only those with any key/values that match
+        the provided search-query. Click the clear button to delete the search pattern and get the entire history back to the page.
+      </p>
+      <p>
+        <b> Note: The search pattern is case insensitive and requires full key/value name. </b>
+      </p>
+    </context>
+  </taskbody>
+</task>

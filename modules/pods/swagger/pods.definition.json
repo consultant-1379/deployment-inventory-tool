@@ -1,0 +1,177 @@
+{
+  "definitions": {
+    "Pod": {
+      "type": "object",
+      "required": [
+        "name",
+        "authUrl",
+        "network",
+        "usergroups"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "note": "name must be unique, Minimum of 5 characters, Maximum of 20 characters",
+          "example": "cloud4b",
+          "minLength": 5,
+          "maxLength": 20
+        },
+        "authUrl": {
+          "type": "string",
+          "note": "This must be a valid OpenStack Authentication URL",
+          "example": "http://cloud4b.athtem.eei.ericsson.se:5000/v2"
+        },
+        "networks": {
+          "note": "There must be at least one valid network",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "note": "Network name must be unique within the pod",
+                "example": "provider_network"
+              },
+              "vrrp_range": {
+                "type": "object",
+                "properties": {
+                  "start": {
+                    "type": "string",
+                    "note": "vrrp_range.start must be between 1 - 255.",
+                    "example": "5"
+                  },
+                  "end": {
+                    "type": "string",
+                    "note": "vrrp_range.end must be between 1 - 255.",
+                    "example": "250"
+                  }
+                }
+              },
+              "ipv6_subnet": {
+                "type": "object",
+                "properties": {
+                  "CIDR": {
+                    "type": "string",
+                    "note": "This should be a valid ipv6 CIDR address",
+                    "example": "2001:1b70:6207:27::/64"
+                  },
+                  "gateway_ip": {
+                    "type": "string",
+                    "note": "This should be a valid ipv6 address",
+                    "example": "2001:1b70:6207:27:0:874:0:1"
+                  }
+                }
+              },
+              "ipv4_subnet": {
+                "type": "object",
+                "properties": {
+                  "CIDR": {
+                    "type": "string",
+                    "note": "This should be a valid ipv4 CIDR address",
+                    "example": "131.160.205.128/25"
+                  },
+                  "gateway_ip": {
+                    "type": "string",
+                    "note": "This should be a valid ipv4 address",
+                    "example": "131.160.205.129"
+                  }
+                }
+              },
+              "usergroups": {
+                "type": "array",
+                "note": "Can contain one or more groupId, in which you want the pod to be associated with",
+                "example": ["groupId1", "groupId2"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "PodNetworkSubnet": {
+      "type": "object",
+      "required": [
+        "name",
+        "network"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "note": "name must be unique, Minimum of 5 characters, Maximum of 20 characters",
+          "example": "cloud4b",
+          "minLength": 5,
+          "maxLength": 20
+        },
+        "network": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "note": "Network name must be unique within the pod",
+              "example": "provider_network"
+            },
+            "ipv6_subnet": {
+              "type": "object",
+              "properties": {
+                "CIDR": {
+                  "type": "string",
+                  "note": "This should be a valid ipv6 CIDR address",
+                  "example": "2001:1b70:6207:27::/64"
+                },
+                "gateway_ip": {
+                  "type": "string",
+                  "note": "This should be a valid ipv6 address",
+                  "example": "2001:1b70:6207:27:0:874:0:1"
+                },
+                "size": {
+                  "type": "string",
+                  "note": "This is the number of ipv6 addresses in the subnet",
+                  "example": "10000575754545456456"
+                },
+                "assigned": {
+                  "type": "string",
+                  "note": "This is the number of assigned ipv6 addresses in the subnet",
+                  "example": "3000255"
+                },
+                "free": {
+                  "type": "string",
+                  "note": "This is the number of free ipv6 addresses in the subnet",
+                  "example": "10000575754545222"
+                }
+              }
+            },
+            "ipv4_subnet": {
+              "type": "object",
+              "properties": {
+                "CIDR": {
+                  "type": "string",
+                  "note": "This should be a valid ipv4 CIDR address",
+                  "example": "131.160.205.128/25"
+                },
+                "gateway_ip": {
+                  "type": "string",
+                  "note": "This should be a valid ipv4 address",
+                  "example": "131.160.205.129"
+                },
+                "size": {
+                  "type": "string",
+                  "note": "This is the number of ipv4 addresses in the subnet",
+                  "example": "256"
+                },
+                "assigned": {
+                  "type": "string",
+                  "note": "This is the number of assigned ipv4 addresses in the subnet",
+                  "example": "100"
+                },
+                "free": {
+                  "type": "string",
+                  "note": "This is the number of free ipv4 addresses in the subnet",
+                  "example": "156"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

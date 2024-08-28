@@ -1,0 +1,39 @@
+{
+    "name": "validSedDocumentGroupServer",
+    "schema_id": "",
+    "autopopulate": true,
+    "managedconfigs": [],
+    "managedconfig": "false",
+    "content": {
+      "parameters": {
+        "deployment_id": "testingDeployment",
+        "vim_name": "temporary",
+        "vim_tenant_name": "temporary",
+        "service1_instances": "2",
+        "service2_instances": "5",
+        "notAutopopulatedKey": "stringValue",
+        "internal_subnet": "10.10.0.0/21",
+        "internal_subnet_ipv6": "fd5b:1fd5:8295:5339:0000:0000:0000:0000/64",
+        "dynamic_ip_range_start": "10.10.0.5",
+        "dynamic_ip_range_end": "10.10.0.49",
+        "dynamic_ipv6_range_start": "fd5b:1fd5:8295:5339:0000:0000:0000:0005",
+        "dynamic_ipv6_range_end": "fd5b:1fd5:8295:5339:0000:0000:0000:0031",
+        "nameserverA": "159.107.173.3",
+        "nameserverB": "159.107.173.12",
+        "neo4j_instances": "3",
+        "esmon_instances": "1",
+        "haproxy_instances": "1",
+        "flavor_esmon": "flavor_6vC6M",
+        "flavor_nbfmsnmp": "flavor_2vC4M",
+        "flavor_said": "flavor_6vC6M",
+        "flavor_elementmanager": "flavor_2vC4M",
+        "flavor_6vC6M1_1": "over_commit_flavor1_1,flavor_esmon",
+        "flavor_6vC6M3_1": "over_commit_flavor_1,flavor_esmon,flavor_said",
+        "flavor_2vC4M3_1": "over_commit_flavor_2,flavor_nbfmsnmp,flavor_elementmanager",
+        "flavor_6vC6M": "under_commit_flavor_3",
+        "flavor_2vC4M": "under_commit_flavor_4",
+        "nbalarmirp_instances": "3",
+        "server_group_policy": "anti-affinity"
+      }
+    }
+  }

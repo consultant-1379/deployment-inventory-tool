@@ -1,0 +1,24 @@
+<section>
+  <div class="page-header">
+    <div class="pull-right">
+        <div class="btn-toolbar input-group" style="width:300px">
+          <input type="text" class="form-control" id="filter-field" placeholder="Search any field...">
+          <span class="input-group-addon search-clear glyphicon glyphicon-remove-circle"></span>
+          <span class="input-group-addon glyphicon glyphicon-search"></span>
+        </div>
+    </div>
+    <h1>{{ vm.title }}</h1>
+  </div>
+  <a ng-if="vm.title != 'Managed Configs' && vm.title == 'vENM SEDs'" ui-sref="documents.createEnmSed" class="btn btn-sm btn-success">Create new document</a>
+  <a ng-if="vm.title != 'Managed Configs' && vm.title == 'cENM SEDs'" ui-sref="documents.createcEnmSed" class="btn btn-sm btn-success">Create new document</a>
+  <a ng-if="vm.title != 'Managed Configs' && vm.title == 'VNF LCM SEDs'" ui-sref="documents.createVnfLcmSed" class="btn btn-sm btn-success">Create new document</a>
+  <a ng-if="vm.title != 'Managed Configs' && vm.title == 'Other Documents'" ui-sref="documents.createOther" class="btn btn-sm btn-success">Create new document</a>
+  <a ng-if="vm.title == 'Managed Configs'" ui-sref="documents.createManagedConfig" class="btn btn-sm btn-success">Create new managed config</a>
+  <div class="pull-right">
+    Show Snapshots <toggle size="btn-sm" ng-model="vm.showDocumentsFromAllSchemaVersions" ng-change="vm.setVisibleDocuments()" class="no-animate"></toggle>
+  </div>
+  <table ng-if="vm.documents.length > 0" id="documents-list-table" class="table table-striped table-condensed table-hover">
+    <tbody>
+    </tbody>
+  </table>
+</section>

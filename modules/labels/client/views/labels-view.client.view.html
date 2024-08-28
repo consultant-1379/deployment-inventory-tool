@@ -1,0 +1,44 @@
+<section>
+  <div class="page-header">
+    <div class="btn-toolbar pull-right">
+      <div class="btn-group">
+        <a class="btn btn-sm btn-primary" ui-sref="labels.edit({labelId: vm.label._id})">Edit</a>
+      </div>
+      <div class="btn-group">
+        <a class="btn btn-sm btn-warning" id="view-log" ui-sref="logs.view({ objType: 'labels', objId: vm.label._id })">View Log</a>
+      </div>
+    </div>
+    <h1>Viewing label '{{ vm.label.name }}'</h1>
+  </div>
+  <form>
+    <fieldset disabled>
+      <div class="row row-relative">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Name</label>
+            <p class="form-control-static">{{ vm.label.name }}</p>
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <p class="form-control-static">{{ vm.label.category }}</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-border">
+          <div class="col-border-padding">
+            <div class="form-group">
+              <label>Dependent Documents</label>
+              <div ng-switch="vm.dependentDocuments.length">
+                <p ng-switch-when="0">None</p>
+                <div ng-switch-default class="dependant-items">
+                  <p ng-repeat="dependentDocument in vm.dependentDocuments">
+                    <a ui-sref="documents.view({documentId: dependentDocument._id})">{{ dependentDocument.name }}</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</section>

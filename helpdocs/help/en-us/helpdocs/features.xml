@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="Features">
+    <title>Features</title>
+    <conbody>
+        <section>
+            <p>These pages provide information on all of the features in the Deployment Inventory Tool</p>
+            <p>
+                <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+                <xref href="features/adminsAndGroups.xml" type="task">Admins &amp; Groups Information</xref>
+            </p>
+            <p>
+                <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+                <xref href="features/apiSearchandFilter.xml" type="task">API: Search &amp; Filter</xref>
+            </p>
+            <p>
+                <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+                <xref href="features/apiPodNetworkSubnet.xml" type="task">API: Pod Network Subnet</xref>
+            </p>
+            <p>
+                <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+                <xref href="features/apiProjectFreeAddress.xml" type="task">API: Project Free IP Address</xref>
+            </p>
+            <p>
+                <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+                <xref href="features/urlParameters.xml" type="task">Artifact Create/Edit URL Parameters</xref>
+            </p>
+            <p>
+                <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+                <xref href="features/parameterDefaults.xml" type="task">Documents Parameter Defaults</xref>
+            </p>
+            <p>
+                <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+                <xref href="features/enmSedAutoPopulation.xml" type="task">vENM SED Auto-Population</xref>
+            </p>
+            <p>
+                <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+                <xref href="features/cenmSedAutoPopulation.xml" type="task">cENM SED Auto-Population</xref>
+            </p>
+            <p>
+                <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+                <xref href="features/dns.xml" type="task">vENM SED DNS</xref>
+            </p>
+            <p>
+                <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+                <xref href="features/ipv6.xml" type="task">vENM SED IPv6</xref>
+            </p>
+            <p>
+                <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+                <xref href="features/overcommit.xml" type="task">vENM SED Overcommit</xref>
+            </p>
+            <p>
+                <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+                <xref href="features/smallIntegratedENM.xml" type="task">vENM SED Small Integrated ENM</xref>
+            </p>
+            <p>
+                <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+                <xref href="features/useExternalNfsFeature.xml" type="task">vENM SED Use External NFS</xref>
+            </p>
+            <p>
+                <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+                <xref href="features/vnfLcmSedAutoPopulation.xml" type="task">VNF-LCM SED Auto-Population</xref>
+            </p>
+            <p>
+                <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+                <xref href="features/notificationBar.xml" type="task">Notification Bar</xref>
+            </p>
+        </section>
+    </conbody>
+</concept>

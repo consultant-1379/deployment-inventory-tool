@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="urlParameters">
+  <title>URL Parameters</title>
+  <conbody>
+    <ul>
+      <li><xref type="concept" href="urlParameters.xml#overview">Overview</xref></li>
+      <li><xref type="concept" href="urlParameters.xml#purpose">Purpose</xref></li>
+      <li><xref type="concept" href="urlParameters.xml#howTo">How To Use</xref></li>
+      <li><xref type="concept" href="urlParameters.xml#validKeys">Valid Keys</xref></li>
+    </ul>
+    <section>
+      <title id="overview">Overview</title>
+      <lines>
+        This page describes the URL Parameters feature in the Deployment Inventory Tool.
+        It describes what the purpose of this feature is and how to use it.
+      </lines>
+    </section>
+    <section>
+      <title id="purpose">Purpose Of This Feature</title>
+      <lines>
+        The URL Parameters feature allows parameters to be entered into a URL which are read and populated into the document create/edit page.
+      </lines>
+    </section>
+    <section>
+      <title id="howTo">How To Use</title>
+      <lines>
+        Using the URL https://atvdit.athtem.eei.ericsson.se/documents/create or https://atvdit.athtem.eei.ericsson.se/documents/edit/&lt;documentId&gt;
+        Parameters can be used by adding ?&lt;key&gt;=&lt;value&gt;
+        <b>Example:</b> /documents/create/?documentName=ieatenmc1a01
+        <b>Example:</b> /documents/edit/5bacbc28586bce005340df1c?documentName=ieatenmc1a01
+        If multiple parameters are required they can be chained together using ?&lt;key&gt;=&lt;value&gt;&amp;&lt;key&gt;=&lt;value&gt;
+        <b>Example:</b> /documents/create/?documentName=ieatenmc1a01&amp;schemaName=enm_sed-1.1.1
+        <b>Example:</b> /documents/edit/5bacbc28586bce005340df1c?documentName=ieatenmc1a01&amp;schemaName=enm_sed-1.1.1
+
+      </lines>
+    </section>
+    <section>
+      <title id="validKeys">Valid Keys</title>
+      <lines>
+      </lines>
+      <simpletable>
+        <sthead>
+          <stentry>
+            Key Name
+          </stentry>
+          <stentry>
+            Example Value
+          </stentry>
+        </sthead>
+        <strow>
+          <stentry>
+            documentName
+          </stentry>
+          <stentry>
+            ieatenmc1a01
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            schemaName
+          </stentry>
+          <stentry>
+            enm_sed-1.1.1
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            managedConfigName
+          </stentry>
+          <stentry>
+            5K_1.1.1
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            useexternalnfs
+          </stentry>
+          <stentry>
+            true
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            autopopulate
+          </stentry>
+          <stentry>
+            true
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            overcommit
+          </stentry>
+          <stentry>
+            true
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            ipv6
+          </stentry>
+          <stentry>
+            true
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            DNS
+          </stentry>
+          <stentry>
+            true
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            small integrated ENM Transport Only
+          </stentry>
+          <stentry>
+            true
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            small integrated ENM Multi-technology
+          </stentry>
+          <stentry>
+            true
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            vio*
+          </stentry>
+          <stentry>
+            true
+          </stentry>
+        </strow>
+      </simpletable>
+      <lines>
+        <b>NOTE:</b>
+        <b>schemaName</b> must include semantic version.
+        <b>Document Options and Managed Config fields</b> only work if a valid schema has been entered.
+        * indicates parameters that have been deprecated in later schemas
+      </lines>
+    </section>
+  </conbody>
+</concept>

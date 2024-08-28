@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="Overview">
+  <title>Managed Configs</title>
+  <conbody>
+    <ul>
+      <li><xref type="concept" href="managedConfigs.xml#overview">Overview</xref></li>
+      <li><xref type="concept" href="managedConfigs.xml#background">Background</xref></li>
+      <li><xref type="concept" href="managedConfigs.xml#managedConfigs">Managed Configs</xref></li>
+      <li><xref type="concept" href="managedConfigs.xml#creation">Creating a Managed Config</xref></li>
+      <li><xref type="concept" href="managedConfigs.xml#attaching">Attaching Managed Config To a Document</xref></li>
+      <li><xref type="concept" href="managedConfigs.xml#labels">Managed Config Labels</xref></li>
+      <li><xref type="concept" href="managedConfigs.xml#when">When the Managed Configs get Used</xref></li>
+
+    </ul>
+    <section>
+      <title id="overview">Overview</title>
+      <lines>
+        This page describes "Managed Configs" in DIT, the background behind them and how they work.
+      </lines>
+    </section>
+
+    <section>
+      <title id="background">Background</title>
+      <lines>
+        The vENM SED Schema is being used to describe the structure of the vENM SED. Default values can be provided within the schema for keys and up until now, default values have been provided for a large number of keys which are specific to 1 size of ENM (instance counts, volume sizes, flavors) as well as specific to one particular location / site (Athlone).
+        To abstract the size and site related keys away from the schema provided defaults and to allow variations of these keys for different ENM sizes as well as different sites, the idea of Managed Configs was introduced.
+       </lines>
+    </section>
+
+    <section>
+      <title id="managedConfigs">Managed Configs</title>
+      <lines>
+        A managed config is a subset of the document artifact-type and is similar to any other document in DIT in the sense that it has a name, an associated schema to validate against and also the contents of the document itself.
+        It is different however in that when creating / editing a document snippet, the fact that you need to fill in every key that is marked as "required" in the schema is now removed.
+        You can therefore save small subsets or managed configs of the document / SED.
+        With this feature you can create managed configs containing for example, values for varying sizes of the SED, or managed configs that are common to a particular site like Athlone.
+        Others can then make use of these managed configs to help fill in their own documents, by attaching these snippets to their own document in DIT.
+      </lines>
+      <p>
+        <b>NOTE:</b> Managed Config Snapshots older than three months will be deleted from the database, on a monthly basis.
+      </p>
+    </section>
+
+    <section>
+      <title id="creation">Creating a Managed Config</title>
+      <lines>
+        To create a managed config, you can browse to the Documents -> Managed Configs menu item to show the list of existing managed configs. From here you can click to create a new managed config.
+        Like with any document you can choose a name and schema, but now you will notice that
+      </lines>
+      <ol>
+        <li>You no longer have to fill in all of the keys.</li>
+        <li>The schema defaults won't be used, so that you can define your own small managed config as required.</li>
+      </ol>
+    </section>
+
+    <section>
+      <title id="attaching">Attaching a Managed Config to a Document</title>
+      <lines>
+        When creating a normal / non managed config document, you now have the option to attach multiple managed configs.
+        Note that the managed configs shown in the list, are those that also match the same schema. Its not possible to attach managed configs that were created with a different schema version.
+        When a managed config is attached, you will notice the edit form will no longer show any of the keys provided by the managed configs, as it no longer makes sense to make these editable.
+        They will be taken from the managed configs instead when the document is being saved.
+        See more details below, on the process used to merge all of the managed configs to make the final saved document.
+      </lines>
+    </section>
+
+    <section>
+      <title id ="labels">Managed Config Labels</title>
+      <lines>
+        When creating a managed config, it is possible to attach a number of labels to the snippet, to categorise it as being for a particular site, or a particular size for example.
+        Apart from being a visual aid, the labels are also used to help with automation.
+        When a documents schema is changed on the UI (or via a PUT request to change just the schema_id), for any managed configs you may have attached, DIT will try to automatically find matching snippets with the new schema version you are moving to.
+        To do this it tries to find snippets that match both the schema, and the list of labels.
+        If it finds exactly one managed config matching this criteria, it will use that, otherwise if it finds none or too many snippets that match, you will need to manually choose the corresponding snippet.
+      </lines>
+    </section>
+
+    <section>
+      <title id="when">When the Managed Configs get Used</title>
+      <lines>
+        Below is a summary of the order in which various features in DIT are executed in order to build up the final document when being saved.
+        Note that this process runs each time a document is saved.
+      </lines>
+      <ol>
+        <li>
+          If performing a schema update only, via REST (The same logic will run in the UI if not using REST).
+          <ol type="a">
+            <li>Remove any old keys from the document that don't exist in the new schema.</li>
+            <li>Introduce default values for any new keys found in the new schema.</li>
+          </ol>
+        </li>
+        <li>Attempt to find matching managed configs that use the new schema version, and also contain the same list of labels.</li>
+        <li>Merge any attached managed configs.</li>
+        <li>Run <xref type="concept" href="enmSedAutoPopulation.xml">Auto Populate</xref> (If enabled for auto-populated keys, it overrides any values that may have come from above).</li>
+        <li>Validate Document Against Schema.</li>
+        <li>NOTE: Selecting either "Small Integrated ENM Transport Only" or "Optimized Small Integrated ENM Transport Only" or "Small Integrated ENM Multi-technology" in the document options will overwrite the ENM SED parameter "enm_deployment_type", including the value that may be specified in an attached Managed Config.</li>
+        <li>Save the resulting document.</li>
+      </ol>
+    </section>
+  </conbody>
+</concept>

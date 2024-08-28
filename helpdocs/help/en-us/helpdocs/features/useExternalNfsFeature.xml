@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="useExternalNfsFeature">
+  <title>External NFS Feature</title>
+  <conbody>
+    <ul>
+      <li><xref type="concept" href="useExternalNfsFeature.xml#overview">Overview</xref></li>
+      <li><xref type="concept" href="useExternalNfsFeature.xml#purpose">Purpose</xref></li>
+      <li><xref type="concept" href="useExternalNfsFeature.xml#externalNfs">External NFS Key Values</xref></li>
+      <li><xref type="concept" href="useExternalNfsFeature.xml#internalNfs">Internal NFS Key Values</xref></li>
+      <li><xref type="concept" href="useExternalNfsFeature.xml#running">When It Runs</xref></li>
+    </ul>
+    <section>
+      <title id="overview">Overview</title>
+      <lines>
+        This page describes the ENM SED External NFS feature in the Deployment Inventory Tool.
+        It describes what the purpose of this feature is, how it works at a high level.
+      </lines>
+    </section>
+    <section>
+      <title id="purpose">Purpose Of This Feature</title>
+      <lines>
+        The ENM SED has a number of key values associated with both external and internal NFS.
+        The 'External NFS' feature comprises of a checkbox in the ENM SED document view which allows a user of DIT to view and populate only key value fields that are associated with the selected NFS solution for a given deployment.
+        While a user of DIT can view and edit the associated key values based on the selected NFS solution, the alternative NFS solution key values are hidden from view and are auto-populated with default inactive state values.
+      </lines>
+    </section>
+    <section>
+      <title id="externalNfs">External NFS Key Values</title>
+      <lines>
+        DIT identifies external NFS associated key values via reference to the following schema definitions.
+        Any key values found in the ENM SED schema that match these definitions for external NFS defined below will be editable by a user of DIT on ENM SED edit document view when the 'External NFS' checkbox is checked.
+        When the 'External NFS' checkbox is unchecked any key values for external NFS found in the ENM SED schema that match these definitions will not be editable or visible in the edit ENM SED document view and will be auto-populated with inactive default values.
+
+        <b>Warning:</b> The deletion or renaming of schema definitions in the ENM SED schema detailed below will result undesired behaviour and or failure of the 'External NFS' feature.
+        Any changes to the ENM SED schema definitions detailed below will required a subsequent update to functionality of DIT to ensure the Use External NFS feature continues to perform as expected.
+      </lines>
+      <simpletable>
+        <sthead>
+          <stentry>
+            Schema Definition Name
+          </stentry>
+          <stentry>
+            Inactive Default Value
+          </stentry>
+        </sthead>
+        <strow>
+          <stentry>
+            /definitions/external_nfs_server
+          </stentry>
+          <stentry>
+            empty string
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/nfs_exported_fs
+          </stentry>
+          <stentry>
+            empty string
+          </stentry>
+        </strow>
+      </simpletable>
+    </section>
+    <section>
+      <title id="internalNfs">Internal NFS Key Values</title>
+      <lines>
+        DIT identifies internal NFS associated key values via reference to the following schema definitions.
+        Any key values found in the ENM SED schema that match these definitions for internal NFS defined below will be editable by a user of DIT on ENM SED edit document view when the 'External NFS' checkbox is unchecked.
+        When the 'External NFS' checkbox is checked any key values for internal NFS found in the ENM SED schema that match these definitions will not be editable or visible in the edit ENM SED document view and will be auto-populated with inactive default values on saving the document.
+
+        <b>Warning:</b> The deletion or renaming of schema definitions in the ENM SED schema detailed below will result undesired behaviour and or failure of the 'External NFS' feature.
+        Any changes to the ENM SED schema definitions detailed below will required a subsequent update to functionality of DIT to ensure the 'External NFS' feature continues to perform as expected.
+      </lines>
+      <simpletable>
+        <sthead>
+          <stentry>
+            Schema Definition Name
+          </stentry>
+          <stentry>
+            Inactive Default Value
+          </stentry>
+        </sthead>
+        <strow>
+          <stentry>
+            /definitions/nfs_instances
+          </stentry>
+          <stentry>
+            0
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/nfs_volume_size
+          </stentry>
+          <stentry>
+            0
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/nfs_volume_snap
+          </stentry>
+          <stentry>
+            no
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/nfs_ipv4_external_list
+          </stentry>
+          <stentry>
+            1.1.1.1
+          </stentry>
+        </strow>
+        <strow>
+          <stentry>
+            /definitions/nfs_ipv6_external_list
+          </stentry>
+          <stentry>
+            ::
+          </stentry>
+        </strow>
+      </simpletable>
+    </section>
+    <section>
+      <title id="running">When It Runs</title>
+      <lines>
+        On selection of the desired NFS solution via the 'External NFS' feature checkbox in ENM SED edit document view, the required NFS key values are made editable in the create ENM SED edit document view.
+        The alternative NFS solution key values which are not required will not appear in the ENM SED document view nor will they be available to edit by a user of DIT. On save of ENM SED document the unrequired
+        key values are saved with inactive default values.
+      </lines>
+    </section>
+  </conbody>
+</concept>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<concept id="Artifacts">
+    <title>Artifacts</title>
+    <conbody>
+        <section>
+            <p>These pages provide information on all of the artifact types in the Deployment Inventory Tool</p>
+            <p>
+                <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+                <xref href="artifacts/pods.xml" type="task">Pods</xref>
+            </p>
+            <p>
+                <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+                <xref href="artifacts/projects.xml" type="task">Projects</xref>
+            </p>
+            <p>
+                <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+                <xref href="artifacts/schemas.xml" type="task">Schemas</xref>
+            </p>
+            <p>
+                <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+                <xref href="artifacts/documents.xml" type="task">Documents</xref>
+            </p>
+            <p>
+                <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+                <xref href="artifacts/managedConfigs.xml" type="task">Managed Configs</xref>
+            </p>
+            <p>
+                <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+                <xref href="artifacts/deployments.xml" type="task">Deployments</xref>
+            </p>
+            <p>
+                <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+                <xref href="artifacts/labels.xml" type="task">Labels</xref>
+            </p>
+            <p>
+                <image href="/resources/images/common/tutorial.svg" alt="Tutorial" align="left"/>
+                <xref href="artifacts/logs.xml" type="task">Historical Logs</xref>
+            </p>
+        </section>
+    </conbody>
+</concept>
